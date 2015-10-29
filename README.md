@@ -28,11 +28,23 @@ This framework is intended for users of the Keepa price data API.
 Maven
 -----
 ```xml
-<dependency>
-	<groupId>com.keepa.api</groupId>
-    <artifactId>backend</artifactId>
-	<version>1.00</version>
-</dependency>
+<repositories>
+	<repository>
+		<id>Keepa</id>
+		<name>Keepa Repository</name>
+        <url>https://keepa.com/maven/</url>
+    </repository>
+	...
+</repositories>
+
+<dependencies>
+	<dependency>
+		<groupId>com.keepa.api</groupId>
+		<artifactId>backend</artifactId>
+		<version>1.00</version>
+	</dependency>
+	...
+</dependencies>
 ```
 
 <a name="examples"></a>Quick Example
