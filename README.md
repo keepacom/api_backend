@@ -41,7 +41,7 @@ Maven
 	<dependency>
 		<groupId>com.keepa.api</groupId>
 		<artifactId>backend</artifactId>
-		<version>1.00</version>
+		<version>1.01</version>
 	</dependency>
 	...
 </dependencies>
