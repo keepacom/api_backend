@@ -28,6 +28,21 @@ public final class ProductObject {
 	public String variationCSV = null;
 
 	/**
+	 * The UPC of the product. Caution: leading zeros are truncated.
+	 */
+	public long upc = 0;
+
+	/**
+	 * The EAN of the product. Caution: leading zeros are truncated.
+	 */
+	public long ean = 0;
+
+	/**
+	 * The manufacturer’s part number.
+	 */
+	public String mpn = null;
+
+	/**
 	 * Comma separated list of image names of the product. Full Amazon image path:
 	 * https://images-na.ssl-images-amazon.com/images/I/<image name>
 	 */

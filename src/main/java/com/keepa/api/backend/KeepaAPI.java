@@ -152,7 +152,6 @@ final public class KeepaAPI {
 	}
 
 	public final int maxDelay = 60000;
-	public final static AtomicInteger expoDelay = new AtomicInteger(0);
 
 	/**
 	 * Issue a product request to the Keepa Price Data API.
@@ -167,7 +166,7 @@ final public class KeepaAPI {
 	final public Promise<KeepaProductResponse, KeepaProductResponse, Void> makeProductRequestWithRetry(final AmazonLocale domainID, final String asins[]) throws KeepaAPIException {
 		Deferred<KeepaProductResponse, KeepaProductResponse, Void> deffered = new DeferredObject<>();
 		String asinCSV = ASINsToCsv(asins);
-
+		AtomicInteger expoDelay = new AtomicInteger(0);
 
 		executorRetry.execute(() -> {
 			int retry = 0;
@@ -181,8 +180,6 @@ final public class KeepaAPI {
 					if (lastResponse[0] != null && lastResponse[0].status == KeepaResponseStatus.NOT_ENOUGH_TOKEN && lastResponse[0].refillIn > 0) {
 						delay = lastResponse[0].refillIn + 100;
 					}
-
-					System.out.println("delay: " + delay);
 
 					if (retry > 0)
 						Thread.sleep(delay);
