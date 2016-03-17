@@ -69,6 +69,122 @@ public final class ProductObject {
 	public String title = null;
 
 	/**
+	 * States the time we have started tracking this product, in Keepa Time minutes.
+	 * Use {@link KeepaTime#keepaMinuteToUnixInMillis(int)} (long)} to get an uncompressed timestamp (Unix epoch time).
+	 */
+	public int trackingSince = 0;
+
+	/**
+	 * An item's brand. null if not available.
+	 */
+	public String brand = null;
+
+	/**
+	 * The item's label. null if not available.
+	 */
+	public String label = null;
+
+	/**
+	 * The item's department. null if not available.
+	 */
+	public String department = null;
+
+	/**
+	 * The item's publisher. null if not available.
+	 */
+	public String publisher = null;
+
+	/**
+	 * The item's productGroup. null if not available.
+	 */
+	public String productGroup = null;
+
+	/**
+	 * The item's partNumber. null if not available.
+	 */
+	public String partNumber = null;
+
+	/**
+	 * The item's studio. null if not available.
+	 */
+	public String studio = null;
+
+	/**
+	 * The item's genre. null if not available.
+	 */
+	public String genre = null;
+
+	/**
+	 * The item's model. null if not available.
+	 */
+	public String model = null;
+
+	/**
+	 * The item's color. null if not available.
+	 */
+	public String color = null;
+
+	/**
+	 * The item's size. null if not available.
+	 */
+	public String size = null;
+
+	/**
+	 * The item's edition. null if not available.
+	 */
+	public String edition = null;
+
+	/**
+	 * The item's platform. null if not available.
+	 */
+	public String platform = null;
+
+	/**
+	 * The item's format. null if not available.
+	 */
+	public String format = null;
+
+	/**
+	 * The package's height in millimeter. 0 or -1 if not available.
+	 */
+	public int packageHeight = -1;
+
+	/**
+	 * The package's length in millimeter. 0 or -1 if not available.
+	 */
+	public int packageLength = -1;
+
+	/**
+	 * The package's width in millimeter. 0 or -1 if not available.
+	 */
+	public int packageWidth = -1;
+
+	/**
+	 * The package's weight in gram. 0 or -1 if not available.
+	 */
+	public int packageWeight = -1;
+
+	/**
+	 * Quantity of items in a package. 0 or -1 if not available.
+	 */
+	public int packageQuantity = -1;
+
+	/**
+	 * Indicates if the item is considered to be for adults only.
+	 */
+	public boolean isAdultProduct = false;
+
+	/**
+	 * Whether or not the product is eligible for trade-in.
+	 */
+	public boolean isEligibleForTradeIn = false;
+
+	/**
+	 * Whether or not the product has reviews.
+	 */
+	public boolean isEligibleForSuperSaverShipping = false;
+
+	/**
 	 * States the last time we have updated the information for this product, in Keepa Time minutes.
 	 * Use {@link KeepaTime#keepaMinuteToUnixInMillis(int)} (long)} to get an uncompressed timestamp (Unix epoch time).
 	 */
@@ -149,7 +265,7 @@ public final class ProductObject {
 		/**
 		 * Placeholder. Do not use.
 		 */
-		NEWSHIPPING(7),
+		NEW_SHIPPING(7),
 
 		/**
 		 * Placeholder. Do not use.
@@ -185,6 +301,7 @@ public final class ProductObject {
 		 * Collectible offer count history
 		 */
 		COUNT_COLLECTIBLE(14);
+
 
 		public final int index;
 		public static final CsvType[] values = CsvType.values();

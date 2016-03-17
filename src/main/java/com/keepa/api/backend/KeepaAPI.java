@@ -55,7 +55,7 @@ final public class KeepaAPI {
 		this(key, 2);
 	}
 
-	private String ASINsToCsv(String asins[]) throws KeepaAPIException {
+	private static String ASINsToCsv(String asins[]) throws KeepaAPIException {
 		if (asins.length < 1) {
 			throw new KeepaAPIException("ASIN list too short (min 1)");
 		} else if (asins.length > 100) {
@@ -78,9 +78,8 @@ final public class KeepaAPI {
 			long responseTime = System.nanoTime();
 			KeepaProductResponse response;
 
-
 			try {
-				URL obj = new URL("https://dyn.keepa.com/v3/api/product/?key=" + accessKey + "&domain=" + domainID.ordinal() + "&asin=" + asinCSV);
+				URL obj = new URL("https://api.keepa.com/product/?key=" + accessKey + "&domain=" + domainID.ordinal() + "&asin=" + asinCSV);
 				HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 				con.setUseCaches(false);
 				con.setRequestMethod("GET");
