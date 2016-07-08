@@ -21,7 +21,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.GZIPInputStream;
 
-final public class KeepaAPI {
+final class KeepaAPI {
 	/**
 	 * Thread pool size determines degree of asynchronization.
 	 */
@@ -33,7 +33,7 @@ final public class KeepaAPI {
 
     /**
      * @param key     Your private API Access Token
-     * @param threads Thread pool size determines degree of asynchronization. Higher thread count allows more requests in parallel to be made. Default 1
+     * @param threads Thread pool size determines degree of asynchronization. Higher thread count allows more requests in parallel to be made. Default 4
      */
     public KeepaAPI(String key, int threads) {
         this.accessKey = key;
@@ -52,7 +52,7 @@ final public class KeepaAPI {
 	 * @param key Your private API Access Token
 	 */
 	public KeepaAPI(String key) {
-		this(key, 2);
+		this(key, 4);
 	}
 
 	private static String ASINsToCsv(String asins[]) throws KeepaAPIException {
@@ -150,7 +150,7 @@ final public class KeepaAPI {
 		return getProductData(domainID, asinCSV);
 	}
 
-	public final int maxDelay = 60000;
+	private final int maxDelay = 60000;
 
 	/**
 	 * Issue a product request to the Keepa Price Data API.
@@ -161,6 +161,7 @@ final public class KeepaAPI {
 	 * @param asins    ASINs to request, must contain between 1 and 100 ASINs.
 	 * @return Promise for {@link KeepaProductResponse}
 	 * @throws KeepaAPIException
+	 * @deprecated Use
 	 */
 	final public Promise<KeepaProductResponse, KeepaProductResponse, Void> makeProductRequestWithRetry(final AmazonLocale domainID, final String asins[]) throws KeepaAPIException {
 		Deferred<KeepaProductResponse, KeepaProductResponse, Void> deffered = new DeferredObject<>();

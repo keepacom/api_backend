@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class BasicNameFactory implements ThreadFactory {
     private final String namingPattern;
-    final AtomicInteger count = new AtomicInteger(0);
+    private final AtomicInteger count = new AtomicInteger(0);
 
     public BasicNameFactory(String s) {
         this.namingPattern = s;

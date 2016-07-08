@@ -3,7 +3,7 @@ package com.keepa.api.backend.helper;
 /**
  * Provides methods to work on the Keepa price history CSV format.
  */
-public class ProductAnalyzer {
+class ProductAnalyzer {
 
 	/**
 	 * finds the extreme point in the specified interval
@@ -56,7 +56,7 @@ public class ProductAnalyzer {
 	 * @param csv value/price history csv
 	 * @return the last value/price
 	 */
-	public static int getLast(int[] csv) {
+	private static int getLast(int[] csv) {
 		return csv == null || csv.length == 0 ? -1 : csv[csv.length - 1];
 	}
 

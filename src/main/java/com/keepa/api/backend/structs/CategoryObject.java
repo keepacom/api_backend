@@ -3,7 +3,7 @@ package com.keepa.api.backend.structs;
 
 import com.google.gson.Gson;
 
-public final class CategoryObject {
+final class CategoryObject {
 
 	/**
 	 * Integer value for the Amazon locale this category belongs to.

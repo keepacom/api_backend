@@ -46,7 +46,7 @@ public final class KeepaProductResponse {
 
 	static public KeepaProductResponse REQUEST_FAILED = new KeepaProductResponse();
 	static public KeepaProductResponse REQUEST_REJECTED = new KeepaProductResponse();
-	static public KeepaProductResponse NOT_ENOUGH_TOKEN = new KeepaProductResponse();
+	private static KeepaProductResponse NOT_ENOUGH_TOKEN = new KeepaProductResponse();
 
 	static {
 		REQUEST_FAILED.status = KeepaResponseStatus.FAIL;

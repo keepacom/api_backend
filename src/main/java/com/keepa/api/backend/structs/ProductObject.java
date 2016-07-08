@@ -1,8 +1,8 @@
 package com.keepa.api.backend.structs;
 
 
-import com.keepa.api.backend.helper.KeepaTime;
 import com.google.gson.Gson;
+import com.keepa.api.backend.helper.KeepaTime;
 
 public final class ProductObject {
 
@@ -43,8 +43,8 @@ public final class ProductObject {
 	public String mpn = null;
 
 	/**
-	 * Comma separated list of image names of the product. Full Amazon image path:
-	 * https://images-na.ssl-images-amazon.com/images/I/<image name>
+	 * Comma separated list of image names of the product. Full Amazon image path:<br>
+	 * https://images-na.ssl-images-amazon.com/images/I/_image name_
 	 */
 	public String imagesCSV = null;
 
@@ -69,7 +69,7 @@ public final class ProductObject {
 	public String title = null;
 
 	/**
-	 * States the time we have started tracking this product, in Keepa Time minutes.
+	 * States the time we have started tracking this product, in Keepa Time minutes.<br>
 	 * Use {@link KeepaTime#keepaMinuteToUnixInMillis(int)} (long)} to get an uncompressed timestamp (Unix epoch time).
 	 */
 	public int trackingSince = 0;
@@ -185,13 +185,13 @@ public final class ProductObject {
 	public boolean isEligibleForSuperSaverShipping = false;
 
 	/**
-	 * States the last time we have updated the information for this product, in Keepa Time minutes.
+	 * States the last time we have updated the information for this product, in Keepa Time minutes.<br>
 	 * Use {@link KeepaTime#keepaMinuteToUnixInMillis(int)} (long)} to get an uncompressed timestamp (Unix epoch time).
 	 */
 	public int lastUpdate = 0;
 
 	/**
-	 * States the last time we have registered a price change (any price kind), in Keepa Time minutes.
+	 * States the last time we have registered a price change (any price kind), in Keepa Time minutes.<br>
 	 * Use {@link KeepaTime#keepaMinuteToUnixInMillis(int)} to get an uncompressed timestamp (Unix epoch time).
 	 */
 	public int lastPriceChange = 0; // minutes Keepa Epoch
@@ -207,13 +207,50 @@ public final class ProductObject {
 	public boolean hasReviews = false;
 
 	/**
-	 * Integer[][] - two dimensional price history array.
-	 * First dimension: {@link ProductObject.CsvType}
-	 * Second dimension:
-	 * Each array has the format timestamp, price, […]. To get an uncompressed timestamp use {@link KeepaTime#keepaMinuteToUnixInMillis(int)}.
-	 * Example: "csv[0]": [411180,4900, ... ]
-	 * timestamp: 411180 => 1318510800000
-	 * price: 4900 => $ 49.00 (if domainId is 5, Japan, then price: 4900 => ¥ 4900)
+	 * Optional field. Only set if the <i>stats</i> parameter was used in the Product Request. Contains statistic values.
+	 */
+	public StatsObject stats = null;
+
+	/**
+	 * Optional field. Only set if the <i>offers</i> parameter was used in the Product Request.
+	 */
+	public OfferObject[] offers = null;
+
+	/**
+	 * Optional field. Only set if the offers parameter was used in the Product Request.<br>
+	 * Contains a history of sellerIds that held the Buy Box in the format Keepa time minutes, sellerId, [...].<br>
+	 * If no seller qualified for the Buy Box the sellerId "-1" is used. If it was hold by an unknown seller (a brand new one) the sellerId is "-2".<br>
+	 * Example: ["2860926","ATVPDKIKX0DER", …]
+	 * <p>Use {@link KeepaTime#keepaMinuteToUnixInMillis(String)} (long)} to get an uncompressed timestamp (Unix epoch time).</p>
+	 */
+	public String[] buyBoxSellerIdHistory = null;
+
+	/**
+	 * Only valid if the offers parameter was used in the Product Request.
+	 * Boolean indicating if the ASIN will be redirected to another one on Amazon
+	 * (example: the ASIN has the color black variation, which is not available any more
+	 * and is redirected on Amazon to the color red).
+	 */
+	public boolean isRedirectASIN = false;
+
+	/**
+	 * Only valid if the offers parameter was used in the Product Request. Boolean indicating if the product's Buy Box is available for subscribe and save.
+	 */
+	public boolean isSNS = false;
+
+	/**
+	 * Only valid if the offers parameter was used in the Product Request. Boolean indicating if the system was able to retrieve fresh offer information.
+	 */
+	public OfferObject[] offersSuccessful = null;
+
+	/**
+	 * Integer[][] - two dimensional price history array.<br>
+	 * First dimension: {@link ProductObject.CsvType}<br>
+	 * Second dimension:<br>
+	 * Each array has the format timestamp, price, […]. To get an uncompressed timestamp use {@link KeepaTime#keepaMinuteToUnixInMillis(int)}.<br>
+	 * Example: "csv[0]": [411180,4900, ... ]<br>
+	 * timestamp: 411180 => 1318510800000<br>
+	 * price: 4900 => $ 49.00 (if domainId is 5, Japan, then price: 4900 => ¥ 4900)<br>
 	 * A price of '-1' means that there was no offer at the given timestamp (e.g. out of stock).
 	 */
 	public int[][] csv = null;
@@ -227,7 +264,7 @@ public final class ProductObject {
 		/**
 		 * Amazon price history
 		 */
-		AMAZON(0),
+		AMAZON(0, true, true, false, false),
 
 		/**
 		 * Marketplace/3rd party New price history - Amazon is considered to be part of the marketplace as well,
@@ -235,78 +272,171 @@ public final class ProductObject {
 		 * will be identical to the Amazon price (except if there is only one marketplace offer).
 		 * Shipping and Handling costs not included!
 		 */
-		NEW(1),
+		NEW(1, true, true, false, false),
 
 		/**
 		 * Marketplace/3rd party Used price history
 		 */
-		USED(2),
+		USED(2, true, true, false, false),
 
 		/**
 		 * Sales Rank history. Not every product has a Sales Rank.
 		 */
-		SALES(3),
+		SALES(3, false, true, false, false),
 
 		/**
 		 * List Price history
 		 */
-		LISTPRICE(4),
+		LISTPRICE(4, true, false, false, false),
 
 		/**
 		 * Collectible Price history
 		 */
-		COLLECTIBLE(5),
+		COLLECTIBLE(5, true, true, false, false),
 
 		/**
 		 * Refurbished Price history
 		 */
-		REFURBISHED(6),
+		REFURBISHED(6, true, true, false, false),
 
 		/**
-		 * Placeholder. Do not use.
+		 * 3rd party (not including Amazon) New price history including shipping costs, only fulfilled by merchant (FBM).
 		 */
-		NEW_SHIPPING(7),
+		NEW_FBM_SHIPPING(7, true, true, true, true),
 
 		/**
-		 * Placeholder. Do not use.
+		 * 3rd party (not including Amazon) New price history including shipping costs, only fulfilled by merchant (FBM).
 		 */
-		GOLDBOX(8),
+		LIGHTNING_DEAL(8, true, true, false, false),
 
 		/**
-		 * Placeholder. Do not use.
+		 * Amazon Warehouse Deals price history. Mostly of used condition, rarely new.
 		 */
-		WAREHOUSE(9),
+		WAREHOUSE(9, true, true, false, true),
 
 		/**
-		 * Placeholder. Do not use.
+		 * Price history of the lowest 3rd party (not including Amazon/Warehouse) New offer that is fulfilled by Amazon
 		 */
-		FBA(10),
+		NEW_FBA(10, true, true, false, true),
 
 		/**
 		 * New offer count history
 		 */
-		COUNT_NEW(11),
+		COUNT_NEW(11, false, false, false, false),
 
 		/**
 		 * Used offer count history
 		 */
-		COUNT_USED(12),
+		COUNT_USED(12, false, false, false, false),
 
 		/**
 		 * Refurbished offer count history
 		 */
-		COUNT_REFURBISHED(13),
+		COUNT_REFURBISHED(13, false, false, false, false),
 
 		/**
 		 * Collectible offer count history
 		 */
-		COUNT_COLLECTIBLE(14);
+		COUNT_COLLECTIBLE(14, false, false, false, false),
 
+		/**
+		 * History of past updates to all offers-parameter related data: offers, buyBoxSellerIdHistory, isSNS, isRedirectASIN and the csv types
+		 * NEW_SHIPPING, WAREHOUSE, FBA, BUY_BOX_SHIPPING, USED_*_SHIPPING, COLLECTIBLE_*_SHIPPING and REFURBISHED_SHIPPING.
+		 * As updates to those fields are infrequent it is important to know when our system updated them.
+		 * The absolute value indicates the amount of offers fetched at the given time.
+		 * If the value is positive it means all available offers were fetched. It's negative if there were more offers than fetched.
+		 */
+		EXTRA_INFO_UPDATES(15, false, false, false, true),
+
+		/**
+		 * The product's rating history. A rating is an integer from 0 to 50 (e.g. 45 = 4.5 stars)
+		 */
+		RATING(16, false, false, false, true),
+		/**
+		 * The product's review count history.
+		 */
+		COUNT_REVIEWS(17, false, false, false, true),
+
+		/**
+		 * The price history of the buy box. If no offer qualified for the buy box the price has the value -1. Including shipping costs.
+		 */
+		BUY_BOX_SHIPPING(18, true, false, true, true),
+
+		/**
+		 * "Used - Like New" price history including shipping costs.
+		 */
+		USED_NEW_SHIPPING(19, true, true, true, true),
+
+		/**
+		 * "Used - Very Good" price history including shipping costs.
+		 */
+		USED_VERY_GOOD_SHIPPING(20, true, true, true, true),
+
+		/**
+		 * "Used - Good" price history including shipping costs.
+		 */
+		USED_GOOD_SHIPPING(21, true, true, true, true),
+
+		/**
+		 * "Used - Acceptable" price history including shipping costs.
+		 */
+		USED_ACCEPTABLE_SHIPPING(22, true, true, true, true),
+
+		/**
+		 * "Collectible - Like New" price history including shipping costs.
+		 */
+		COLLECTIBLE_NEW_SHIPPING(23, true, true, true, true),
+
+		/**
+		 * "Collectible - Very Good" price history including shipping costs.
+		 */
+		COLLECTIBLE_VERY_GOOD_SHIPPING(24, true, true, true, true),
+
+		/**
+		 * "Collectible - Good" price history including shipping costs.
+		 */
+		COLLECTIBLE_GOOD_SHIPPING(25, true, true, true, true),
+
+		/**
+		 * "Collectible - Acceptable" price history including shipping costs.
+		 */
+		COLLECTIBLE_ACCEPTABLE_SHIPPING(26, true, true, true, true),
+
+		/**
+		 * Refurbished price history including shipping costs.
+		 */
+		REFURBISHED_SHIPPING(27, true, true, true, true);
 
 		public final int index;
+
+		/**
+		 * If the values are prices.
+		 */
+		public final boolean isPrice;
+
+		/**
+		 * If the CSV contains shipping costs
+		 * If true, csv format has 3 entries: time, price, shippingCosts
+		 */
+		public final boolean isWithShipping;
+
+		/**
+		 * If the type can be used to request deals.
+		 */
+		public final boolean isDealRelevant;
+
+		/**
+		 * True if the data is only accessible in conjunction with the 'offers' parameter of the product request.
+		 */
+		public final boolean isExtraData;
+
 		public static final CsvType[] values = CsvType.values();
 
-		CsvType(int i) {
+		CsvType(int i, boolean price, boolean deal, boolean shipping, boolean extra) {
+			isPrice = price;
+			isDealRelevant = deal;
+			isExtraData = extra;
+			isWithShipping = shipping;
 			index = i;
 		}
 
