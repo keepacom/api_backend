@@ -57,7 +57,7 @@ Maven
 KeepaAPI api = new KeepaAPI("YOUR API KEY");
 Request r = Request.getProductRequest(AmazonLocale.US, 90, null, "B001GZ6QEC");
 
-api.sendRequest(r).
+api.sendRequest(r)
 		.done(result -> {
 			switch (result.status) {
 				case OK:
