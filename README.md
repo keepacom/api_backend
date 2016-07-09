@@ -90,6 +90,6 @@ api.sendRequest(r)
 					System.out.println("API Status: " + result.status);
 			}
 		})
-		.fail(failure -> System.out.println("An error occured: " + failure.status.toString()));
+		.fail(failure -> System.out.println(failure));
 });
 ```
