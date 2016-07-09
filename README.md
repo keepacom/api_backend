@@ -1,5 +1,5 @@
 <!--
-  Copyright 2015 Keepa.com - Marius Johann
+  Copyright 2016 Keepa.com - Marius Johann
   
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -14,10 +14,10 @@
   limitations under the License.
 -->
 
-Keepa Price Data API Framework
+Keepa API Framework
 ==============================
 
-This framework is intended for users of the Keepa price data API.
+This framework is intended for users of the Keepa API.
 
 <a name="features"></a>Features
 --------
@@ -55,10 +55,9 @@ Maven
 
 ```java
 KeepaAPI api = new KeepaAPI("YOUR API KEY");
-AmazonLocale domainToRequest = AmazonLocale.US;
-String[] productsToRequest = new String[]{"B001GZ6QEC"};
+Request r = Request.getProductRequest(AmazonLocale.US, null, 20, "B001GZ6QEC");
 
-api.makeProductRequest(domainToRequest, productsToRequest)
+api.sendRequest(r).
 		.done(result -> {
 			switch (result.status) {
 				case OK:
@@ -68,7 +67,7 @@ api.makeProductRequest(domainToRequest, productsToRequest)
 						if (product.productType == ProductObject.ProductType.STANDARD.code || product.productType == ProductObject.ProductType.DOWNLOADABLE.code) {
 
 							//get basic data of product and print to stdout
-							int currentAmazonPrice = ProductAnalyzer.getLast(product.csv[ProductObject.CsvType.AMAZON.index]);
+							int currentAmazonPrice = ProductAnalyzer.getLast(product.csv[ProductObject.CsvType.AMAZON.index], ProductObject.CsvType.AMAZON);
 
 							//check if the product is in stock -1 -> out of stock
 							if (currentAmazonPrice == -1) {
@@ -79,7 +78,7 @@ api.makeProductRequest(domainToRequest, productsToRequest)
 
 							
 							// get weighted mean of the last 90 days for Amazon
-							int weightedMean90days = ProductAnalyzer.calcWeightedMean(product.csv[ProductObject.CsvType.AMAZON.index], 90);
+							int weightedMean90days = ProductAnalyzer.calcWeightedMean(product.csv[ProductObject.CsvType.AMAZON.index], 90, ProductObject.CsvType.AMAZON);
 
 							...
 						} else {
