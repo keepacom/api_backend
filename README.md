@@ -55,7 +55,7 @@ Maven
 
 ```java
 KeepaAPI api = new KeepaAPI("YOUR API KEY");
-Request r = Request.getProductRequest(AmazonLocale.US, null, 20, "B001GZ6QEC");
+Request r = Request.getProductRequest(AmazonLocale.US, 90, null, "B001GZ6QEC");
 
 api.sendRequest(r).
 		.done(result -> {
