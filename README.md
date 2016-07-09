@@ -87,7 +87,7 @@ api.sendRequest(r)
 					}
 					break;
 				default:
-					System.out.println("API Status: " + result.status);
+					System.out.println(result);
 			}
 		})
 		.fail(failure -> System.out.println(failure));
