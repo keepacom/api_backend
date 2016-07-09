@@ -1,12 +1,12 @@
 package com.keepa.api.backend;
 
-import com.keepa.api.backend.exceptions.KeepaAPIException;
-import com.keepa.api.backend.structs.AmazonLocale;
-import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+import com.keepa.api.backend.exceptions.KeepaAPIException;
 import com.keepa.api.backend.helper.BasicNameFactory;
+import com.keepa.api.backend.structs.AmazonLocale;
 import com.keepa.api.backend.structs.KeepaProductResponse;
-import com.keepa.api.backend.structs.KeepaResponseStatus;
+import com.keepa.api.backend.structs.Request;
+import com.keepa.api.backend.structs.Response;
 import org.jdeferred.Deferred;
 import org.jdeferred.Promise;
 import org.jdeferred.impl.DeferredObject;
@@ -15,13 +15,16 @@ import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.URL;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.GZIPInputStream;
 
-final class KeepaAPI {
+import static com.keepa.api.backend.helper.Utility.*;
+
+public final class KeepaAPI {
 	/**
 	 * Thread pool size determines degree of asynchronization.
 	 */
@@ -31,22 +34,26 @@ final class KeepaAPI {
 	final private String accessKey;
 	final private String userAgent;
 
-    /**
-     * @param key     Your private API Access Token
-     * @param threads Thread pool size determines degree of asynchronization. Higher thread count allows more requests in parallel to be made. Default 4
-     */
-    public KeepaAPI(String key, int threads) {
-        this.accessKey = key;
-        String apiVersion = getClass().getPackage().getImplementationVersion();
-        if (apiVersion != null) {
-            userAgent = "KEEPA-JAVA Framework-" + apiVersion;
-        } else {
-            userAgent = "KEEPA-JAVA Framework-";
-        }
+	public enum ResponseStatus {
+		PENDING, OK, FAIL, NOT_ENOUGH_TOKEN, REQUEST_REJECTED
+	}
 
-        executorDeferred = Executors.newFixedThreadPool(threads, new BasicNameFactory("KeepaAPI-%d"));
-        executorRetry = Executors.newFixedThreadPool(threads, new BasicNameFactory("KeepaAPI-RetryScheduler"));
-    }
+	/**
+	 * @param key     Your private API Access Token
+	 * @param threads Thread pool size determines degree of asynchronization. Higher thread count allows more requests in parallel to be made. Default 4
+	 */
+	public KeepaAPI(String key, int threads) {
+		this.accessKey = key;
+		String apiVersion = getClass().getPackage().getImplementationVersion();
+		if (apiVersion != null) {
+			userAgent = "KEEPA-JAVA Framework-" + apiVersion;
+		} else {
+			userAgent = "KEEPA-JAVA Framework-";
+		}
+
+		executorDeferred = Executors.newFixedThreadPool(threads, new BasicNameFactory("KeepaAPI-%d"));
+		executorRetry = Executors.newFixedThreadPool(threads, new BasicNameFactory("KeepaAPI-RetryScheduler"));
+	}
 
 	/**
 	 * @param key Your private API Access Token
@@ -55,22 +62,10 @@ final class KeepaAPI {
 		this(key, 4);
 	}
 
-	private static String ASINsToCsv(String asins[]) throws KeepaAPIException {
-		if (asins.length < 1) {
-			throw new KeepaAPIException("ASIN list too short (min 1)");
-		} else if (asins.length > 100) {
-			throw new KeepaAPIException("ASIN list too long (max 100");
-		}
-		StringBuilder buff = new StringBuilder();
-		String sep = "";
-		for (String asin : asins) {
-			buff.append(sep);
-			buff.append(asin);
-			sep = ",";
-		}
-		return buff.toString();
-	}
 
+	/**
+	 * @deprecated
+	 */
 	private Promise<KeepaProductResponse, KeepaProductResponse, Void> getProductData(final AmazonLocale domainID, final String asinCSV) {
 		Deferred<KeepaProductResponse, KeepaProductResponse, Void> d = new DeferredObject<>();
 
@@ -92,12 +87,11 @@ final class KeepaAPI {
 				switch (responseCode) {
 					case 200: // everything ok
 						try (InputStream is = con.getInputStream();
-							 GZIPInputStream gis = new GZIPInputStream(is)) {
+						     GZIPInputStream gis = new GZIPInputStream(is)) {
 							JsonReader reader = new JsonReader(new InputStreamReader(gis, "UTF-8"));
-							Gson gson = new Gson();
 							response = gson.fromJson(reader, KeepaProductResponse.class);
 
-							response.status = KeepaResponseStatus.OK;
+							response.status = ResponseStatus.OK;
 						} catch (Exception e) {
 							response = KeepaProductResponse.REQUEST_FAILED;
 							e.printStackTrace();
@@ -105,11 +99,10 @@ final class KeepaAPI {
 						break;
 					case 503: // throttled
 						try (InputStream is = con.getErrorStream();
-							 GZIPInputStream gis = new GZIPInputStream(is)) {
+						     GZIPInputStream gis = new GZIPInputStream(is)) {
 							JsonReader reader = new JsonReader(new InputStreamReader(gis, "UTF-8"));
-							Gson gson = new Gson();
 							response = gson.fromJson(reader, KeepaProductResponse.class);
-							response.status = KeepaResponseStatus.NOT_ENOUGH_TOKEN;
+							response.status = ResponseStatus.NOT_ENOUGH_TOKEN;
 						} catch (Exception e) {
 							response = KeepaProductResponse.REQUEST_FAILED;
 							e.printStackTrace();
@@ -127,7 +120,7 @@ final class KeepaAPI {
 			}
 
 			response.requestTime = (System.nanoTime() - responseTime) / 1000000;
-			if (response.status == KeepaResponseStatus.OK)
+			if (response.status == ResponseStatus.OK)
 				d.resolve(response);
 			else
 				d.reject(response);
@@ -144,9 +137,10 @@ final class KeepaAPI {
 	 * @param asins    ASINs to request, must contain between 1 and 100 ASINs.
 	 * @return Promise for {@link KeepaProductResponse}
 	 * @throws KeepaAPIException
+	 * @deprecated Use {@link KeepaAPI#sendRequest(Request)}
 	 */
 	final public Promise<KeepaProductResponse, KeepaProductResponse, Void> makeProductRequest(final AmazonLocale domainID, final String asins[]) throws KeepaAPIException {
-		String asinCSV = ASINsToCsv(asins);
+		String asinCSV = arrayToCsv(asins);
 		return getProductData(domainID, asinCSV);
 	}
 
@@ -161,11 +155,11 @@ final class KeepaAPI {
 	 * @param asins    ASINs to request, must contain between 1 and 100 ASINs.
 	 * @return Promise for {@link KeepaProductResponse}
 	 * @throws KeepaAPIException
-	 * @deprecated Use
+	 * @deprecated Use {@link KeepaAPI#sendRequestWithRetry(Request)}
 	 */
 	final public Promise<KeepaProductResponse, KeepaProductResponse, Void> makeProductRequestWithRetry(final AmazonLocale domainID, final String asins[]) throws KeepaAPIException {
-		Deferred<KeepaProductResponse, KeepaProductResponse, Void> deffered = new DeferredObject<>();
-		String asinCSV = ASINsToCsv(asins);
+		Deferred<KeepaProductResponse, KeepaProductResponse, Void> deferred = new DeferredObject<>();
+		String asinCSV = arrayToCsv(asins);
 		AtomicInteger expoDelay = new AtomicInteger(0);
 
 		executorRetry.execute(() -> {
@@ -177,7 +171,7 @@ final class KeepaAPI {
 				int delay = 0;
 
 				while (!solved[0]) {
-					if (lastResponse[0] != null && lastResponse[0].status == KeepaResponseStatus.NOT_ENOUGH_TOKEN && lastResponse[0].refillIn > 0) {
+					if (lastResponse[0] != null && lastResponse[0].status == ResponseStatus.NOT_ENOUGH_TOKEN && lastResponse[0].refillIn > 0) {
 						delay = lastResponse[0].refillIn + 100;
 					}
 
@@ -187,7 +181,7 @@ final class KeepaAPI {
 					Promise<KeepaProductResponse, KeepaProductResponse, Void> p1 = getProductData(domainID, asinCSV);
 					p1
 							.done(result -> {
-								deffered.resolve(result);
+								deferred.resolve(result);
 								solved[0] = true;
 								expoDelay.set(0);
 							})
@@ -198,22 +192,177 @@ final class KeepaAPI {
 									case NOT_ENOUGH_TOKEN: // retry
 										break;
 									default:
-										deffered.reject(result);
+										deferred.reject(result);
 										solved[0] = true;
 								}
 							})
 							.waitSafely();
 
-					if(p1.isRejected()){
+					if (p1.isRejected()) {
 						retry++;
 						delay = expoDelay.getAndUpdate(operand -> Math.min(2 * operand + 100, maxDelay));
 					}
 				}
 			} catch (InterruptedException e) {
-				deffered.reject(null);
+				deferred.reject(null);
 			}
 		});
 
-		return deffered.promise();
+		return deferred.promise();
+	}
+
+
+	/**
+	 * Issue a request to the Keepa Price Data API.
+	 * If your tokens are depleted, this method will fail.
+	 *
+	 * @param r the API Request {@link Request}
+	 * @return Promise for {@link Response}
+	 */
+	private Promise<Response, Response, Void> sendRequest(Request r) {
+		Deferred<Response, Response, Void> d = new DeferredObject<>();
+
+		executorDeferred.execute(() -> {
+			long responseTime = System.nanoTime();
+			Response response;
+
+			String query = r.parameter.entrySet().stream()
+					.map(p -> urlEncodeUTF8(p.getKey()) + "=" + urlEncodeUTF8(p.getValue()))
+					.reduce((p1, p2) -> p1 + "&" + p2)
+					.orElse("");
+
+			String url = "https://api.keepa.com/" + r.path + "/?key=" + accessKey + "&" + query;
+
+			try {
+				URL obj = new URL(url);
+				HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+				con.setUseCaches(false);
+				con.setRequestProperty("User-Agent", this.userAgent);
+				con.setRequestProperty("Connection", "keep-alive");
+				con.setRequestProperty("Accept-Encoding", "gzip");
+				if (r.postData != null) {
+					con.setRequestMethod("POST");
+					con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+					con.setDoOutput(true);
+					OutputStream os = con.getOutputStream();
+					os.write(r.postData.getBytes("UTF-8"));
+					os.close();
+				} else
+					con.setRequestMethod("GET");
+
+				int responseCode = con.getResponseCode();
+
+				switch (responseCode) {
+					case 200: // everything ok
+						try (InputStream is = con.getInputStream();
+						     GZIPInputStream gis = new GZIPInputStream(is)) {
+							JsonReader reader = new JsonReader(new InputStreamReader(gis, "UTF-8"));
+							response = gson.fromJson(reader, Response.class);
+							response.status = ResponseStatus.OK;
+						} catch (Exception e) {
+							response = Response.REQUEST_FAILED;
+							e.printStackTrace();
+						}
+						break;
+					case 503: // throttled
+						try (InputStream is = con.getErrorStream();
+						     GZIPInputStream gis = new GZIPInputStream(is)) {
+							JsonReader reader = new JsonReader(new InputStreamReader(gis, "UTF-8"));
+							response = gson.fromJson(reader, Response.class);
+							response.status = ResponseStatus.NOT_ENOUGH_TOKEN;
+						} catch (Exception e) {
+							response = Response.REQUEST_FAILED;
+							e.printStackTrace();
+						}
+						break;
+					case 400:
+						try (InputStream is = con.getErrorStream();
+						     GZIPInputStream gis = new GZIPInputStream(is)) {
+							JsonReader reader = new JsonReader(new InputStreamReader(gis, "UTF-8"));
+							response = gson.fromJson(reader, Response.class);
+							response.status = ResponseStatus.REQUEST_REJECTED;
+						} catch (Exception e) {
+							response = Response.REQUEST_FAILED;
+							e.printStackTrace();
+						}
+						break;
+					default:
+						response = Response.REQUEST_FAILED;
+						break;
+				}
+			} catch (IOException e) {
+				response = Response.REQUEST_FAILED;
+			}
+
+			response.requestTime = (System.nanoTime() - responseTime) / 1000000;
+			if (response.status == ResponseStatus.OK)
+				d.resolve(response);
+			else
+				d.reject(response);
+		});
+
+		return d.promise();
+	}
+
+
+	/**
+	 * Issue a request to the Keepa Price Data API.
+	 * If your API contigent is depleted, this method will retry the request as soon as there are new tokens available. May take minutes.
+	 * Will fail it the request failed too many times.
+	 *
+	 * @param r the API Request {@link Request}
+	 * @return Promise for {@link Response}
+	 */
+	final public Promise<Response, Response, Void> sendRequestWithRetry(Request r) {
+		Deferred<Response, Response, Void> deferred = new DeferredObject<>();
+		AtomicInteger expoDelay = new AtomicInteger(0);
+
+		executorRetry.execute(() -> {
+			int retry = 0;
+			Response[] lastResponse = {null};
+			final boolean[] solved = {false};
+
+			try {
+				int delay = 0;
+
+				while (!solved[0]) {
+					if (lastResponse[0] != null && lastResponse[0].status == ResponseStatus.NOT_ENOUGH_TOKEN && lastResponse[0].refillIn > 0) {
+						delay = lastResponse[0].refillIn + 100;
+					}
+
+					if (retry > 0)
+						Thread.sleep(delay);
+
+					Promise<Response, Response, Void> p1 = sendRequest(r);
+					p1
+							.done(result -> {
+								deferred.resolve(result);
+								solved[0] = true;
+								expoDelay.set(0);
+							})
+							.fail(result -> {
+								lastResponse[0] = result;
+								switch (result.status) {
+									case FAIL:
+									case NOT_ENOUGH_TOKEN: // retry
+										break;
+									default:
+										deferred.reject(result);
+										solved[0] = true;
+								}
+							})
+							.waitSafely();
+
+					if (p1.isRejected()) {
+						retry++;
+						delay = expoDelay.getAndUpdate(operand -> Math.min(2 * operand + 100, maxDelay));
+					}
+				}
+			} catch (InterruptedException e) {
+				deferred.reject(null);
+			}
+		});
+
+		return deferred.promise();
 	}
 }

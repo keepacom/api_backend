@@ -1,9 +1,9 @@
 package com.keepa.api.backend.structs;
 
 
-import com.google.gson.Gson;
+import static com.keepa.api.backend.helper.Utility.gsonPretty;
 
-final class CategoryObject {
+final class Category {
 
 	/**
 	 * Integer value for the Amazon locale this category belongs to.
@@ -34,7 +34,6 @@ final class CategoryObject {
 
 	@Override
 	public String toString() {
-		Gson g = new Gson();
-		return g.toJson(this);
+		return gsonPretty.toJson(this);
 	}
 }

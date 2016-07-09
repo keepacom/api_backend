@@ -2,8 +2,11 @@ package com.keepa.api.backend.structs;
 
 import com.google.gson.Gson;
 
+import static com.keepa.api.backend.KeepaAPI.ResponseStatus;
+
 /**
  * Represents the response of an API request
+ * @deprecated Use {@link Response} instead.
  */
 public final class KeepaProductResponse {
 
@@ -37,26 +40,25 @@ public final class KeepaProductResponse {
 	/**
 	 * Status of the request.
 	 */
-	public KeepaResponseStatus status = KeepaResponseStatus.PENDING;
+	public ResponseStatus status = ResponseStatus.PENDING;
 
 	/**
 	 * Results of the product request
 	 */
-	public ProductObject products[] = null; // Requested Data
+	public Product products[] = null; // Requested Data
 
 	static public KeepaProductResponse REQUEST_FAILED = new KeepaProductResponse();
 	static public KeepaProductResponse REQUEST_REJECTED = new KeepaProductResponse();
 	private static KeepaProductResponse NOT_ENOUGH_TOKEN = new KeepaProductResponse();
 
 	static {
-		REQUEST_FAILED.status = KeepaResponseStatus.FAIL;
-		REQUEST_REJECTED.status = KeepaResponseStatus.REQUEST_REJECTED;
-		NOT_ENOUGH_TOKEN.status = KeepaResponseStatus.NOT_ENOUGH_TOKEN;
+		REQUEST_FAILED.status = ResponseStatus.FAIL;
+		REQUEST_REJECTED.status = ResponseStatus.REQUEST_REJECTED;
+		NOT_ENOUGH_TOKEN.status = ResponseStatus.NOT_ENOUGH_TOKEN;
 	}
 
 	@Override
 	public String toString() {
-		Gson g = new Gson();
-		return g.toJson(this);
+		return new Gson().toJson(this);
 	}
 }

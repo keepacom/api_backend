@@ -1,10 +1,11 @@
 package com.keepa.api.backend.structs;
 
 
-import com.google.gson.Gson;
 import com.keepa.api.backend.helper.KeepaTime;
 
-public final class ProductObject {
+import static com.keepa.api.backend.helper.Utility.gson;
+
+public final class Product {
 
 	/**
 	 * The ASIN of the product
@@ -197,7 +198,7 @@ public final class ProductObject {
 	public int lastPriceChange = 0; // minutes Keepa Epoch
 
 	/**
-	 * Keepa product type {@link ProductObject.ProductType}. Must always be evaluated first.
+	 * Keepa product type {@link Product.ProductType}. Must always be evaluated first.
 	 */
 	public byte productType = 0;
 
@@ -209,12 +210,12 @@ public final class ProductObject {
 	/**
 	 * Optional field. Only set if the <i>stats</i> parameter was used in the Product Request. Contains statistic values.
 	 */
-	public StatsObject stats = null;
+	public Stats stats = null;
 
 	/**
 	 * Optional field. Only set if the <i>offers</i> parameter was used in the Product Request.
 	 */
-	public OfferObject[] offers = null;
+	public Offer[] offers = null;
 
 	/**
 	 * Optional field. Only set if the offers parameter was used in the Product Request.<br>
@@ -241,11 +242,11 @@ public final class ProductObject {
 	/**
 	 * Only valid if the offers parameter was used in the Product Request. Boolean indicating if the system was able to retrieve fresh offer information.
 	 */
-	public OfferObject[] offersSuccessful = null;
+	public boolean offersSuccessful = false;
 
 	/**
 	 * Integer[][] - two dimensional price history array.<br>
-	 * First dimension: {@link ProductObject.CsvType}<br>
+	 * First dimension: {@link Product.CsvType}<br>
 	 * Second dimension:<br>
 	 * Each array has the format timestamp, price, […]. To get an uncompressed timestamp use {@link KeepaTime#keepaMinuteToUnixInMillis(int)}.<br>
 	 * Example: "csv[0]": [411180,4900, ... ]<br>
@@ -504,7 +505,6 @@ public final class ProductObject {
 
 	@Override
 	public String toString() {
-		Gson g = new Gson();
-		return g.toJson(this);
+		return gson.toJson(this);
 	}
 }

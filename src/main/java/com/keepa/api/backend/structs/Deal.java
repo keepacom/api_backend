@@ -2,6 +2,8 @@ package com.keepa.api.backend.structs;
 
 import com.keepa.api.backend.helper.KeepaTime;
 
+import static com.keepa.api.backend.helper.Utility.gson;
+
 /**
  * About:
  * A Deal object represents a product that has recently changed (usually in price or sales rank). It contains a summary of the product and information about the changes.
@@ -9,7 +11,7 @@ import com.keepa.api.backend.helper.KeepaTime;
  * Returned by:
  * The Deal object is returned by the Browsing Deals request.
  */
-public class DealObject {
+public class Deal {
 
 	/**
 	 * The ASIN of the product
@@ -24,26 +26,26 @@ public class DealObject {
 	/**
 	 * Contains the absolute difference between the current value and the one at the beginning of the respective date range interval.
 	 * The value 0 means it did not change or could not be calculated. First dimension uses the Date Range indexing, second the Price Type indexing.
-	 * <p>First dimension uses {@link com.keepa.api.backend.structs.ProductObject.CsvType}, second domension {@link DealInterval}</p>
+	 * <p>First dimension uses {@link Product.CsvType}, second domension {@link DealInterval}</p>
 	 */
 	public int[][] delta = null; // delta to average. negativ = gestiegen!, positiv = gesunken, 0 = gleich geblieben / nicht berechenbar!
 
 	/**
 	 * Same as {@link #delta}, but given in percent instead of absolute values.
-	 * <p>First dimension uses {@link com.keepa.api.backend.structs.ProductObject.CsvType}, second domension {@link DealInterval}</p>
+	 * <p>First dimension uses {@link Product.CsvType}, second domension {@link DealInterval}</p>
 	 */
 	public short[][] deltaPercent = null; // positiv = gesunken, negativ = gestiegen, 0 = gleich geblieben / nicht berechenbar!
 
 	/**
 	 * Contains the absolute difference of the current and the previous price / rank. The value 0 means it did not change or could not be calculated.
-	 * <p>Uses {@link com.keepa.api.backend.structs.ProductObject.CsvType} indexing</p>
+	 * <p>Uses {@link Product.CsvType} indexing</p>
 	 */
 	public int[] deltaLast = null; // differenz zum vorherigen wert, negativ = gesunken, ..., 0 = gleich geblieben / nicht berechenbar!
 
 	/**
 	 * Contains the weighted averages in the respective date range and price type.<br>
 	 * <b>Note:</b> The day interval (index 0) is actually the average of the last 48 hours, not 24 hours. This is due to the way our deals work.
-	 * <p>First dimension uses {@link com.keepa.api.backend.structs.ProductObject.CsvType}, second domension {@link DealInterval}</p>
+	 * <p>First dimension uses {@link Product.CsvType}, second domension {@link DealInterval}</p>
 	 */
 	public int[][] avg = null; // durchschnittspreis des letzten 3 monats (ggf. kleineres interval)
 
@@ -54,12 +56,12 @@ public class DealObject {
 	 * Shipping and Handling costs are not included. Amazon is considered to be part of the marketplace, so if
 	 * Amazon has the overall lowest new price, the marketplace new price in the corresponding time interval will
 	 * be identical to the Amazon price (except if there is only one marketplace offer).
-	 * <p>Uses {@link com.keepa.api.backend.structs.ProductObject.CsvType} indexing</p>
+	 * <p>Uses {@link Product.CsvType} indexing</p>
 	 */
 	public int[] current = null;
 
 	/**
-	 * Category node id {@link CategoryObject#catId} of the product's root category. 0 or 9223372036854775807 if no root category known.
+	 * Category node id {@link Category#catId} of the product's root category. 0 or 9223372036854775807 if no root category known.
 	 */
 	public long rootCat = 0L;
 
@@ -78,7 +80,7 @@ public class DealObject {
 	public byte[] image = null;
 
 	/**
-	 * Array of Amazon category node ids {@link CategoryObject#catId} this product is listed in. Can be empty.<br>
+	 * Array of Amazon category node ids {@link Category#catId} this product is listed in. Can be empty.<br>
 	 * Example: [569604]
 	 */
 	public long[] categories = null;
@@ -105,5 +107,10 @@ public class DealObject {
 		MONTH,
 		_90_DAYS;
 		public static final DealInterval[] values = DealInterval.values();
+	}
+
+	@Override
+	public String toString() {
+		return gson.toJson(this);
 	}
 }

@@ -1,5 +1,7 @@
 package com.keepa.api.backend.structs;
 
+import static com.keepa.api.backend.helper.Utility.gson;
+
 /**
  * About:
  * The offer object represents a marketplace offer.
@@ -15,7 +17,7 @@ package com.keepa.api.backend.structs;
  * The history of an offer (its past prices and shipping costs) is often not without gaps. Evaluate the EXTRA_INFO_UPDATES csv-type of the product object to find out when we updated the offers. If you need complete coverage of (all) offers of a product you have to request it on a regular basis.
  * If there are almost identical offers - same seller, same condition, same shipping type and same condition text - we only provide access to the one with the cheapest price. We do not list duplicates.
  */
-public class OfferObject {
+public class Offer {
 
 	/**
 	 * Unique id of this offer (in the scope of the product).
@@ -146,38 +148,38 @@ public class OfferObject {
 		public byte code;
 		public static final OfferCondition[] values = OfferCondition.values();
 
-		public static ProductObject.CsvType getCorrespondingCsvType(OfferCondition oc) {
-			ProductObject.CsvType type = null;
+		public static Product.CsvType getCorrespondingCsvType(OfferCondition oc) {
+			Product.CsvType type = null;
 			switch (oc) {
 				case UNKNOWN:
 				case NEW:
 					break;
 				case USED_NEW:
-					type = ProductObject.CsvType.USED_NEW_SHIPPING;
+					type = Product.CsvType.USED_NEW_SHIPPING;
 					break;
 				case USED_VERY_GOOD:
-					type = ProductObject.CsvType.USED_VERY_GOOD_SHIPPING;
+					type = Product.CsvType.USED_VERY_GOOD_SHIPPING;
 					break;
 				case USED_GOOD:
-					type = ProductObject.CsvType.USED_GOOD_SHIPPING;
+					type = Product.CsvType.USED_GOOD_SHIPPING;
 					break;
 				case USED_ACCEPTABLE:
-					type = ProductObject.CsvType.USED_ACCEPTABLE_SHIPPING;
+					type = Product.CsvType.USED_ACCEPTABLE_SHIPPING;
 					break;
 				case REFURBISHED:
-					type = ProductObject.CsvType.REFURBISHED_SHIPPING;
+					type = Product.CsvType.REFURBISHED_SHIPPING;
 					break;
 				case COLLECTIBLE_NEW:
-					type = ProductObject.CsvType.COLLECTIBLE_NEW_SHIPPING;
+					type = Product.CsvType.COLLECTIBLE_NEW_SHIPPING;
 					break;
 				case COLLECTIBLE_VERY_GOOD:
-					type = ProductObject.CsvType.COLLECTIBLE_VERY_GOOD_SHIPPING;
+					type = Product.CsvType.COLLECTIBLE_VERY_GOOD_SHIPPING;
 					break;
 				case COLLECTIBLE_GOOD:
-					type = ProductObject.CsvType.COLLECTIBLE_GOOD_SHIPPING;
+					type = Product.CsvType.COLLECTIBLE_GOOD_SHIPPING;
 					break;
 				case COLLECTIBLE_ACCEPTABLE:
-					type = ProductObject.CsvType.COLLECTIBLE_ACCEPTABLE_SHIPPING;
+					type = Product.CsvType.COLLECTIBLE_ACCEPTABLE_SHIPPING;
 					break;
 			}
 
@@ -187,5 +189,10 @@ public class OfferObject {
 		OfferCondition(int index) {
 			code = (byte) index;
 		}
+	}
+
+	@Override
+	public String toString() {
+		return gson.toJson(this);
 	}
 }

@@ -1,6 +1,6 @@
 package com.keepa.api.backend.helper;
 
-import static com.keepa.api.backend.structs.ProductObject.CsvType;
+import static com.keepa.api.backend.structs.Product.CsvType;
 
 /**
  * Provides methods to work on the Keepa price history CSV format.
@@ -108,7 +108,7 @@ class ProductAnalyzer {
 	 * @param type the type of the csv data. If the csv includes shipping costs the extreme point will be the landing price (price + shipping).
 	 * @return the last value/price change delta. If the csv includes shipping costs it will be the delta of the the landing prices (price + shipping).
 	 */
-	private int getDeltaLast(int[] csv, CsvType type) {
+	private static int getDeltaLast(int[] csv, CsvType type) {
 		if (type.isWithShipping) {
 			if (csv == null || csv.length < 6 || csv[csv.length - 1] == -1 || csv[csv.length - 5] == -1)
 				return 0;

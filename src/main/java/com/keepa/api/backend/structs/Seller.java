@@ -2,6 +2,8 @@ package com.keepa.api.backend.structs;
 
 import com.keepa.api.backend.helper.KeepaTime;
 
+import static com.keepa.api.backend.helper.Utility.gson;
+
 /**
  * About:
  * The seller object provides information about a Amazon marketplace seller.
@@ -9,7 +11,7 @@ import com.keepa.api.backend.helper.KeepaTime;
  * The seller object is returned by the following request:
  * Request Seller Information
  */
-public class SellerObject {
+public class Seller {
 
 	/**
 	 * States the time we have started tracking this seller, in Keepa Time minutes.
@@ -79,5 +81,10 @@ public class SellerObject {
 			}
 			return RATING;
 		}
+	}
+
+	@Override
+	public String toString() {
+		return gson.toJson(this);
 	}
 }
