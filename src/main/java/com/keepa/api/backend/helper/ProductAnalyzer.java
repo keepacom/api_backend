@@ -51,39 +51,86 @@ class ProductAnalyzer {
 	 * @param isMinimum whether to find the minimum or maximum
 	 * @param type      the type of the csv data. If the csv includes shipping costs the extreme point will be the landing price (price + shipping).
 	 * @return extremePoint (value/price)) in the given interval or -1 if no extreme point was found. If the csv includes shipping costs it will be the landing price (price + shipping).
+	 * @deprecated use {@link ProductAnalyzer#getExtremePointsInIntervalWithTime(int[], int, int, CsvType)} instead.
 	 */
 	public static int getExtremePointInInterval(int[] csv, int start, int end, boolean isMinimum, CsvType type) {
-		if (csv == null || csv.length < (type.isWithShipping ? 6 : 4))
-			return -1;
+		int[] minMax = getExtremePointsInIntervalWithTime(csv, start, end, type);
+		return minMax[isMinimum ? 1 : 3];
+	}
 
-		int extremeValue = -1;
-		if (isMinimum)
-			extremeValue = Integer.MAX_VALUE;
+	/**
+	 * finds the extreme point in the specified interval
+	 *
+	 * @param csv   value/price history csv
+	 * @param start start of the interval (keepa time minutes), can be 0.
+	 * @param end   end of the interval (keepa time minutes), can be in the future (Integer.MAX_VALUE).
+	 * @param type  the type of the csv data. If the csv includes shipping costs the extreme point will be the landing price (price + shipping).
+	 * @return extremePoints (time, lowest value/price, time, highest value/price) in the given interval or -1 if no extreme point was found. If the csv includes shipping costs it will be the landing price (price + shipping).
+	 */
+	public static int[] getExtremePointsInIntervalWithTime(int[] csv, int start, int end, CsvType type) {
+		if (csv == null || start >= end || csv.length < (type.isWithShipping ? 6 : 4))
+			return new int[]{-1, -1, -1, -1};
+
+		int[] extremeValue = new int[]{-1, Integer.MAX_VALUE, -1, -1};
+
+		int lastTime = getLastTime(csv, type);
+		int firstTime = csv[0];
+		if (lastTime == -1 || firstTime == -1 || firstTime > end) return new int[]{-1, -1, -1, -1};
+
+		if (firstTime > start)
+			start = firstTime;
 
 		int loopIncrement = (type.isWithShipping ? 3 : 2);
-		for (int i = 0; i < csv.length; i += loopIncrement) {
-			int date = csv[i];
+		int adjustedIndex = type.isWithShipping ? 2 : 1;
 
-			if (date <= start) continue;
-			if (date >= end) break;
-			if (csv[i + 1] == -1) continue;
+		for (int i = 1, j = csv.length; i < j; i += loopIncrement) {
+			int c = csv[i];
+			int date = csv[i - 1];
+			if (date >= end)
+				break;
 
-			int price;
-			if (type.isWithShipping) {
-				int v = csv[i + 1];
-				int s = csv[i + 2];
-				price = v < 0 ? v : v + (s < 0 ? 0 : s);
-			} else {
-				price = csv[i + 1];
+			if (c != -1) {
+				if (type.isWithShipping) {
+					int s = csv[i + 1];
+					c += s < 0 ? 0 : s;
+				}
+
+				if (date >= start) {
+					if (c < extremeValue[1]) {
+						extremeValue[1] = c;
+						extremeValue[0] = csv[i - 1];
+					}
+
+					if (c > extremeValue[3]) {
+						extremeValue[3] = c;
+						extremeValue[2] = csv[i - 1];
+					}
+				} else {
+					boolean isValid = false;
+					if (i == j - adjustedIndex) {
+						isValid = true;
+					} else {
+						int nextDate = csv[i + adjustedIndex];
+						if (nextDate >= end || (nextDate >= start))
+							isValid = true;
+					}
+
+					if (isValid) {
+						if (c < extremeValue[1]) {
+							extremeValue[1] = c;
+							extremeValue[0] = start;
+						}
+
+						if (c > extremeValue[3]) {
+							extremeValue[3] = c;
+							extremeValue[2] = start;
+						}
+					}
+				}
 			}
-
-			if (isMinimum)
-				extremeValue = Math.min(extremeValue, price);
-			else
-				extremeValue = Math.max(extremeValue, price);
 		}
 
-		if (extremeValue == Integer.MAX_VALUE) return -1;
+		if (extremeValue[1] == Integer.MAX_VALUE) return new int[]{-1, -1, -1, -1};
 		return extremeValue;
 	}
 
@@ -382,76 +429,24 @@ class ProductAnalyzer {
 	/**
 	 * finds the lowest and highest value/price of the csv history
 	 *
-	 * @param csv value/price history csv
+	 * @param csv  value/price history csv
 	 * @param type the type of the csv data.
 	 * @return [0] = low, [1] = high.  If the csv includes shipping costs the extreme point will be the landing price (price + shipping). [-1, -1] if insufficient data.
 	 */
 	public static int[] getLowestAndHighest(int[] csv, CsvType type) {
-		if (csv == null || csv.length < (type.isWithShipping ? 9 : 6)) {
-			return new int[]{-1, -1};
-		}
-
-		int[] lowHigh = new int[]{Integer.MAX_VALUE, -1};
-		int loopIncrement = (type.isWithShipping ? 3 : 2);
-		for (int i = 0, k = csv.length; i < k; i = i + loopIncrement) {
-			int v = csv[i + 1];
-			if (v < 0) continue;
-			if (type.isWithShipping) {
-				int s = csv[i + 2];
-				v += s < 0 ? 0 : s;
-			}
-
-			if (v < lowHigh[0])
-				lowHigh[0] = v;
-			if (v > lowHigh[1])
-				lowHigh[1] = v;
-		}
-
-
-		if (lowHigh[0] == Integer.MAX_VALUE)
-			lowHigh[0] = -1;
-		return lowHigh;
+		int[] minMax = getExtremePointsInIntervalWithTime(csv, 0, Integer.MAX_VALUE, type);
+		return new int[]{minMax[1], minMax[3]};
 	}
 
 	/**
 	 * finds the lowest and highest value/price of the csv history including the dates of the occurrences (in keepa time minutes).
 	 *
-	 * @param csv value/price history csv
+	 * @param csv  value/price history csv
 	 * @param type the type of the csv data.
 	 * @return [0] = low time, [1] = low, [2] = high time, [3] = high.  If the csv includes shipping costs the extreme point will be the landing price (price + shipping). [-1, -1, -1, -1] if insufficient data.
 	 */
 	public static int[] getLowestAndHighestWithTime(int[] csv, CsvType type) {
-		if (csv == null || csv.length < 2) {
-			return new int[]{-1, -1, -1, -1};
-		}
-
-		int[] lowHigh = new int[]{Integer.MAX_VALUE, -1};
-		int[] lowHighTime = new int[]{-1, -1};
-
-		int loopIncrement = (type.isWithShipping ? 3 : 2);
-		for (int i = 0, k = csv.length; i < k; i = i + loopIncrement) {
-			int v = csv[i + 1];
-			if (v < 0) continue;
-			if (type.isWithShipping) {
-				int s = csv[i + 2];
-				v += s < 0 ? 0 : s;
-			}
-
-			if (v < lowHigh[0]) {
-				lowHigh[0] = v;
-				lowHighTime[0] = csv[i];
-			}
-
-			if (v > lowHigh[1]) {
-				lowHigh[1] = v;
-				lowHighTime[1] = csv[i];
-			}
-		}
-
-		if (lowHigh[0] == Integer.MAX_VALUE)
-			lowHigh[0] = -1;
-
-		return new int[]{lowHighTime[0], lowHigh[0], lowHighTime[1], lowHigh[1]};
+		return getExtremePointsInIntervalWithTime(csv, 0, Integer.MAX_VALUE, type);
 	}
 
 	/**
@@ -628,7 +623,7 @@ class ProductAnalyzer {
 		if (type.isWithShipping) {
 			if (csv == null || csv.length < 6)
 				return null;
-		} else if (csv == null || csv.length < 4)
+		} else if (start >= end || csv == null || csv.length < 4)
 			return null;
 
 		int loopIncrement = (type.isWithShipping ? 3 : 2);
@@ -640,5 +635,81 @@ class ProductAnalyzer {
 		}
 
 		return false;
+	}
+
+	public static int getOutOfStockPercentageInInterval(int[] v, int now, int start, int end, CsvType type, int trackingSince) {
+		if (!type.isPrice) return -1;
+		if (start >= end) return -1;
+		if (v == null || v.length == 0)
+			return -1;
+
+		int size = v.length;
+		int loopIncrement = (type.isWithShipping ? 3 : 2);
+
+		int lastTime = getLastTime(v, type);
+		int firstTime = v[0];
+
+		if (lastTime == -1 || firstTime == -1 || firstTime > end || trackingSince > end) return -1;
+
+		long count = 0;
+
+		if (trackingSince > start)
+			start = trackingSince;
+
+		if (end > now)
+			end = now;
+
+		int adjustedIndex = type.isWithShipping ? 2 : 1;
+
+		for (int i = 1, j = size; i < j; i += loopIncrement) {
+			int c = v[i];
+			int date = v[i - 1];
+
+			if (date >= end)
+				break;
+
+			if (c != -1) {
+				if (date >= start) {
+					if (i == 1) {
+						if (i + adjustedIndex == j) {
+							return 0;
+						}
+					}
+
+					int nextDate;
+					if (i + adjustedIndex == j) {
+						nextDate = now;
+					} else {
+						nextDate = v[i + adjustedIndex];
+						if (nextDate > end)
+							nextDate = end;
+					}
+
+					long tmpCount = nextDate - date;
+
+					count += tmpCount;
+				} else {
+					if (i == j - adjustedIndex) {
+						return 0;
+					} else {
+						int nextDate = v[i + adjustedIndex];
+
+						if (nextDate >= end)
+							return 0;
+
+						if (nextDate >= start)
+							count = nextDate - start;
+					}
+				}
+			}
+		}
+
+		if (count > 0)
+			count = 100 - (int) Math.floor((count * 100) / (end - start));
+		else if (count == 0) {
+			count = 100;
+		}
+
+		return (int) count;
 	}
 }

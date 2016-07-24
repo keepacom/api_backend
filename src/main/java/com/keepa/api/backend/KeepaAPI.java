@@ -35,7 +35,7 @@ public final class KeepaAPI {
 	final private String userAgent;
 
 	public enum ResponseStatus {
-		PENDING, OK, FAIL, NOT_ENOUGH_TOKEN, REQUEST_REJECTED
+		PENDING, OK, FAIL, NOT_ENOUGH_TOKEN, REQUEST_REJECTED, PAYMENT_REQUIRED, METHOD_NOT_ALLOWED
 	}
 
 	/**
@@ -97,7 +97,8 @@ public final class KeepaAPI {
 							e.printStackTrace();
 						}
 						break;
-					case 503: // throttled
+					case 429: // throttled
+					case 402:
 						try (InputStream is = con.getErrorStream();
 						     GZIPInputStream gis = new GZIPInputStream(is)) {
 							JsonReader reader = new JsonReader(new InputStreamReader(gis, "UTF-8"));
@@ -252,43 +253,42 @@ public final class KeepaAPI {
 
 				int responseCode = con.getResponseCode();
 
-				switch (responseCode) {
-					case 200: // everything ok
-						try (InputStream is = con.getInputStream();
-						     GZIPInputStream gis = new GZIPInputStream(is)) {
-							JsonReader reader = new JsonReader(new InputStreamReader(gis, "UTF-8"));
-							response = gson.fromJson(reader, Response.class);
-							response.status = ResponseStatus.OK;
-						} catch (Exception e) {
-							response = Response.REQUEST_FAILED;
-							e.printStackTrace();
-						}
-						break;
-					case 503: // throttled
-						try (InputStream is = con.getErrorStream();
-						     GZIPInputStream gis = new GZIPInputStream(is)) {
-							JsonReader reader = new JsonReader(new InputStreamReader(gis, "UTF-8"));
-							response = gson.fromJson(reader, Response.class);
-							response.status = ResponseStatus.NOT_ENOUGH_TOKEN;
-						} catch (Exception e) {
-							response = Response.REQUEST_FAILED;
-							e.printStackTrace();
-						}
-						break;
-					case 400:
-						try (InputStream is = con.getErrorStream();
-						     GZIPInputStream gis = new GZIPInputStream(is)) {
-							JsonReader reader = new JsonReader(new InputStreamReader(gis, "UTF-8"));
-							response = gson.fromJson(reader, Response.class);
-							response.status = ResponseStatus.REQUEST_REJECTED;
-						} catch (Exception e) {
-							response = Response.REQUEST_FAILED;
-							e.printStackTrace();
-						}
-						break;
-					default:
+				if (responseCode == 200) {
+					try (InputStream is = con.getInputStream();
+					     GZIPInputStream gis = new GZIPInputStream(is)) {
+						JsonReader reader = new JsonReader(new InputStreamReader(gis, "UTF-8"));
+						response = gson.fromJson(reader, Response.class);
+						response.status = ResponseStatus.OK;
+					} catch (Exception e) {
 						response = Response.REQUEST_FAILED;
-						break;
+						e.printStackTrace();
+					}
+				} else {
+					try (InputStream is = con.getErrorStream();
+					     GZIPInputStream gis = new GZIPInputStream(is)) {
+						JsonReader reader = new JsonReader(new InputStreamReader(gis, "UTF-8"));
+						response = gson.fromJson(reader, Response.class);
+						switch (responseCode) {
+							case 400:
+								response.status = ResponseStatus.REQUEST_REJECTED;
+								break;
+							case 402:
+								response.status = ResponseStatus.PAYMENT_REQUIRED;
+								break;
+							case 405:
+								response.status = ResponseStatus.METHOD_NOT_ALLOWED;
+								break;
+							case 429:
+								response.status = ResponseStatus.NOT_ENOUGH_TOKEN;
+								break;
+							default:
+								response = Response.REQUEST_FAILED;
+								break;
+						}
+					} catch (Exception e) {
+						response = Response.REQUEST_FAILED;
+						e.printStackTrace();
+					}
 				}
 			} catch (IOException e) {
 				response = Response.REQUEST_FAILED;
