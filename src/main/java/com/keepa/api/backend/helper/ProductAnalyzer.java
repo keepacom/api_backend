@@ -527,7 +527,9 @@ class ProductAnalyzer {
 	 * Returns a weighted mean of the products csv history in the last X days
 	 *
 	 * @param csv  value/price history csv
+	 * @param now  current keepa time minutes
 	 * @param days number of days the weighted mean will be calculated for (e.g. 90 days, 60 days, 30 days)
+	 * @param type the type of the csv data.
 	 * @return the weighted mean or -1 if insufficient history csv length (less than a day). If the csv includes shipping costs it will be the wieghted mean of the landing price (price + shipping).
 	 */
 	public static int calcWeightedMean(int[] csv, int now, double days, CsvType type) {
@@ -637,17 +639,28 @@ class ProductAnalyzer {
 		return false;
 	}
 
-	public static int getOutOfStockPercentageInInterval(int[] v, int now, int start, int end, CsvType type, int trackingSince) {
+	/**
+	 * Returns a the percentage of time in the given interval the price type was out of stock
+	 *
+	 * @param csv           value/price history csv
+	 * @param now           current keepa time minutes
+	 * @param start         start of the interval (keepa time minutes), can be 0.
+	 * @param end           end of the interval (keepa time minutes), can be in the future (Integer.MAX_VALUE).
+	 * @param type          the type of the csv data.
+	 * @param trackingSince the product object's trackingSince value
+	 * @return percentage between 0 and 100 or -1 if insufficient data. 100 = 100% out of stock in the interval.
+	 */
+	public static int getOutOfStockPercentageInInterval(int[] csv, int now, int start, int end, CsvType type, int trackingSince) {
 		if (!type.isPrice) return -1;
 		if (start >= end) return -1;
-		if (v == null || v.length == 0)
+		if (csv == null || csv.length == 0)
 			return -1;
 
-		int size = v.length;
+		int size = csv.length;
 		int loopIncrement = (type.isWithShipping ? 3 : 2);
 
-		int lastTime = getLastTime(v, type);
-		int firstTime = v[0];
+		int lastTime = getLastTime(csv, type);
+		int firstTime = csv[0];
 
 		if (lastTime == -1 || firstTime == -1 || firstTime > end || trackingSince > end) return -1;
 
@@ -662,8 +675,8 @@ class ProductAnalyzer {
 		int adjustedIndex = type.isWithShipping ? 2 : 1;
 
 		for (int i = 1, j = size; i < j; i += loopIncrement) {
-			int c = v[i];
-			int date = v[i - 1];
+			int c = csv[i];
+			int date = csv[i - 1];
 
 			if (date >= end)
 				break;
@@ -680,7 +693,7 @@ class ProductAnalyzer {
 					if (i + adjustedIndex == j) {
 						nextDate = now;
 					} else {
-						nextDate = v[i + adjustedIndex];
+						nextDate = csv[i + adjustedIndex];
 						if (nextDate > end)
 							nextDate = end;
 					}
@@ -692,7 +705,7 @@ class ProductAnalyzer {
 					if (i == j - adjustedIndex) {
 						return 0;
 					} else {
-						int nextDate = v[i + adjustedIndex];
+						int nextDate = csv[i + adjustedIndex];
 
 						if (nextDate >= end)
 							return 0;
