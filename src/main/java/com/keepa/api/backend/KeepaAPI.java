@@ -1,10 +1,7 @@
 package com.keepa.api.backend;
 
 import com.google.gson.stream.JsonReader;
-import com.keepa.api.backend.exceptions.KeepaAPIException;
 import com.keepa.api.backend.helper.BasicNameFactory;
-import com.keepa.api.backend.structs.AmazonLocale;
-import com.keepa.api.backend.structs.KeepaProductResponse;
 import com.keepa.api.backend.structs.Request;
 import com.keepa.api.backend.structs.Response;
 import org.jdeferred.Deferred;
@@ -22,7 +19,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.GZIPInputStream;
 
-import static com.keepa.api.backend.helper.Utility.*;
+import static com.keepa.api.backend.helper.Utility.gson;
+import static com.keepa.api.backend.helper.Utility.urlEncodeUTF8;
 
 public final class KeepaAPI {
 	/**
@@ -33,6 +31,7 @@ public final class KeepaAPI {
 
 	final private String accessKey;
 	final private String userAgent;
+	final private int maxDelay = 60000;
 
 	public enum ResponseStatus {
 		PENDING, OK, FAIL, NOT_ENOUGH_TOKEN, REQUEST_REJECTED, PAYMENT_REQUIRED, METHOD_NOT_ALLOWED
@@ -64,163 +63,13 @@ public final class KeepaAPI {
 
 
 	/**
-	 * @deprecated
-	 */
-	private Promise<KeepaProductResponse, KeepaProductResponse, Void> getProductData(final AmazonLocale domainID, final String asinCSV) {
-		Deferred<KeepaProductResponse, KeepaProductResponse, Void> d = new DeferredObject<>();
-
-		executorDeferred.execute(() -> {
-			long responseTime = System.nanoTime();
-			KeepaProductResponse response;
-
-			try {
-				URL obj = new URL("https://api.keepa.com/product/?key=" + accessKey + "&domain=" + domainID.ordinal() + "&asin=" + asinCSV);
-				HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
-				con.setUseCaches(false);
-				con.setRequestMethod("GET");
-				con.setRequestProperty("User-Agent", this.userAgent);
-				con.setRequestProperty("Connection", "keep-alive");
-				con.setRequestProperty("Accept-Encoding", "gzip");
-
-				int responseCode = con.getResponseCode();
-
-				switch (responseCode) {
-					case 200: // everything ok
-						try (InputStream is = con.getInputStream();
-						     GZIPInputStream gis = new GZIPInputStream(is)) {
-							JsonReader reader = new JsonReader(new InputStreamReader(gis, "UTF-8"));
-							response = gson.fromJson(reader, KeepaProductResponse.class);
-
-							response.status = ResponseStatus.OK;
-						} catch (Exception e) {
-							response = KeepaProductResponse.REQUEST_FAILED;
-							e.printStackTrace();
-						}
-						break;
-					case 429: // throttled
-					case 402:
-						try (InputStream is = con.getErrorStream();
-						     GZIPInputStream gis = new GZIPInputStream(is)) {
-							JsonReader reader = new JsonReader(new InputStreamReader(gis, "UTF-8"));
-							response = gson.fromJson(reader, KeepaProductResponse.class);
-							response.status = ResponseStatus.NOT_ENOUGH_TOKEN;
-						} catch (Exception e) {
-							response = KeepaProductResponse.REQUEST_FAILED;
-							e.printStackTrace();
-						}
-						break;
-					case 400:
-						response = KeepaProductResponse.REQUEST_REJECTED;
-						break;
-					default:
-						response = KeepaProductResponse.REQUEST_FAILED;
-						break;
-				}
-			} catch (IOException e) {
-				response = KeepaProductResponse.REQUEST_FAILED;
-			}
-
-			response.requestTime = (System.nanoTime() - responseTime) / 1000000;
-			if (response.status == ResponseStatus.OK)
-				d.resolve(response);
-			else
-				d.reject(response);
-		});
-
-		return d.promise();
-	}
-
-
-	/**
-	 * Issue a product request to the Keepa Price Data API. Will report failure if the request could not be fulfilled the first try.
-	 *
-	 * @param domainID Amazon locale of the product {@link AmazonLocale}
-	 * @param asins    ASINs to request, must contain between 1 and 100 ASINs.
-	 * @return Promise for {@link KeepaProductResponse}
-	 * @throws KeepaAPIException
-	 * @deprecated Use {@link KeepaAPI#sendRequest(Request)}
-	 */
-	final public Promise<KeepaProductResponse, KeepaProductResponse, Void> makeProductRequest(final AmazonLocale domainID, final String asins[]) throws KeepaAPIException {
-		String asinCSV = arrayToCsv(asins);
-		return getProductData(domainID, asinCSV);
-	}
-
-	private final int maxDelay = 60000;
-
-	/**
-	 * Issue a product request to the Keepa Price Data API.
-	 * If your API contigent is depleted, this method will retry the request as soon as there are new tokens available. May take minutes.
-	 * Will fail it the request failed too many times.
-	 *
-	 * @param domainID Amazon locale of the product {@link AmazonLocale}
-	 * @param asins    ASINs to request, must contain between 1 and 100 ASINs.
-	 * @return Promise for {@link KeepaProductResponse}
-	 * @throws KeepaAPIException
-	 * @deprecated Use {@link KeepaAPI#sendRequestWithRetry(Request)}
-	 */
-	final public Promise<KeepaProductResponse, KeepaProductResponse, Void> makeProductRequestWithRetry(final AmazonLocale domainID, final String asins[]) throws KeepaAPIException {
-		Deferred<KeepaProductResponse, KeepaProductResponse, Void> deferred = new DeferredObject<>();
-		String asinCSV = arrayToCsv(asins);
-		AtomicInteger expoDelay = new AtomicInteger(0);
-
-		executorRetry.execute(() -> {
-			int retry = 0;
-			KeepaProductResponse[] lastResponse = {null};
-			final boolean[] solved = {false};
-
-			try {
-				int delay = 0;
-
-				while (!solved[0]) {
-					if (lastResponse[0] != null && lastResponse[0].status == ResponseStatus.NOT_ENOUGH_TOKEN && lastResponse[0].refillIn > 0) {
-						delay = lastResponse[0].refillIn + 100;
-					}
-
-					if (retry > 0)
-						Thread.sleep(delay);
-
-					Promise<KeepaProductResponse, KeepaProductResponse, Void> p1 = getProductData(domainID, asinCSV);
-					p1
-							.done(result -> {
-								deferred.resolve(result);
-								solved[0] = true;
-								expoDelay.set(0);
-							})
-							.fail(result -> {
-								lastResponse[0] = result;
-								switch (result.status) {
-									case FAIL:
-									case NOT_ENOUGH_TOKEN: // retry
-										break;
-									default:
-										deferred.reject(result);
-										solved[0] = true;
-								}
-							})
-							.waitSafely();
-
-					if (p1.isRejected()) {
-						retry++;
-						delay = expoDelay.getAndUpdate(operand -> Math.min(2 * operand + 100, maxDelay));
-					}
-				}
-			} catch (InterruptedException e) {
-				deferred.reject(null);
-			}
-		});
-
-		return deferred.promise();
-	}
-
-
-	/**
 	 * Issue a request to the Keepa Price Data API.
 	 * If your tokens are depleted, this method will fail.
 	 *
 	 * @param r the API Request {@link Request}
 	 * @return Promise for {@link Response}
 	 */
-	private Promise<Response, Response, Void> sendRequest(Request r) {
+	final public Promise<Response, Response, Void> sendRequest(Request r) {
 		Deferred<Response, Response, Void> d = new DeferredObject<>();
 
 		executorDeferred.execute(() -> {
