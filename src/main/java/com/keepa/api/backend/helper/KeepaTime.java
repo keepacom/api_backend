@@ -8,8 +8,8 @@ import java.util.TimeZone;
  * Keepa Time - Unix Time Converter Helper Class
  */
 public class KeepaTime {
-	private static long keepaStartHour = 0;
-	private static long keepaStartMinute = 0;
+	public static long keepaStartHour = 0;
+	public static long keepaStartMinute = 0;
 
 	static {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -30,13 +30,12 @@ public class KeepaTime {
 		return unixInMillisToKeepaMinutes(System.currentTimeMillis());
 	}
 
-	private static int unixInMillisToKeepaMinutes(long unix) {
+	public static int unixInMillisToKeepaMinutes(long unix) {
 		return (int)((Math.floor(unix / (60 * 1000))) - keepaStartMinute);
 	}
 
-	private static int unixInMillisToKeepaHour(long unix) {
+	public static int unixInMillisToKeepaHour(long unix) {
 		return (int)((Math.floor(unix / (60 * 60 * 1000))) - keepaStartHour);
-
 	}
 
 	public static long keepaHourToUnixInMillis(int hour) {

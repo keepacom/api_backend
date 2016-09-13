@@ -5,7 +5,7 @@ import static com.keepa.api.backend.structs.Product.CsvType;
 /**
  * Provides methods to work on the Keepa price history CSV format.
  */
-class ProductAnalyzer {
+public class ProductAnalyzer {
 
 	/**
 	 * finds the extreme point in the specified interval

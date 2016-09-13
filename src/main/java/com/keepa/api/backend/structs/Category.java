@@ -3,7 +3,7 @@ package com.keepa.api.backend.structs;
 
 import static com.keepa.api.backend.helper.Utility.gsonPretty;
 
-final class Category {
+public final class Category {
 
 	/**
 	 * Integer value for the Amazon locale this category belongs to.
