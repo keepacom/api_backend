@@ -64,6 +64,11 @@ public class Response {
 	public DealResponse deals = null;
 
 	/**
+	 * Results of the best sellers request
+	 */
+	public BestSellers bestSellersList = null;
+
+	/**
 	 * Results of the deals request
 	 */
 	public HashMap<String, Seller> sellers = null;
