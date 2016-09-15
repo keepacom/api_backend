@@ -36,6 +36,21 @@ public class Request {
 	}
 
 	/**
+	 * Retrieve an ASIN list of the most popular products based on sales in a specific category.
+	 *
+	 * @param domainID Amazon locale of the product {@link AmazonLocale}
+	 * @param category The category node id of the category you want to request the best sellers list for
+	 * @return A ready to send request.
+	 */
+	public static Request getBestSellersRequest(final AmazonLocale domainID, long category) {
+		Request r = new Request();
+		r.path = "bestsellers";
+		r.parameter.put("category", "" + category);
+		r.parameter.put("domain", "" + domainID.ordinal());
+		return r;
+	}
+
+	/**
 	 * Retrieve category objects using their node ids and (optional) their parent tree.
 	 *
 	 * @param domainID Amazon locale of the product {@link AmazonLocale}
