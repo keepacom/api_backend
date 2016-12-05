@@ -15,7 +15,7 @@ public class ProductAnalyzer {
 	 * @param end       end of the interval (keepa time minutes), can be in the future (Integer.MAX_VALUE).
 	 * @param isMinimum whether to find the minimum or maximum
 	 * @return extremePoint (value/price) in the given interval or -1 if no extreme point was found.
-	 * @deprecated use {@link ProductAnalyzer#getExtremePointInInterval(int[], int, int, boolean, CsvType)} instead.
+	 * @deprecated use {@link ProductAnalyzer#getExtremePointsInIntervalWithTime(int[], int, int, CsvType)} instead.
 	 */
 	public static int getExtremePointInInterval(int[] csv, int start, int end, boolean isMinimum) {
 		if (csv == null || csv.length < 4 || csv[csv.length - 1] == -1 || csv[csv.length - 3] == -1)
