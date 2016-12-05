@@ -62,12 +62,12 @@ api.sendRequest(r)
 			switch (result.status) {
 				case OK:
 					// iterate over received product information
-					for (ProductObject product : result.products){
+					for (Product product : result.products){
 						// System.out.println(product);
-						if (product.productType == ProductObject.ProductType.STANDARD.code || product.productType == ProductObject.ProductType.DOWNLOADABLE.code) {
+						if (product.productType == Product.ProductType.STANDARD.code || product.productType == Product.ProductType.DOWNLOADABLE.code) {
 
 							//get basic data of product and print to stdout
-							int currentAmazonPrice = ProductAnalyzer.getLast(product.csv[ProductObject.CsvType.AMAZON.index], ProductObject.CsvType.AMAZON);
+							int currentAmazonPrice = ProductAnalyzer.getLast(product.csv[Product.CsvType.AMAZON.index], Product.CsvType.AMAZON);
 
 							//check if the product is in stock -1 -> out of stock
 							if (currentAmazonPrice == -1) {
@@ -75,10 +75,9 @@ api.sendRequest(r)
 							} else {
 								System.out.println(product.asin + " " + product.title + " Current Amazon Price: " + currentAmazonPrice);
 							}
-
 							
 							// get weighted mean of the last 90 days for Amazon
-							int weightedMean90days = ProductAnalyzer.calcWeightedMean(product.csv[ProductObject.CsvType.AMAZON.index], 90, ProductObject.CsvType.AMAZON);
+							int weightedMean90days = ProductAnalyzer.calcWeightedMean(product.csv[Product.CsvType.AMAZON.index], KeepaTime.nowMinutes(), 90, Product.CsvType.AMAZON);
 
 							...
 						} else {
