@@ -39,6 +39,11 @@ public class Response {
 	public long requestTime = 0;
 
 	/**
+	 * Token flow reduction
+	 */
+	public double tokenFlowReduction = 0;
+
+	/**
 	 * Status of the request.
 	 */
 	public KeepaAPI.ResponseStatus status = KeepaAPI.ResponseStatus.PENDING;
@@ -72,6 +77,17 @@ public class Response {
 	 * Results of the deals request
 	 */
 	public HashMap<String, Seller> sellers = null;
+
+
+	/**
+	 * Results of get and add tracking operations
+	 */
+	public Tracking[] trackings = null;
+
+	/**
+	 * Results of get and add tracking operations
+	 */
+	public Notification[] notifications = null;
 
 	/**
 	 * Contains information about any error that might have occurred.

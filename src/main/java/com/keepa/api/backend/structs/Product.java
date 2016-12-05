@@ -13,7 +13,7 @@ public final class Product {
 	public String asin = null;
 
 	/**
-	 * The domainId of the products Amazon locale
+	 * The domainId of the products Amazon locale <br>
 	 * {@link AmazonLocale}
 	 */
 	public byte domainId = 0;

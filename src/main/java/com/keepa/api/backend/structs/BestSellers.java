@@ -16,7 +16,7 @@ public class BestSellers {
 	public byte domainId;
 
 	/**
-	 * The category node id used by Amazon. Represents the identifier of the category. Also part of the Product object's categories and rootCategory fields. Always a positive Long value.
+	 * The category node id used by Amazon. Represents the identifier of the category. Also part of the Product object's categories and rootCategory fields. Always a positive Long value or 0 if a product group was used.
 	 */
 	public long categoryId;
 

@@ -90,6 +90,9 @@ public final class KeepaAPI {
 				con.setRequestProperty("User-Agent", this.userAgent);
 				con.setRequestProperty("Connection", "keep-alive");
 				con.setRequestProperty("Accept-Encoding", "gzip");
+				con.setConnectTimeout(40000);
+				con.setReadTimeout(120000);
+				con.setRequestProperty("Accept-Encoding", "gzip");
 				if (r.postData != null) {
 					con.setRequestMethod("POST");
 					con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
