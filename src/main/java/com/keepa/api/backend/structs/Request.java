@@ -118,6 +118,23 @@ public class Request {
 	}
 
 	/**
+	 * Updates the webhook URL our service will call whenever a notification is triggered. The URL can also be updated and tested via the website.
+	 * A push notification will be a HTTP POST call with a single notification object as its content.
+	 * Your server must respond with a status code of 200 to confirm the successful retrieval.
+	 * If delivery fails a second attempt will be made with a 15 seconds delay.
+	 *
+	 * @param url The new webhook URL
+	 * @return A ready to send request.
+	 */
+	public static Request getTrackingWebhookRequest(String url) {
+		Request r = new Request();
+		r.path = "tracking";
+		r.parameter.put("type", "webhook");
+		r.parameter.put("url", url);
+		return r;
+	}
+
+	/**
 	 * Retrieve an ASIN list of the most popular products based on sales in a specific category.
 	 *
 	 * @param domainId Amazon locale of the product {@link AmazonLocale}
