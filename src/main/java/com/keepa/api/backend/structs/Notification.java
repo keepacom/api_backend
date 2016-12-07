@@ -62,4 +62,9 @@ public class Notification {
 	 * States through which notification channels ({@link Tracking.NotificationType}) this notification was delivered.
 	 */
 	public boolean[] sentNotificationVia;
+
+	/**
+	 * The meta data of the tracking.
+	 */
+	public String metaData;
 }
