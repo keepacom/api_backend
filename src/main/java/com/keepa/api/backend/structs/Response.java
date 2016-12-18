@@ -78,7 +78,6 @@ public class Response {
 	 */
 	public HashMap<String, Seller> sellers = null;
 
-
 	/**
 	 * Results of get and add tracking operations
 	 */
@@ -88,6 +87,11 @@ public class Response {
 	 * Results of get and add tracking operations
 	 */
 	public Notification[] notifications = null;
+
+	/**
+	 * A list of ASINs. Result of, but not limited to, the get tracking list operation
+	 */
+	public String[] asinList = null;
 
 	/**
 	 * Contains information about any error that might have occurred.

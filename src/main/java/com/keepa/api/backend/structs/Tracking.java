@@ -57,8 +57,14 @@ public class Tracking {
 	public TrackingNotifyIf[] notifyIf;
 
 	/**
-	 * Determines through which channels we will send notifications.<br>
-	 * Uses NotificationType indexing {@link NotificationType}. True means the channel will be used.
+	 * Determines through which channels we will send notifications.<br>Must be a boolean array with the length of the NotificationType enum.
+	 * Uses NotificationType indexing {@link NotificationType}. True means the channel will be used.<br>
+	 * Our Tracking API currently only supports notifications through push webhooks or API pull request. Other channels will follow soon.<br><br>
+	 * Example: Only notify via API: [ false, false, false, false, false, true, false ]<br>
+	 *   <code>
+	 *     boolean[] notificationType = new boolean[Tracking.NotificationType.values.length];<br>
+	 *     notificationType[Tracking.NotificationType.API.ordinal()] = true;
+	 *   </code>
 	 */
 	public boolean[] notificationType;
 

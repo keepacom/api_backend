@@ -42,10 +42,21 @@ public class Request {
 	 * @return A ready to send request.
 	 */
 	public static Request getTrackingAddRequest(TrackingRequest trackingRequest) {
+		return getTrackingBatchAddRequest(trackingRequest);
+	}
+
+	/**
+	 * Add multiple tracking to your list. Much more efficient than individual additions.
+	 *
+	 * @param trackingRequests The trackingRequests (up to 1000).
+	 * @return A ready to send request.
+	 */
+	public static Request getTrackingBatchAddRequest(TrackingRequest... trackingRequests) {
+		if(trackingRequests.length > 1000) return null;
 		Request r = new Request();
 		r.path = "tracking";
 		r.parameter.put("type", "add");
-		r.postData = gson.toJson(trackingRequest);
+		r.postData = gson.toJson(trackingRequests);
 		return r;
 	}
 
@@ -66,12 +77,15 @@ public class Request {
 	/**
 	 * Get all trackings from your list. If you track a lot of products this may be a resource intensive operation. Use responsibly.
 	 *
+	 * @param asinsOnly Wether or not to only request an ASIN list of tracked products or to return all tracking objects (much larger response).
 	 * @return A ready to send request.
 	 */
-	public static Request getTrackingListRequest() {
+	public static Request getTrackingListRequest(boolean asinsOnly) {
 		Request r = new Request();
 		r.path = "tracking";
 		r.parameter.put("type", "list");
+		if(asinsOnly)
+			r.parameter.put("asins-only", "1");
 		return r;
 	}
 

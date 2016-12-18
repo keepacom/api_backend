@@ -72,6 +72,11 @@ public final class KeepaAPI {
 	final public Promise<Response, Response, Void> sendRequest(Request r) {
 		Deferred<Response, Response, Void> d = new DeferredObject<>();
 
+		if(r == null){
+			d.reject(null);
+			return d.promise();
+		}
+
 		executorDeferred.execute(() -> {
 			long responseTime = System.nanoTime();
 			Response response;
@@ -94,6 +99,7 @@ public final class KeepaAPI {
 				con.setReadTimeout(120000);
 				con.setRequestProperty("Accept-Encoding", "gzip");
 				if (r.postData != null) {
+					System.out.println("post data: " + r.postData.length());
 					con.setRequestMethod("POST");
 					con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
 					con.setDoOutput(true);
