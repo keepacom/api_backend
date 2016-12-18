@@ -99,7 +99,6 @@ public final class KeepaAPI {
 				con.setReadTimeout(120000);
 				con.setRequestProperty("Accept-Encoding", "gzip");
 				if (r.postData != null) {
-					System.out.println("post data: " + r.postData.length());
 					con.setRequestMethod("POST");
 					con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
 					con.setDoOutput(true);
