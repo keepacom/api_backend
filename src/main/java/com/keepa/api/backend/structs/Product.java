@@ -406,7 +406,22 @@ public final class Product {
 		/**
 		 * Refurbished price history including shipping costs.
 		 */
-		REFURBISHED_SHIPPING(27, true, true, true, true);
+		REFURBISHED_SHIPPING(27, true, true, true, true),
+
+		/**
+		 * reserved for future use
+		 */
+		RESERVED1(28, true, false, true, false),
+
+		/**
+		 * reserved for future use
+		 */
+		RESERVED2(29, true, false, true, false),
+
+		/**
+		 * The trade in price history. Amazon trade-in is not available for every locale.
+		 */
+		TRADE_IN(30, true, false, false, false);
 
 		public final int index;
 

@@ -101,7 +101,7 @@ public class Tracking {
 	 * Available notification channels
 	 */
 	public enum NotificationType {
-		EMAIL, TWITTER, FACEBOOK_NOTIFICATION, BROWSER, FACEBOOK_MESSENGER_BOT, API, MOBILE_APP;
+		EMAIL, TWITTER, FACEBOOK_NOTIFICATION, BROWSER, FACEBOOK_MESSENGER_BOT, API, MOBILE_APP, DUMMY;
 		public static final NotificationType[] values = NotificationType.values();
 
 	}

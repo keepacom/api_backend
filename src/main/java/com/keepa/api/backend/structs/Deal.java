@@ -28,26 +28,26 @@ public class Deal {
 	 * The value 0 means it did not change or could not be calculated. First dimension uses the Date Range indexing, second the Price Type indexing.
 	 * <p>First dimension uses {@link Product.CsvType}, second domension {@link DealInterval}</p>
 	 */
-	public int[][] delta = null; // delta to average. negativ = gestiegen!, positiv = gesunken, 0 = gleich geblieben / nicht berechenbar!
+	public int[][] delta = null;
 
 	/**
 	 * Same as {@link #delta}, but given in percent instead of absolute values.
 	 * <p>First dimension uses {@link Product.CsvType}, second domension {@link DealInterval}</p>
 	 */
-	public short[][] deltaPercent = null; // positiv = gesunken, negativ = gestiegen, 0 = gleich geblieben / nicht berechenbar!
+	public short[][] deltaPercent = null;
 
 	/**
 	 * Contains the absolute difference of the current and the previous price / rank. The value 0 means it did not change or could not be calculated.
 	 * <p>Uses {@link Product.CsvType} indexing</p>
 	 */
-	public int[] deltaLast = null; // differenz zum vorherigen wert, negativ = gesunken, ..., 0 = gleich geblieben / nicht berechenbar!
+	public int[] deltaLast = null;
 
 	/**
 	 * Contains the weighted averages in the respective date range and price type.<br>
 	 * <b>Note:</b> The day interval (index 0) is actually the average of the last 48 hours, not 24 hours. This is due to the way our deals work.
 	 * <p>First dimension uses {@link Product.CsvType}, second domension {@link DealInterval}</p>
 	 */
-	public int[][] avg = null; // durchschnittspreis des letzten 3 monats (ggf. kleineres interval)
+	public int[][] avg = null;
 
 	/**
 	 * Contains the prices / ranks of the product of the time we last updated it. Uses the Price Type indexing.
