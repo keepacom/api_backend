@@ -218,6 +218,15 @@ public final class Product {
 	public Offer[] offers = null;
 
 	/**
+	 * Optional field. Only set if the <i>offers</i> parameter was used in the Product Request. <br>
+	 * Contains an ordered array of offer IDs for all Marketplace Offer Objects112 retrieved for this call.<br>
+	 * The sequence of integers reflects the ordering of the offers on the Amazon offer page (for all conditions).<br>
+	 * Since the offers field contains historical offers as well as current offers, one can use this array to look up all offers that are currently listed on Amazon in the correct order.<br><br>
+	 * Example: [ 3, 5, 2, 18, 15 ] - The offer with the offerId 3 is currently the first one listed on the offer listings page on Amazon, followed by the offer with the offerId 5, and so on.
+	 */
+	public int[] liveOffersOrder = null;
+
+	/**
 	 * Optional field. Only set if the offers parameter was used in the Product Request.<br>
 	 * Contains a history of sellerIds that held the Buy Box in the format Keepa time minutes, sellerId, [...].<br>
 	 * If no seller qualified for the Buy Box the sellerId "-1" is used. If it was hold by an unknown seller (a brand new one) the sellerId is "-2".<br>
