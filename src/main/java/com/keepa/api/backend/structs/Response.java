@@ -94,6 +94,11 @@ public class Response {
 	public String[] asinList = null;
 
 	/**
+	 * A list of sellerIds.
+	 */
+	public String[] sellerIdList = null;
+
+	/**
 	 * Contains information about any error that might have occurred.
 	 */
 	public RequestError error = null;

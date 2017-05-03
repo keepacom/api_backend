@@ -234,6 +234,19 @@ public class Request {
 	}
 
 	/**
+	 * Retrieve a Seller ID list of the most rated Amazon marketplace sellers.
+	 *
+	 * @param domainId Amazon locale of the product {@link AmazonLocale}. China is not supported.
+	 * @return A ready to send request.
+	 */
+	public static Request getTrackingGetRequest(final AmazonLocale domainId) {
+		Request r = new Request();
+		r.path = "topseller";
+		r.parameter.put("domain", "" + domainId.ordinal());
+		return r;
+	}
+
+	/**
 	 * Search for Amazon products using keywords with a maximum of 50 results per search term.
 	 *
 	 * @param domainId Amazon locale of the product {@link AmazonLocale}
