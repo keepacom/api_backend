@@ -218,11 +218,13 @@ public final class Product {
 	public Offer[] offers = null;
 
 	/**
-	 * Optional field. Only set if the <i>offers</i> parameter was used in the Product Request. <br>
-	 * Contains an ordered array of offer IDs for all Marketplace Offer Objects112 retrieved for this call.<br>
+	 * Optional field. Only set if the offers parameter was used in the Product Request.<br>
+	 * Contains an ordered array of index positions in the offers array for all Marketplace Offer Objects114 retrieved for this call.<br>
 	 * The sequence of integers reflects the ordering of the offers on the Amazon offer page (for all conditions).<br>
-	 * Since the offers field contains historical offers as well as current offers, one can use this array to look up all offers that are currently listed on Amazon in the correct order.<br><br>
-	 * Example: [ 3, 5, 2, 18, 15 ] - The offer with the offerId 3 is currently the first one listed on the offer listings page on Amazon, followed by the offer with the offerId 5, and so on.
+	 * Since the offers field contains historical offers as well as current offers, one can use this array to <br>
+	 * look up all offers that are currently listed on Amazon in the correct order. <br><br>
+	 * Example: [ 3, 5, 2, 18, 15 ] - The offer with the array index 3 of the offers field is currently the first <br>
+	 *     one listed on the offer listings page on Amazon, followed by the offer with the index 5, and so on.
 	 */
 	public int[] liveOffersOrder = null;
 
