@@ -58,6 +58,34 @@ public class Seller {
 	 */
 	public boolean isScammer;
 
+	/**
+	 * String array containing up to 100,000 storefront ASINs, sorted by freshest first. The corresponding <br>
+	 * time stamps can be found in the <i>asinListLastSeen</i> field. Only available if the <i>storefront</i> parameter was used.<br>
+	 * Example: _["B00M0QVG3W", "B00M4KCH2A"]_
+	 */
+	public String[] asinList;
+
+	/**
+	 *  Contains the last time (in Keepa Time minutes) we were able to verify each ASIN in the _asinList_ field.<br>
+	 *  <i>asinList</i> and <i>asinListLastSeen</i> share the same indexation, so the corresponding time stamp<br>
+	 *  for `asinList[10]` would be `asinListLastSeen[10]`.
+	 *  <p>Use {@link KeepaTime#keepaMinuteToUnixInMillis(int)} (long)} to get an uncompressed timestamp (Unix epoch time).</p>
+	 *  <br>
+	 *  Example: _[2711319, 2711311]_
+	 */
+	public int[] asinListLastSeen;
+
+	/**
+	 *  Contains the total amount of listings of this seller. Includes historical data<br>
+	 *  <i>asinList</i> and <i>asinListLastSeen</i> share the same indexation, so the corresponding time stamp<br>
+	 *  for `asinList[10]` would be `asinListLastSeen[10]`. Only available if the <i>storefront</i> parameter was used and <br>
+	 *  only updated if the <i>update</i> parameter was utilized. Has the format: Keepa Time minutes, count, ...
+	 *  <p>Use {@link KeepaTime#keepaMinuteToUnixInMillis(int)} (long)} to get an uncompressed timestamp (Unix epoch time).</p>
+	 *  <br>
+	 *  Example: _[2711319, 1200, 2711719, 1187]_
+	 */
+	public int[] totalStorefrontAsinsCSV;
+
 	public enum MerchantCsvType {
 		RATING(0, false),
 		RATING_COUNT(1, false);

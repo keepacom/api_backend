@@ -234,6 +234,68 @@ public class Request {
 	}
 
 	/**
+	 * Retrieves the seller object via the seller id. If a seller is not found no tokens will be consumed.
+	 * <p>
+	 * <b>Seller data is not available for Amazon China.</b>
+	 *
+	 * @param domainId   Amazon locale of the product {@link AmazonLocale}
+	 * @param seller     The seller id of the merchant you want to request. For batch requests a comma separated list of sellerIds (up to 100).
+	 *                   The seller id is part of the offer object and can also be found on Amazon on seller profile pages in the seller parameter of the URL.
+	 *                   Example: A2L77EE7U53NWQ (Amazon.com Warehouse Deals)
+	 * @param storefront Valid values: 0 (false) and 1 (true). If specified the seller object will contain additional information about what items the seller is listing on Amazon.
+	 *                   This includes a list of ASINs as well as the total amount of items the seller has listed.
+	 *                   The following seller object fields will be set if data is available: asinList, asinListLastSeen.
+	 *                   If no data is available no additional tokens will be consumed. The ASIN list can contain up to 100,000 items.
+	 *                   As using the storefront parameter does not trigger any new collection it does not increase the processing time
+	 *                   of the request, though the response may be much bigger in size.
+	 * @return A ready to send request.
+	 */
+	public static Request getSellerRequest(final AmazonLocale domainId, String seller, boolean storefront) {
+		Request r = new Request();
+		r.path = "seller";
+		r.parameter.put("domain", "" + domainId.ordinal());
+		r.parameter.put("seller", seller);
+
+		if (storefront)
+			r.parameter.put("storefront", "1");
+
+		return r;
+	}
+
+	/**
+	 * Retrieves the seller object via the seller id. If a seller is not found no tokens will be consumed.
+	 * <p>
+	 * <b>Seller data is not available for Amazon China.</b>
+	 *
+	 * @param domainId   Amazon locale of the product {@link AmazonLocale}
+	 * @param seller     The seller id of the merchant you want to request. For batch requests a comma separated list of sellerIds (up to 100).
+	 *                   The seller id is part of the offer object and can also be found on Amazon on seller profile pages in the seller parameter of the URL.
+	 *                   Example: A2L77EE7U53NWQ (Amazon.com Warehouse Deals)
+	 * @param storefront Valid values: 0 (false) and 1 (true). If specified the seller object will contain additional information about what items the seller is listing on Amazon.
+	 *                   This includes a list of ASINs as well as the total amount of items the seller has listed.
+	 *                   The following seller object fields will be set if data is available: asinList, asinListLastSeen.
+	 *                   If no data is available no additional tokens will be consumed. The ASIN list can contain up to 100,000 items.
+	 *                   As using the storefront parameter does not trigger any new collection it does not increase the processing time
+	 *                   of the request, though the response may be much bigger in size.
+	 * @param update     Positive integer value. If the last live data collection from the Amazon storefront page is older than update hours force a new collection. Use this parameter in conjunction with the
+	 *                   storefront parameter. Token cost will only be applied if a new collection is triggered.
+	 * @return A ready to send request.
+	 */
+	public static Request getSellerRequest(final AmazonLocale domainId, String seller, boolean storefront, int update) {
+		Request r = new Request();
+		r.path = "seller";
+		r.parameter.put("domain", "" + domainId.ordinal());
+		r.parameter.put("seller", seller);
+		if (update >= 0)
+			r.parameter.put("update", "" + update);
+
+		if (storefront || update >= 0)
+			r.parameter.put("storefront", "1");
+
+		return r;
+	}
+
+	/**
 	 * Retrieve a Seller ID list of the most rated Amazon marketplace sellers.
 	 *
 	 * @param domainId Amazon locale of the product {@link AmazonLocale}. China is not supported.
