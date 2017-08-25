@@ -30,13 +30,25 @@ public final class Product {
 
 	/**
 	 * The UPC of the product. Caution: leading zeros are truncated.
+	 * @deprecated use first upcList entry instead.
 	 */
 	public long upc = 0;
 
 	/**
 	 * The EAN of the product. Caution: leading zeros are truncated.
+	 * @deprecated use first eanList entry instead.
 	 */
 	public long ean = 0;
+
+	/**
+	 * A list of UPC assigned to this product. The first index is the primary UPC. null if not available.
+	 */
+	public String[] upcList = null;
+
+	/**
+	 * A list of EAN assigned to this product. The first index is the primary EAN. null if not available.
+	 */
+	public String[] eanList = null;
 
 	/**
 	 * The manufacturer’s part number.
@@ -254,6 +266,11 @@ public final class Product {
 	 * Only valid if the offers parameter was used in the Product Request. Boolean indicating if the system was able to retrieve fresh offer information.
 	 */
 	public boolean offersSuccessful = false;
+
+	/**
+	 * One or two “Frequently Bought Together” ASINs. null if not available. Field is updated when the offers parameter was used.
+	 */
+	public String[] frequentlyBoughtTogether = null;
 
 	/**
 	 * Integer[][] - two dimensional price history array.<br>
