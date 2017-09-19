@@ -394,8 +394,8 @@ public class Request {
 		if (stats == null) {
 			return getProductRequest(domainId, offers, null, null, update, history, asins);
 		} else {
-			int now = KeepaTime.nowMinutes();
-			return getProductRequest(domainId, offers, "" + (now - (stats * 24 * 60)), "" + now, update, history, asins);
+			long now = System.currentTimeMillis();
+			return getProductRequest(domainId, offers, "" + (now - (stats * 24 * 60 * 60 * 1000L)), "" + now, update, history, asins);
 		}
 	}
 
