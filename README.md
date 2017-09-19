@@ -47,6 +47,31 @@ Maven
 </dependencies>
 ```
 
+Gradle
+-----
+```xml
+repositories {
+  ...
+  maven { url 'https://keepa.com/maven/' }
+}
+dependencies {
+  ...
+  compile 'com.keepa.api:backend:latest.release'
+}
+
+Also consider to add
+
+configurations.all {
+    resolutionStrategy {
+        cacheDynamicVersionsFor 0, 'seconds'
+        cacheChangingModulesFor 0, 'seconds'
+    }
+}
+
+Which makes sure that the newest version from our servers is pulled during build.
+```
+
+
 <a name="examples"></a>Quick Example
 ==============
 
