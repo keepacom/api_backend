@@ -42,6 +42,15 @@ public final class KeepaAPI {
 	 * @param threads Thread pool size determines degree of asynchronization. Higher thread count allows more requests in parallel to be made. Default 4
 	 */
 	public KeepaAPI(String key, int threads) {
+		this(key, Executors.newFixedThreadPool(threads, new BasicNameFactory("KeepaAPI-%d")), Executors.newFixedThreadPool(threads, new BasicNameFactory("KeepaAPI-RetryScheduler")));
+	}
+
+	/**
+	 * @param key     Your private API Access Token
+	 * @param executorRetry provide a custom executor service for request retry attempts
+	 * @param executorDeferred provide a custom executor service for deferred request processing
+	 */
+	public KeepaAPI(String key, ExecutorService executorRetry, ExecutorService executorDeferred) {
 		this.accessKey = key;
 		String apiVersion = getClass().getPackage().getImplementationVersion();
 		if (apiVersion != null) {
@@ -50,8 +59,8 @@ public final class KeepaAPI {
 			userAgent = "KEEPA-JAVA Framework-";
 		}
 
-		executorDeferred = Executors.newFixedThreadPool(threads, new BasicNameFactory("KeepaAPI-%d"));
-		executorRetry = Executors.newFixedThreadPool(threads, new BasicNameFactory("KeepaAPI-RetryScheduler"));
+		this.executorDeferred = executorDeferred;
+		this.executorRetry = executorRetry;
 	}
 
 	/**
@@ -61,6 +70,19 @@ public final class KeepaAPI {
 		this(key, 4);
 	}
 
+	/**
+	*  Shutdown internal executor services (thread pools)
+	*  @param shutdownNow if true issue a shutdownNow()
+	*/
+	public void shutdown(boolean shutdownNow) {
+		if(shutdownNow){
+			executorDeferred.shutdownNow();
+			executorRetry.shutdownNow();
+		} else {
+			executorDeferred.shutdown();
+			executorRetry.shutdown();
+		}
+	}
 
 	/**
 	 * Issue a request to the Keepa Price Data API.

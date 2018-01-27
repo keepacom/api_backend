@@ -235,8 +235,10 @@ public final class Product {
 	 * The sequence of integers reflects the ordering of the offers on the Amazon offer page (for all conditions).<br>
 	 * Since the offers field contains historical offers as well as current offers, one can use this array to <br>
 	 * look up all offers that are currently listed on Amazon in the correct order. <br><br>
-	 * Example: [ 3, 5, 2, 18, 15 ] - The offer with the array index 3 of the offers field is currently the first <br>
-	 *     one listed on the offer listings page on Amazon, followed by the offer with the index 5, and so on.
+	 * Example:<br> [ 3, 5, 2, 18, 15 ] - The offer with the array index 3 of the offers field is currently the first <br>
+	 *     one listed on the offer listings page on Amazon, followed by the offer with the index 5, and so on.<br><br>
+	 * Example with duplicates:<br> [ 3, 5, 2, 18, 5 ] - The second offer, as listed on Amazon, is a lower priced duplicate <br>
+	 *     of the 6th offer on Amazon. The lower priced one is included in the offers field at index 5.
 	 */
 	public int[] liveOffersOrder = null;
 
