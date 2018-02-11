@@ -24,7 +24,7 @@ public class Deal {
 	public String title = null;
 
 	/**
-	 * Contains the absolute difference between the current value and the one at the beginning of the respective date range interval.
+	 * Contains the absolute difference between the current value and the average value of the respective date range interval.
 	 * The value 0 means it did not change or could not be calculated. First dimension uses the Date Range indexing, second the Price Type indexing.
 	 * <p>First dimension uses {@link Product.CsvType}, second domension {@link DealInterval}</p>
 	 */
