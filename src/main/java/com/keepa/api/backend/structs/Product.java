@@ -158,6 +158,25 @@ public final class Product {
 	public String format = null;
 
 	/**
+	 * A list of the product features / bullet points. null if not available. <br>
+	 * An entry can contain HTML markup in rare cases. We currently limit each entry to a maximum of 1000 characters<br>
+	 * (if the feature is longer it will be cut off). This limitation may change in the future without prior notice.
+	 */
+	public String[] features = null;
+
+	/**
+	 * A description of the product. null if not available. Most description contain HTML markup.<br>
+	 * We limit the product description to a maximum of 2000 characters (if the description is<br>
+	 * longer it will be cut off). This limitation may change in the future without prior notice.
+	 */
+	public String description = null;
+
+	/**
+	 * The item's format. null if not available.
+	 */
+	public HazardousMaterialType hazardousMaterialType = null;
+
+	/**
 	 * The package's height in millimeter. 0 or -1 if not available.
 	 */
 	public int packageHeight = -1;
@@ -547,6 +566,42 @@ public final class Product {
 		}
 	}
 
+	public enum HazardousMaterialType {
+		ORM_D_Class("ORM-D Class"),
+		ORM_D_Class_1("ORM-D Class 1"),
+		ORM_D_Class_2("ORM-D Class 2"),
+		ORM_D_Class_3("ORM-D Class 3"),
+		ORM_D_Class_4("ORM-D Class 4"),
+		ORM_D_Class_5("ORM-D Class 5"),
+		ORM_D_Class_6("ORM-D Class 6"),
+		ORM_D_Class_7("ORM-D Class 7"),
+		ORM_D_Class_8("ORM-D Class 8"),
+		ORM_D_Class_9("ORM-D Class 9"),
+		Butane("Butane"),
+		Fuel_cell("Fuel cell"),
+		Gasoline("Gasoline"),
+		Sealed_Lead_Acid_Battery("Sealed Lead Acid Battery");
+
+		public final String type;
+		public static final HazardousMaterialType[] values = HazardousMaterialType.values();
+
+		HazardousMaterialType(String a) {
+			type = a;
+		}
+
+		public static HazardousMaterialType fromValue(int value) throws IllegalArgumentException {
+			try {
+				return HazardousMaterialType.values[value];
+			} catch (ArrayIndexOutOfBoundsException e) {
+				throw new IllegalArgumentException("Unknown enum value: " + value);
+			}
+		}
+
+		@Override
+		public String toString() {
+			return type;
+		}
+	}
 
 	@Override
 	public String toString() {
