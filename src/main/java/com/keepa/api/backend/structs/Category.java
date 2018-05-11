@@ -30,7 +30,17 @@ public final class Category {
 	 * The parent category's Id. Always a positive Long value. If it is 0 the category is a root category and has no parent category.
 	 */
 	public long parent;
-
+	
+	/**
+	 * The highest (root category) sales rank we have observed of a product that is listed in this category. Note: Estimate, as the value is from the Keepa product database and not retrieved from Amazon.
+	 */
+	public long highestRank;
+	
+	/**
+	 * Number of products that are listed in this category. Note: Estimate, as the value is from the Keepa product database and not retrieved from Amazon.
+	 */
+	public long productCount;
+	
 
 	@Override
 	public String toString() {
