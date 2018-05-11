@@ -212,7 +212,7 @@ public final class Product {
 	public boolean isEligibleForTradeIn = false;
 
 	/**
-	 * Whether or not the product has reviews.
+	 * Whether or not the product is eligible for super saver shipping by Amazon (not FBA).
 	 */
 	public boolean isEligibleForSuperSaverShipping = false;
 

@@ -34,12 +34,12 @@ public final class Category {
 	/**
 	 * The highest (root category) sales rank we have observed of a product that is listed in this category. Note: Estimate, as the value is from the Keepa product database and not retrieved from Amazon.
 	 */
-	public long highestRank;
+	public int highestRank;
 	
 	/**
 	 * Number of products that are listed in this category. Note: Estimate, as the value is from the Keepa product database and not retrieved from Amazon.
 	 */
-	public long productCount;
+	public int productCount;
 	
 
 	@Override
