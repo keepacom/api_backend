@@ -19,7 +19,7 @@ public class Request {
 	public String path;
 
 	public Request() {
-		parameter = new HashMap(20);
+		parameter = new HashMap<>(20);
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class Request {
 	public static Request getTrackingNotificationRequest(int since, boolean revise) {
 		Request r = new Request();
 		r.path = "tracking";
-		r.parameter.put("since", "" + since);
+		r.parameter.put("since", String.valueOf(since));
 		r.parameter.put("revise", revise ? "1" : "0");
 		r.parameter.put("type", "notification");
 		return r;
@@ -169,8 +169,8 @@ public class Request {
 	public static Request getBestSellersRequest(final AmazonLocale domainId, String productGroup) {
 		Request r = new Request();
 		r.path = "bestsellers";
-		r.parameter.put("category", "" + productGroup);
-		r.parameter.put("domain", "" + domainId.ordinal());
+		r.parameter.put("category", productGroup);
+		r.parameter.put("domain", String.valueOf(domainId.ordinal()));
 		return r;
 	}
 
@@ -185,8 +185,8 @@ public class Request {
 	public static Request getCategoryLookupRequest(final AmazonLocale domainId, boolean parents, long category) {
 		Request r = new Request();
 		r.path = "category";
-		r.parameter.put("category", "" + category);
-		r.parameter.put("domain", "" + domainId.ordinal());
+		r.parameter.put("category", String.valueOf(category));
+		r.parameter.put("domain", String.valueOf(domainId.ordinal()));
 
 		if (parents)
 			r.parameter.put("parents", "1");
@@ -205,7 +205,7 @@ public class Request {
 	public static Request getCategorySearchRequest(final AmazonLocale domainId, String term, boolean parents) {
 		Request r = new Request();
 		r.path = "search";
-		r.parameter.put("domain", "" + domainId.ordinal());
+		r.parameter.put("domain", String.valueOf(domainId.ordinal()));
 		r.parameter.put("type", "category");
 		r.parameter.put("term", term);
 
@@ -228,7 +228,7 @@ public class Request {
 	public static Request getSellerRequest(final AmazonLocale domainId, String... seller) {
 		Request r = new Request();
 		r.path = "seller";
-		r.parameter.put("domain", "" + domainId.ordinal());
+		r.parameter.put("domain", String.valueOf(domainId.ordinal()));
 		r.parameter.put("seller", arrayToCsv(seller));
 		return r;
 	}
@@ -253,7 +253,7 @@ public class Request {
 	public static Request getSellerRequest(final AmazonLocale domainId, String seller, boolean storefront) {
 		Request r = new Request();
 		r.path = "seller";
-		r.parameter.put("domain", "" + domainId.ordinal());
+		r.parameter.put("domain", String.valueOf(domainId.ordinal()));
 		r.parameter.put("seller", seller);
 
 		if (storefront)
@@ -284,10 +284,10 @@ public class Request {
 	public static Request getSellerRequest(final AmazonLocale domainId, String seller, boolean storefront, int update) {
 		Request r = new Request();
 		r.path = "seller";
-		r.parameter.put("domain", "" + domainId.ordinal());
+		r.parameter.put("domain", String.valueOf(domainId.ordinal()));
 		r.parameter.put("seller", seller);
 		if (update >= 0)
-			r.parameter.put("update", "" + update);
+			r.parameter.put("update", String.valueOf(update));
 
 		if (storefront || update >= 0)
 			r.parameter.put("storefront", "1");
@@ -304,7 +304,7 @@ public class Request {
 	public static Request getTopSellerRequest(final AmazonLocale domainId) {
 		Request r = new Request();
 		r.path = "topseller";
-		r.parameter.put("domain", "" + domainId.ordinal());
+		r.parameter.put("domain", String.valueOf(domainId.ordinal()));
 		return r;
 	}
 
@@ -319,12 +319,12 @@ public class Request {
 	public static Request getProductSearchRequest(final AmazonLocale domainId, String term, Integer stats) {
 		Request r = new Request();
 		r.path = "search";
-		r.parameter.put("domain", "" + domainId.ordinal());
+		r.parameter.put("domain", String.valueOf(domainId.ordinal()));
 		r.parameter.put("type", "product");
 		r.parameter.put("term", term);
 
 		if (stats != null && stats > 0)
-			r.parameter.put("stats", "" + stats);
+			r.parameter.put("stats", String.valueOf(stats));
 
 		return r;
 	}
@@ -343,15 +343,15 @@ public class Request {
 	public static Request getProductSearchRequest(final AmazonLocale domainId, String term, Integer stats, int update, boolean history, boolean asinsOnly) {
 		Request r = new Request();
 		r.path = "search";
-		r.parameter.put("domain", "" + domainId.ordinal());
+		r.parameter.put("domain", String.valueOf(domainId.ordinal()));
 		r.parameter.put("type", "product");
 		r.parameter.put("term", term);
-		r.parameter.put("update", "" + update);
+		r.parameter.put("update", String.valueOf(update));
 		r.parameter.put("history", history ? "1" : "0");
 		r.parameter.put("asins-only", asinsOnly ? "1" : "0");
 
 		if (stats != null && stats > 0)
-			r.parameter.put("stats", "" + stats);
+			r.parameter.put("stats", String.valueOf(stats));
 
 		return r;
 	}
@@ -369,12 +369,12 @@ public class Request {
 		Request r = new Request();
 		r.path = "product";
 		r.parameter.put("asin", arrayToCsv(asins));
-		r.parameter.put("domain", "" + domainId.ordinal());
+		r.parameter.put("domain", String.valueOf(domainId.ordinal()));
 		if (stats != null && stats > 0)
-			r.parameter.put("stats", "" + stats);
+			r.parameter.put("stats", String.valueOf(stats));
 
 		if (offers != null && offers > 0)
-			r.parameter.put("offers", "" + offers);
+			r.parameter.put("offers", String.valueOf(offers));
 
 		return r;
 	}
@@ -392,12 +392,12 @@ public class Request {
 		Request r = new Request();
 		r.path = "product";
 		r.parameter.put("code", arrayToCsv(codes));
-		r.parameter.put("domain", "" + domainId.ordinal());
+		r.parameter.put("domain", String.valueOf(domainId.ordinal()));
 		if (stats != null && stats > 0)
-			r.parameter.put("stats", "" + stats);
+			r.parameter.put("stats", String.valueOf(stats));
 
 		if (offers != null && offers > 0)
-			r.parameter.put("offers", "" + offers);
+			r.parameter.put("offers", String.valueOf(offers));
 
 		return r;
 	}
@@ -418,7 +418,7 @@ public class Request {
 			return getProductRequest(domainId, offers, null, null, update, history, asins);
 		} else {
 			long now = System.currentTimeMillis();
-			return getProductRequest(domainId, offers, "" + (now - (stats * 24 * 60 * 60 * 1000L)), "" + now, update, history, asins);
+			return getProductRequest(domainId, offers, String.valueOf((now - (stats * 24 * 60 * 60 * 1000L))), String.valueOf(now), update, history, asins);
 		}
 	}
 
@@ -438,7 +438,7 @@ public class Request {
 			return getProductByCodeRequest(domainId, offers, null, null, update, history, codes);
 		} else {
 			long now = System.currentTimeMillis();
-			return getProductByCodeRequest(domainId, offers, "" + (now - (stats * 24 * 60 * 60 * 1000L)), "" + now, update, history, codes);
+			return getProductByCodeRequest(domainId, offers, String.valueOf((now - (stats * 24 * 60 * 60 * 1000L))), String.valueOf(now), update, history, codes);
 		}
 	}
 
@@ -458,7 +458,7 @@ public class Request {
 		if (statsStartDate == null) {
 			return getProductRequest(domainId, offers, null, null, update, history, asins);
 		} else {
-			return getProductRequest(domainId, offers, "" + statsStartDate, "" + statsEndDate,  update, history, asins);
+			return getProductRequest(domainId, offers, String.valueOf(statsStartDate), String.valueOf(statsEndDate),  update, history, asins);
 		}
 	}
 
@@ -479,7 +479,7 @@ public class Request {
 		if (statsStartDate == null) {
 			return getProductByCodeRequest(domainId, offers, null, null, update, history, codes);
 		} else {
-			return getProductByCodeRequest(domainId, offers, "" + statsStartDate, "" + statsEndDate,  update, history, codes);
+			return getProductByCodeRequest(domainId, offers, String.valueOf(statsStartDate), String.valueOf(statsEndDate),  update, history, codes);
 		}
 	}
 
@@ -499,15 +499,15 @@ public class Request {
 		Request r = new Request();
 		r.path = "product";
 		r.parameter.put("asin", arrayToCsv(asins));
-		r.parameter.put("domain", "" + domainId.ordinal());
-		r.parameter.put("update", "" + update);
+		r.parameter.put("domain", String.valueOf(domainId.ordinal()));
+		r.parameter.put("update", String.valueOf(update));
 		r.parameter.put("history", history ? "1" : "0");
 
 		if (statsStartDate != null && statsEndDate != null)
 			r.parameter.put("stats", statsStartDate + "," + statsEndDate);
 
 		if (offers != null && offers > 0)
-			r.parameter.put("offers", "" + offers);
+			r.parameter.put("offers", String.valueOf(offers));
 
 		return r;
 	}
@@ -528,15 +528,15 @@ public class Request {
 		Request r = new Request();
 		r.path = "product";
 		r.parameter.put("code", arrayToCsv(codes));
-		r.parameter.put("domain", "" + domainId.ordinal());
-		r.parameter.put("update", "" + update);
+		r.parameter.put("domain", String.valueOf(domainId.ordinal()));
+		r.parameter.put("update", String.valueOf(update));
 		r.parameter.put("history", history ? "1" : "0");
 
 		if (statsStartDate != null && statsEndDate != null)
 			r.parameter.put("stats", statsStartDate + "," + statsEndDate);
 
 		if (offers != null && offers > 0)
-			r.parameter.put("offers", "" + offers);
+			r.parameter.put("offers", String.valueOf(offers));
 
 		return r;
 	}
