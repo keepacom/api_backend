@@ -294,6 +294,16 @@ public final class Product {
 	public String[] frequentlyBoughtTogether = null;
 
 	/**
+	 * Contains current promotions for this product. Only Amazon US promotions by Amazon (not 3rd party) are collected. In rare cases data can be incomplete.
+	 */
+	public PromotionObject[] promotions = null;
+
+	/**
+	 * Whether or not the current new price is MAP restricted. Can be used to differentiate out of stock vs. MAP restricted prices (as in both cases the current price is -1).
+	 */
+	public boolean newPriceIsMAP = false;
+
+	/**
 	 * Integer[][] - two dimensional price history array.<br>
 	 * First dimension: {@link Product.CsvType}<br>
 	 * Second dimension:<br>
@@ -470,7 +480,12 @@ public final class Product {
 		/**
 		 * The trade in price history. Amazon trade-in is not available for every locale.
 		 */
-		TRADE_IN(30, true, false, false, false);
+		TRADE_IN(30, true, false, false, false),
+
+		/**
+		 * Rental price history. Requires use of the rental and offers parameter. Amazon Rental is only available for Amazon US.
+		 */
+		RENT(31, true, false, false, true);
 
 		public final int index;
 
@@ -603,8 +618,40 @@ public final class Product {
 		}
 	}
 
+	public static class PromotionObject {
+		public PromotionType type = null;
+		public String eligibilityRequirementDescription = null;
+		public String benefitDescription = null;
+		public String promotionId = null;
+	}
+
+	public enum PromotionType {
+		BuyAmountXGetAmountOffX("BuyAmountXGetAmountOffX"),
+		BuyAmountXGetPercentOffX("BuyAmountXGetPercentOffX"),
+		BuyAmountXGetSimpleShippingFreeX("BuyAmountXGetSimpleShippingFreeX"),
+		BuyQuantityXGetAmountOffX("BuyQuantityXGetAmountOffX"),
+		BuyQuantityXGetPercentOffX("BuyQuantityXGetPercentOffX"),
+		BuyQuantityXGetQuantityFreeX("BuyQuantityXGetQuantityFreeX"),
+		ForEachQuantityXGetAmountOffX("ForEachQuantityXGetAmountOffX"),
+		DiscountCheapestNofM("DiscountCheapestNofM"),
+		BuyQuantityXGetQuantityFreeGiftCard("BuyQuantityXGetQuantityFreeGiftCard"),
+		BuyQuantityXGetSimpleShippingFreeX("BuyQuantityXGetSimpleShippingFreeX");
+
+		public final String type;
+
+		PromotionType(String name) {
+			type = name;
+		}
+
+		public String toString() {
+			return type;
+		}
+	}
+
 	@Override
 	public String toString() {
 		return gson.toJson(this);
 	}
+
+
 }
