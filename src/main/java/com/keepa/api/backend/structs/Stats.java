@@ -88,6 +88,14 @@ public class Stats {
 	public int[] outOfStockPercentageInInterval = null;
 
 	/**
+	 * Contains the 90 day out of stock percentage<br>
+	 * <p>Uses {@link Product.CsvType} indexing.</p>
+	 * It has the value -1 if there is insufficient data or the CsvType is not a price.<br>
+	 * <p>Examples: 0 = never was out of stock, 100 = was out of stock 100% of the time, 25 = was out of stock 25% of the time</p>
+	 */
+	public int[] outOfStockPercentage90 = null;
+
+	/**
 	 * Can be used to identify past, upcoming and current lightning deal offers.
 	 * Has the format [startDate, endDate] (if not null, always array length 2). *null* if the product never had a lightning deal. Both timestamps are in UTC and Keepa time minutes.
 	 * If there is a upcoming lightning deal, only startDate is be set (endDate has value -1)

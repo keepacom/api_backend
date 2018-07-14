@@ -34,14 +34,24 @@ public class Response {
 	public int refillRate = 0;
 
 	/**
-	 * time the request took, in milliseconds
+	 * total time the request took (local, including latencies and connection establishment), in milliseconds
 	 */
 	public long requestTime = 0;
+
+	/**
+	 * time the request's processing took (remote), in milliseconds
+	 */
+	public int processingTimeInMs = 0;
 
 	/**
 	 * Token flow reduction
 	 */
 	public double tokenFlowReduction = 0;
+
+	/**
+	 * Tokens used for call
+	 */
+	public int tokensConsumed = 0;
 
 	/**
 	 * Status of the request.
@@ -102,6 +112,11 @@ public class Response {
 	 * Contains information about any error that might have occurred.
 	 */
 	public RequestError error = null;
+
+	/**
+	 * Contains request specific additional output.
+	 */
+	public String additional = null;
 
 	static public Response REQUEST_FAILED = new Response();
 	static public Response REQUEST_REJECTED = new Response();

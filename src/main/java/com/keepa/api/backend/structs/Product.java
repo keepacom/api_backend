@@ -158,6 +158,58 @@ public final class Product {
 	public String format = null;
 
 	/**
+	 * The item’s author. null if not available.
+	 */
+	public String author = null;
+
+	/**
+	 * The item’s binding. null if not available. If the item is not a book it is usually the product category instead.
+	 */
+	public String binding = null;
+
+	/**
+	 * The number of items of this product. -1 if not available.
+	 */
+	public int numberOfItems = -1;
+
+	/**
+	 * The number of pages of this product. -1 if not available.
+	 */
+	public int numberOfPages = -1;
+
+	/**
+	 * The item’s publication date in one of the following three formats:<br>
+	 * YYYY or YYYYMM or YYYYMMDD (Y= year, M = month, D = day)<br>
+	 * -1 if not available.<br><br>
+	 * Examples:<br>
+	 * 1978 = the year 1978<br>
+	 * 200301 = January 2003<br>
+	 * 20150409 = April 9th, 2015
+	 */
+	public int publicationDate = -1;
+
+	/**
+	 * The item’s release date in one of the following three formats:<br>
+	 * YYYY or YYYYMM or YYYYMMDD (Y= year, M = month, D = day)<br>
+	 * -1 if not available.<br><br>
+	 * Examples:<br>
+	 * 1978 = the year 1978<br>
+	 * 200301 = January 2003<br>
+	 * 20150409 = April 9th, 2015
+	 */
+	public int releaseDate = -1;
+
+	/**
+	 * An item can have one or more languages. Each language entry has a name and a type.
+	 * Some also have an audio format. null if not available.<br><br>
+	 * Examples:<br>
+	 * [ [ “English”, “Published” ], [ “English”, “Original Language” ] ]<br>
+	 * With audio format:<br>
+	 * [ [ “Englisch”, “Originalsprache”, “DTS-HD 2.0” ], [ “Deutsch”, null, “DTS-HD 2.0” ] ]
+	 */
+	public String[][] languages = null;
+
+	/**
 	 * A list of the product features / bullet points. null if not available. <br>
 	 * An entry can contain HTML markup in rare cases. We currently limit each entry to a maximum of 1000 characters<br>
 	 * (if the feature is longer it will be cut off). This limitation may change in the future without prior notice.
@@ -202,6 +254,14 @@ public final class Product {
 	public int packageQuantity = -1;
 
 	/**
+	 * Contains the lowest priced matching eBay listing Ids.
+	 * Always contains two entries, the first one is the listing id of the lowest priced listing in new condition,
+	 * the second in used condition. null or 0 if not available.<br>
+	 * Example: [ 273344490183, 0 ]
+	 */
+	public long[] ebayListingIds = null;
+
+	/**
 	 * Indicates if the item is considered to be for adults only.
 	 */
 	public boolean isAdultProduct = false;
@@ -226,7 +286,19 @@ public final class Product {
 	 * States the last time we have registered a price change (any price kind), in Keepa Time minutes.<br>
 	 * Use {@link KeepaTime#keepaMinuteToUnixInMillis(int)} to get an uncompressed timestamp (Unix epoch time).
 	 */
-	public int lastPriceChange = 0; // minutes Keepa Epoch
+	public int lastPriceChange = 0;
+
+	/**
+	 * States the last time we have updated the eBay prices for this product, in Keepa Time minutes.<br>
+	 * Use {@link KeepaTime#keepaMinuteToUnixInMillis(int)} (long)} to get an uncompressed timestamp (Unix epoch time).
+	 */
+	public int lastEbayUpdate = 0;
+
+	/**
+	 * States the last time we have updated the product rating and review count, in Keepa Time minutes.<br>
+	 * Use {@link KeepaTime#keepaMinuteToUnixInMillis(int)} (long)} to get an uncompressed timestamp (Unix epoch time).
+	 */
+	public int lastRatingUpdate = 0;
 
 	/**
 	 * Keepa product type {@link Product.ProductType}. Must always be evaluated first.
@@ -297,6 +369,19 @@ public final class Product {
 	 * Contains current promotions for this product. Only Amazon US promotions by Amazon (not 3rd party) are collected. In rare cases data can be incomplete.
 	 */
 	public PromotionObject[] promotions = null;
+
+	/**
+	 * Contains coupon details if any are available for the product. null if not available.
+	 * Integer array with always two entries: The first entry is the discount of a one time coupon, the second is a subscribe and save coupon.
+	 * Entry value is either 0 if no coupon of that type is offered, positive for an absolute discount or negative for a percentage discount.
+	 * The coupons field is always accessible, but only updated if the offers parameter was used in the Product Request.
+	 * <p>Example:<br>
+	 * 		[ 200, -15 ] - Both coupon types available: $2 one time discount or 15% for subscribe and save.<br>
+	 *      [ -7, 0 ] - Only one time coupon type is available offering a 7% discount.
+	 * </p>
+	 */
+	public int[] coupon = null;
+
 
 	/**
 	 * Whether or not the current new price is MAP restricted. Can be used to differentiate out of stock vs. MAP restricted prices (as in both cases the current price is -1).
@@ -468,14 +553,14 @@ public final class Product {
 		REFURBISHED_SHIPPING(27, true, true, true, true),
 
 		/**
-		 * reserved for future use
+		 * price history of the lowest new price on the respective eBay locale, including shipping costs.
 		 */
-		RESERVED1(28, true, false, true, false),
+		EBAY_NEW_SHIPPING(28, true, false, true, false),
 
 		/**
-		 * reserved for future use
+		 * price history of the lowest used price on the respective eBay locale, including shipping costs.
 		 */
-		RESERVED2(29, true, false, true, false),
+		EBAY_USED_SHIPPING(29, true, false, true, false),
 
 		/**
 		 * The trade in price history. Amazon trade-in is not available for every locale.
@@ -619,9 +704,11 @@ public final class Product {
 	}
 
 	public static class PromotionObject {
+		/**  The type of promotion **/
 		public PromotionType type = null;
 		public String eligibilityRequirementDescription = null;
 		public String benefitDescription = null;
+		/** unique Id of this promotion. **/
 		public String promotionId = null;
 	}
 
