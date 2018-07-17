@@ -100,7 +100,7 @@ public class Stats {
 	 * Has the format [startDate, endDate] (if not null, always array length 2). *null* if the product never had a lightning deal. Both timestamps are in UTC and Keepa time minutes.
 	 * If there is a upcoming lightning deal, only startDate is be set (endDate has value -1)
 	 * If there is a current lightning deal, both startDate and endDate will be set. startDate will be older than the current time, but endDate will be a future date.
-	 * If there is only a past deal, both startDate and endDate will be set but be the past.
+	 * If there is only a past deal, both startDate and endDate will be set in the past.
 	 * Use {@link KeepaTime#keepaMinuteToUnixInMillis(int)} (long)} to get an uncompressed timestamp (Unix epoch time).
 	 */
 	public int[] lightningDealInfo = null; // [startDate, endDate], or null
