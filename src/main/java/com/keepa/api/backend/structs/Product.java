@@ -168,6 +168,11 @@ public final class Product {
 	public String binding = null;
 
 	/**
+	 * The item’s binding. null if not available. If the item is not a book it is usually the product category instead.
+	 */
+	public CategoryTreeEntry[] categoryTree = null;
+
+	/**
 	 * The number of items of this product. -1 if not available.
 	 */
 	public int numberOfItems = -1;
@@ -664,6 +669,11 @@ public final class Product {
 		public String toString() {
 			return String.valueOf(code);
 		}
+	}
+
+	public class CategoryTreeEntry {
+		public long catId;
+		public String name;
 	}
 
 	public enum HazardousMaterialType {
