@@ -130,11 +130,6 @@ public class Offer {
 	public boolean isFBA;
 
 	/**
-	 * Indicating whether or not our system identified that the offering merchant attempts to scam users.
-	 */
-	public boolean isCustomizeable;
-
-	/**
 	 * A Prime exclusive offer can only be ordered if the buyer has an active Prime subscription.
 	 */
 	public boolean isPrimeExcl;
