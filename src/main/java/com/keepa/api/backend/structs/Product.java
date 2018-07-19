@@ -295,6 +295,7 @@ public final class Product {
 
 	/**
 	 * States the last time we have updated the eBay prices for this product, in Keepa Time minutes.<br>
+	 * If no matching products were found the integer is negative.<br>
 	 * Use {@link KeepaTime#keepaMinuteToUnixInMillis(int)} (long)} to get an uncompressed timestamp (Unix epoch time).
 	 */
 	public int lastEbayUpdate = 0;
@@ -374,6 +375,11 @@ public final class Product {
 	 * Contains current promotions for this product. Only Amazon US promotions by Amazon (not 3rd party) are collected. In rare cases data can be incomplete.
 	 */
 	public PromotionObject[] promotions = null;
+
+	/**
+	 * Availability of the Amazon offer {@link Product.AvailabilityType}.
+	 */
+	public int availabilityAmazon = -1;
 
 	/**
 	 * Contains coupon details if any are available for the product. null if not available.
@@ -615,6 +621,48 @@ public final class Product {
 				if (type.index == index) return type;
 			}
 			return AMAZON;
+		}
+	}
+
+	public enum AvailabilityType {
+		/**
+		 * No Amazon offer exists
+		 */
+		NO_OFFER(-1),
+
+		/**
+		 * Amazon offer is in stock and shippable
+		 */
+		NOW(0),
+
+		/**
+		 * Amazon offer is currently not in stock but will be in the future (i.e. back-ordered, pre-order)
+		 */
+		FUTURE(1),
+
+		/**
+		 * Amazon offer availability is "unknown"
+		 */
+		UNKNOWN(2),
+
+		/**
+		 * Unrecognized Amazon availability status
+		 */
+		OTHER(3);
+
+		public int code;
+
+		AvailabilityType(int i) {
+			code = i;
+		}
+
+		private static final AvailabilityType[] values = AvailabilityType.values();
+		public static AvailabilityType fromValue(int value) throws IllegalArgumentException {
+			try {
+				return AvailabilityType.values[value];
+			} catch (ArrayIndexOutOfBoundsException e) {
+				throw new IllegalArgumentException("Unknown struct value: " + value);
+			}
 		}
 	}
 
