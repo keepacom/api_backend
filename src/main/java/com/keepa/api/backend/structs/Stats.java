@@ -50,10 +50,8 @@ public class Stats {
 
 	/**
 	 * Contains the prices registered at the start of the interval specified in the product request's stats parameter.<br>
-	 * First dimension uses {@link Product.CsvType} indexing <br>
-	 * Second dimension is either null, if there is no data available for the price type, or
-	 * an array of the size 2 with the first value being the time of the extreme point (in Keepa time minutes) and the second one the respective extreme value.<br>
-	 * Use {@link KeepaTime#keepaMinuteToUnixInMillis(int)} (long)} to get an uncompressed timestamp (Unix epoch time).
+	 * <p>Uses {@link Product.CsvType} indexing.</p>
+	 * If no offer was available in the given interval or there is insufficient data it has the value -1.
 	 */
 	public int[] atIntervalStart = null;
 
