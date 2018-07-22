@@ -96,14 +96,97 @@ public class Stats {
 	public int[] outOfStockPercentage90 = null;
 
 	/**
-	 * Can be used to identify past, upcoming and current lightning deal offers.
-	 * Has the format [startDate, endDate] (if not null, always array length 2). *null* if the product never had a lightning deal. Both timestamps are in UTC and Keepa time minutes.
-	 * If there is a upcoming lightning deal, only startDate is be set (endDate has value -1)
-	 * If there is a current lightning deal, both startDate and endDate will be set. startDate will be older than the current time, but endDate will be a future date.
-	 * If there is only a past deal, both startDate and endDate will be set in the past.
+	 * Can be used to identify past, upcoming and current lightning deal offers.<br>
+	 * Has the format [startDate, endDate] (if not null, always array length 2). *null* if the product never had a lightning deal. Both timestamps are in UTC and Keepa time minutes.<br>
+	 * If there is a upcoming lightning deal, only startDate is be set (endDate has value -1)<br>
+	 * If there is a current lightning deal, both startDate and endDate will be set. startDate will be older than the current time, but endDate will be a future date.<br>
+	 * If there is only a past deal, both startDate and endDate will be set in the past.<br>
 	 * Use {@link KeepaTime#keepaMinuteToUnixInMillis(int)} (long)} to get an uncompressed timestamp (Unix epoch time).
 	 */
 	public int[] lightningDealInfo = null; // [startDate, endDate], or null
+
+	/**
+	 * the total count of offers this product has (all conditions combined). The offer count per condition can be found in the current field.
+	 */
+	public int totalOfferCount = -2;
+
+	/**
+	 * the last time the offers information was updated. Use {@link KeepaTime#keepaMinuteToUnixInMillis(int)} (long)} to get an uncompressed timestamp (Unix epoch time).
+	 */
+	public int lastOffersUpdate = -1;
+
+	/**
+	 * Contains the total stock available per item condition (of the retrieved offers) for 3rd party FBA
+	 * (fulfillment by Amazon, Warehouse Deals included) or FBM (fulfillment by merchant) offers. Uses the {@link Offer.OfferCondition} indexing.
+	 */
+	public int[] stockPerCondition3rdFBA = null;
+
+	/**
+	 * Contains the total stock available per item condition (of the retrieved offers) for 3rd party FBM
+	 * (fulfillment by Amazon, Warehouse Deals included) or FBM (fulfillment by merchant) offers. Uses the {@link Offer.OfferCondition} indexing.
+	 */
+	public int[] stockPerConditionFBM = null;
+
+	/**
+	 * Only set when the offers parameter was used. The stock of Amazon, if Amazon has an offer. Max. reported stock is 10. Otherwise -2.
+	 */
+	public int stockAmazon = -2;
+
+	/**
+	 * Only set when the offers parameter was used. The stock of buy box offer. Max. reported stock is 10. If the boy box is empty/unqualified: -2.
+	 */
+	public int stockBuyBox = -2;
+
+	/**
+	 * Only set when the offers parameter was used. The count of actually retrieved offers for this request.
+	 */
+	public int retrievedOfferCount = -2;
+
+	/**
+	 * Only set when the offers parameter was used. The buy box price, if existent. Otherwise -2.
+	 */
+	public int buyBoxPrice = -2;
+
+	/**
+	 * Only set when the offers parameter was used. The buy box shipping cost, if existent. Otherwise -2.
+	 */
+	public int buyBoxShipping = -2;
+
+	/**
+	 * Only set when the offers parameter was used. Whether or not a seller won the buy box. If there are only sellers with bad offers none qualifies for the buy box.
+	 */
+	public Boolean buyBoxIsUnqualified = null;
+
+	/**
+	 * Only set when the offers parameter was used. Whether or not the buy box is listed as being shippable.
+	 */
+	public Boolean buyBoxIsShippable = null;
+
+	/**
+	 * Only set when the offers parameter was used. If the buy box is a pre-order.
+	 */
+	public Boolean buyBoxIsPreorder = null;
+
+	/**
+	 * Only set when the offers parameter was used. Whether or not the buy box is fulfilled by Amazon.
+	 */
+	public Boolean buyBoxIsFBA = null;
+
+	/**
+	 * Only set when the offers parameter was used. If Amazon is the seller in the buy box.
+	 */
+	public Boolean buyBoxIsAmazon = null;
+
+	/**
+	 * Only set when the offers parameter was used. If the buy box price is hidden on Amazon due to MAP restrictions (minimum advertised price).
+	 */
+	public Boolean buyBoxIsMAP = null;
+
+	/**
+	 * Only set when the offers parameter was used. If the product is an add-on item (add-on Items ship with orders that include $25 or more of items shipped by Amazon).
+	 */
+	public Boolean isAddonItem = null;
+
 
 	@Override
 	public String toString() {
