@@ -90,7 +90,7 @@ public final class Product {
 	/**
 	 * States the time the item was first listed on Amazon, in Keepa Time minutes.<br>
 	 * It is updated in conjunction with the offers request, but always accessible.<br>
-	 * We are unable to collect this information for many products, in which case the field will have the value 0.
+	 * This timestamp is only available for some products. If not available the field has the value 0.
 	 * Use {@link KeepaTime#keepaMinuteToUnixInMillis(int)} (long)} to get an uncompressed timestamp (Unix epoch time).
 	 */
 	public int listedSince = 0;
