@@ -214,8 +214,29 @@ public class Stats {
 	 */
 	public Boolean isAddonItem = null;
 
+	/**
+	 * Only set when the offers parameter was used. Contains the seller ids (if any) of the lowest priced live FBA offer(s). Multiple entries if multiple offers share the same price.
+	 */
+	public String[] sellerIdsLowestFBA = null;
 
-	@Override
+	/**
+	 * Only set when the offers parameter was used. Contains the seller ids (if any) of the lowest priced live FBM offer(s). Multiple entries if multiple offers share the same price.
+	 */
+	public String[] sellerIdsLowestFBM = null;
+
+	/**
+	 * Only set when the offers parameter was used. Count of retrieved live FBA offers.
+	 */
+	public int offerCountFBA = -2;
+
+	/**
+	 * Only set when the offers parameter was used. Count of retrieved live FBM offers.
+	 */
+	public int offerCountFBM = -2;
+
+
+
+@Override
 	public String toString() {
 		return gson.toJson(this);
 	}

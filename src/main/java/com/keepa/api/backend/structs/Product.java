@@ -401,11 +401,15 @@ public final class Product {
 	 */
 	public int[] coupon = null;
 
-
 	/**
 	 * Whether or not the current new price is MAP restricted. Can be used to differentiate out of stock vs. MAP restricted prices (as in both cases the current price is -1).
 	 */
 	public boolean newPriceIsMAP = false;
+
+	/**
+	 * FBA fees for this product. If FBA fee information has not yet been collected for this product the field will be null.
+	 */
+	public FBAFeesObject fbaFees = null;
 
 	/**
 	 * Integer[][] - two dimensional price history array.<br>
@@ -776,6 +780,16 @@ public final class Product {
 		public String benefitDescription = null;
 		/** unique Id of this promotion. **/
 		public String promotionId = null;
+	}
+
+	/**
+	 * Contains detailed FBA fees. If the total fee is 0 the product does not have (valid) dimensions and thus the fee can not be calculated.
+	 */
+	public static class FBAFeesObject {
+		public int storageFee;
+		public int storageFeeTax;
+		public int pickAndPackFee;
+		public int pickAndPackFeeTax;
 	}
 
 	public enum PromotionType {

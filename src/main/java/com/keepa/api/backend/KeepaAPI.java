@@ -34,7 +34,7 @@ public final class KeepaAPI {
 	final private int maxDelay = 60000;
 
 	public enum ResponseStatus {
-		PENDING, OK, FAIL, NOT_ENOUGH_TOKEN, REQUEST_REJECTED, PAYMENT_REQUIRED, METHOD_NOT_ALLOWED
+		PENDING, OK, FAIL, NOT_ENOUGH_TOKEN, REQUEST_REJECTED, PAYMENT_REQUIRED, METHOD_NOT_ALLOWED, INTERNAL_SERVER_ERROR
 	}
 
 	/**
@@ -146,26 +146,29 @@ public final class KeepaAPI {
 					     GZIPInputStream gis = new GZIPInputStream(is)) {
 						JsonReader reader = new JsonReader(new InputStreamReader(gis, "UTF-8"));
 						response = gson.fromJson(reader, Response.class);
-						switch (responseCode) {
-							case 400:
-								response.status = ResponseStatus.REQUEST_REJECTED;
-								break;
-							case 402:
-								response.status = ResponseStatus.PAYMENT_REQUIRED;
-								break;
-							case 405:
-								response.status = ResponseStatus.METHOD_NOT_ALLOWED;
-								break;
-							case 429:
-								response.status = ResponseStatus.NOT_ENOUGH_TOKEN;
-								break;
-							default:
-								response = Response.REQUEST_FAILED;
-								break;
-						}
-					} catch (Exception e) {
-						response = Response.REQUEST_FAILED;
-						e.printStackTrace();
+					} catch (Exception ignored) {
+						response = new Response();
+					}
+
+					switch (responseCode) {
+						case 400:
+							response.status = ResponseStatus.REQUEST_REJECTED;
+							break;
+						case 402:
+							response.status = ResponseStatus.PAYMENT_REQUIRED;
+							break;
+						case 405:
+							response.status = ResponseStatus.METHOD_NOT_ALLOWED;
+							break;
+						case 429:
+							response.status = ResponseStatus.NOT_ENOUGH_TOKEN;
+							break;
+						case 500:
+							response.status = ResponseStatus.INTERNAL_SERVER_ERROR;
+							break;
+						default:
+							response = Response.REQUEST_FAILED;
+							break;
 					}
 				}
 			} catch (IOException e) {
