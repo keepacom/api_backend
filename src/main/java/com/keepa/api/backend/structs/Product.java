@@ -385,6 +385,11 @@ public final class Product {
 	public PromotionObject[] promotions = null;
 
 	/**
+	 * Contains the dimension attributes for up to 50 variations of this product. Only available on parent ASINs.
+	 */
+	public VariationObject[] variations = null;
+
+	/**
 	 * Availability of the Amazon offer {@link Product.AvailabilityType}.
 	 */
 	public int availabilityAmazon = -1;
@@ -780,6 +785,20 @@ public final class Product {
 		public String benefitDescription = null;
 		/** unique Id of this promotion. **/
 		public String promotionId = null;
+	}
+
+	public static class VariationObject {
+		/** Variation ASIN **/
+		public String asin = null;
+		/** This variation ASIN's dimension attributes **/
+		public VariationAttributeObject[] attributes = null;
+	}
+
+	public static class VariationAttributeObject {
+		/** dimension type, e.g. Color **/
+		public String dimension = null;
+		/** dimension value, e.g. Red **/
+		public String value = null;
 	}
 
 	/**
