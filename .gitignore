@@ -15,3 +15,7 @@ hs_err_pid*
 
 target/*
 *.iml
+
+out/*
+.idea
+composer.json

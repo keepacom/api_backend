@@ -104,6 +104,11 @@ public class Response {
 	public String[] asinList = null;
 
 	/**
+	 * Estimated count of all matched products.
+	 */
+	public Integer totalResults = null;
+
+	/**
 	 * A list of sellerIds.
 	 */
 	public String[] sellerIdList = null;
