@@ -267,6 +267,26 @@ public final class Product {
 	public int packageQuantity = -1;
 
 	/**
+	 * The item's height in millimeter. 0 or -1 if not available.
+	 */
+	public int itemHeight = -1;
+
+	/**
+	 * The item's length in millimeter. 0 or -1 if not available.
+	 */
+	public int itemLength = -1;
+
+	/**
+	 * The item's width in millimeter. 0 or -1 if not available.
+	 */
+	public int itemWidth = -1;
+
+	/**
+	 * The item's weight in gram. 0 or -1 if not available.
+	 */
+	public int itemWeight = -1;
+
+	/**
 	 * Contains the lowest priced matching eBay listing Ids.
 	 * Always contains two entries, the first one is the listing id of the lowest priced listing in new condition,
 	 * the second in used condition. null or 0 if not available.<br>

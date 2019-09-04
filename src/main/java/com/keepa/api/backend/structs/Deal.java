@@ -97,6 +97,13 @@ public class Deal {
 	 */
 	public int lightningEnd = 0;
 
+	/**
+	 * Limit to products with a minimum rating (A rating is an integer from 0 to 50 (e.g. 45 = 4.5 stars)).
+	 * If -1 the filter is inactive.
+	 * Example: 20 (= min. rating of 2 stars)
+	 */
+	public int minRating = -1;
+
 
 	/**
 	 * Available deal ranges.
