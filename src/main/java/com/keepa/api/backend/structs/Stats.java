@@ -235,6 +235,20 @@ public class Stats {
 	public int offerCountFBM = -2;
 
 
+	/**
+	 * The count of sales rank drops (from high value to low value) within the last 30 days which are considered to indicate sales.
+	 */
+	public int salesRankDrops30 = -1;
+
+	/**
+	 * The count of sales rank drops (from high value to low value) within the last 90 days which are considered to indicate sales.
+	 */
+	public int salesRankDrops90 = -1;
+
+	/**
+	 * The count of sales rank drops (from high value to low value) within the last 180 days which are considered to indicate sales.
+	 */
+	public int salesRankDrops180 = -1;
 
 @Override
 	public String toString() {

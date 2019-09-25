@@ -14,7 +14,7 @@
 
     <groupId>com.keepa.api</groupId>
     <artifactId>backend</artifactId>
-    <version>1.41</version>
+    <version>1.42</version>
 
     <packaging>jar</packaging>
     <name>Keepa Java Framework</name>
