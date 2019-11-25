@@ -58,6 +58,10 @@ public class Seller {
 	 */
 	public boolean isScammer;
 
+	/**
+	 * Indicating whether or not this seller ships from China.
+	 */
+	public boolean shipsFromChina;
 
 	/**
 	 * Boolean value indicating whether or not the seller currently has FBA listings.<br>

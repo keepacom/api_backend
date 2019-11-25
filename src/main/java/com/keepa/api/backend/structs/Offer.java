@@ -118,6 +118,11 @@ public class Offer {
 	public boolean isScam;
 
 	/**
+	 * Indicating whether or not the offer ships from China.
+	 */
+	public boolean shipsFromChina;
+
+	/**
 	 * True if the seller is Amazon (e.g. "Amazon.com").
 	 * <p>
 	 * <b>Note:</b> Amazon's Warehouse Deals seller account or other accounts Amazon is maintaining under a different name are not considered to be Amazon.

@@ -1,26 +1,11 @@
 package com.keepa.api.backend.helper;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.TimeZone;
-
 /**
  * Keepa Time - Unix Time Converter Helper Class
  */
 public class KeepaTime {
-	public static long keepaStartHour = 0;
-	public static long keepaStartMinute = 0;
-
-	static {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-		try {
-			keepaStartHour = (int) Math.floor(sdf.parse("2011-01-01 00:00:00").getTime() / (1000 * 60 * 60));
-			keepaStartMinute = keepaStartHour * 60;
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-    }
+	public static long keepaStartHour = 359400;
+	public static long keepaStartMinute = 21564000;
 
 	public static int nowHours() {
 		return unixInMillisToKeepaHour(System.currentTimeMillis());
