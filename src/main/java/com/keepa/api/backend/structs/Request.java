@@ -36,6 +36,25 @@ public class Request {
 	}
 
 	/**
+	 * This request provides access to all current and upcoming lightning deals.
+	 * You can request a specific lightning deal by specifying an ASIN or get the complete list.
+	 * Our lightning deals information is updated every 10 minutes.
+	 *
+	 * @param domainId Amazon locale of the product {@link AmazonLocale}
+	 * @param asin The ASIN to retrieve the lightning deal for or null to retrieve all lightning deals
+	 * @return A ready to send request.
+	 */
+	public static Request getLightningDealRequest(final AmazonLocale domainId, String asin) {
+		Request r = new Request();
+		r.path = "lightningdeal";
+		r.parameter.put("domain", String.valueOf(domainId.ordinal()));
+
+		if(asin != null)
+			r.parameter.put("asin", asin);
+		return r;
+	}
+
+	/**
 	 * Query our product database to find products matching your criteria. Almost all product fields can be searched for and sorted by.
 	 * The product finder request provides the same core functionality as our Product Finder.
 	 *
