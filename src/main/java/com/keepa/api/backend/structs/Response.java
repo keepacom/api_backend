@@ -114,6 +114,11 @@ public class Response {
 	public String[] sellerIdList = null;
 
 	/**
+	 * A list of lightning deals.
+	 */
+	public LightningDeal[] lightningDeals = null;
+
+	/**
 	 * Contains information about any error that might have occurred.
 	 */
 	public RequestError error = null;

@@ -108,7 +108,7 @@ public final class KeepaAPI {
 					.reduce((p1, p2) -> p1 + "&" + p2)
 					.orElse("");
 
-			String url = "https://api.keepa.com/" + r.path + "/?key=" + accessKey + "&" + query;
+			String url = "https://api.keepa.com/" + r.path + "?key=" + accessKey + "&" + query;
 
 			try {
 				URL obj = new URL(url);
