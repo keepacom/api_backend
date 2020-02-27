@@ -111,6 +111,20 @@ public class Seller {
 	 */
 	public int[] totalStorefrontAsinsCSV;
 
+	/**
+	 *  Statistics about the primary categories of this seller. Based on our often incomplete and outdated product offers data.
+	 */
+	public MerchantCategoryStatistics[] sellerCategoryStatistics = null;
+
+	/**
+	 *  Statistics about the primary brands of this seller. Based on our often incomplete and outdated product offers data.
+	 */
+	public MerchantBrandStatistics[] sellerBrandStatistics = null;
+
+	public int currentRating;
+	public int currentRatingCount;
+	public int ratingsLast30Days;
+
 	public enum MerchantCsvType {
 		RATING(0, false),
 		RATING_COUNT(1, false);
@@ -134,6 +148,52 @@ public class Seller {
 			}
 			return RATING;
 		}
+	}
+
+	public static class MerchantBrandStatistics {
+
+		/**
+		 * the brand (in all lower-case)
+		 */
+		public String brand;
+
+		/**
+		 * the number of products this merchant sells with this brand
+		 */
+		public int productCount;
+
+		/**
+		 * the 30 day average sales rank of these products
+		 */
+		public int avg30SalesRank;
+
+		/**
+		 * how many of these products have an Amazon offer
+		 */
+		public int productCountWithAmazonOffer;
+	}
+
+	public static class MerchantCategoryStatistics {
+
+		/**
+		 * the category id
+		 */
+		public long catId;
+
+		/**
+		 * the number of products this merchant sells with this category
+		 */
+		public int productCount;
+
+		/**
+		 * the 30 day average sales rank of these products
+		 */
+		public int avg30SalesRank;
+
+		/**
+		 * how many of these products have an Amazon offer
+		 */
+		public int productCountWithAmazonOffer;
 	}
 
 	@Override
