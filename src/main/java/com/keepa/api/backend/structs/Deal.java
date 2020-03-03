@@ -104,6 +104,21 @@ public class Deal {
 	 */
 	public int minRating = -1;
 
+	/**
+	 * The {@link OfferCondition} condition of the cheapest warehouse deal of this product. Integer value:
+	 * <br>0 - Unknown: We were unable to determine the condition or this is not a warehouse deal in our data
+	 * <br>2 - Used - Like New
+	 * <br>3 - Used - Very Good
+	 * <br>4 - Used - Good
+	 * <br>5 - Used - Acceptable
+	 */
+	public byte warehouseCondition;
+
+	/**
+	 * The offer comment of the cheapest warehouse deal of this product. null if no warehouse deal found in our data.
+	 */
+	public String warehouseConditionComment;
+
 
 	/**
 	 * Available deal ranges.
