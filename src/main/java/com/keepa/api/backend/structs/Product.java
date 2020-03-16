@@ -3,6 +3,8 @@ package com.keepa.api.backend.structs;
 
 import com.keepa.api.backend.helper.KeepaTime;
 
+import java.util.HashMap;
+
 import static com.keepa.api.backend.helper.Utility.gson;
 
 public final class Product {
@@ -29,18 +31,6 @@ public final class Product {
 	public String variationCSV = null;
 
 	/**
-	 * The UPC of the product. Caution: leading zeros are truncated.
-	 * @deprecated use first upcList entry instead.
-	 */
-	public long upc = 0;
-
-	/**
-	 * The EAN of the product. Caution: leading zeros are truncated.
-	 * @deprecated use first eanList entry instead.
-	 */
-	public long ean = 0;
-
-	/**
 	 * A list of UPC assigned to this product. The first index is the primary UPC. null if not available.
 	 */
 	public String[] upcList = null;
@@ -49,11 +39,6 @@ public final class Product {
 	 * A list of EAN assigned to this product. The first index is the primary EAN. null if not available.
 	 */
 	public String[] eanList = null;
-
-	/**
-	 * The manufacturer’s part number.
-	 */
-	public String mpn = null;
 
 	/**
 	 * Comma separated list of image names of the product. Full Amazon image path:<br>
@@ -101,21 +86,6 @@ public final class Product {
 	public String brand = null;
 
 	/**
-	 * The item's label. null if not available.
-	 */
-	public String label = null;
-
-	/**
-	 * The item's department. null if not available.
-	 */
-	public String department = null;
-
-	/**
-	 * The item's publisher. null if not available.
-	 */
-	public String publisher = null;
-
-	/**
 	 * The item's productGroup. null if not available.
 	 */
 	public String productGroup = null;
@@ -124,16 +94,6 @@ public final class Product {
 	 * The item's partNumber. null if not available.
 	 */
 	public String partNumber = null;
-
-	/**
-	 * The item's studio. null if not available.
-	 */
-	public String studio = null;
-
-	/**
-	 * The item's genre. null if not available.
-	 */
-	public String genre = null;
 
 	/**
 	 * The item's model. null if not available.
@@ -154,11 +114,6 @@ public final class Product {
 	 * The item's edition. null if not available.
 	 */
 	public String edition = null;
-
-	/**
-	 * The item's platform. null if not available.
-	 */
-	public String platform = null;
 
 	/**
 	 * The item's format. null if not available.
@@ -237,11 +192,6 @@ public final class Product {
 	public String description = null;
 
 	/**
-	 * The item's format. null if not available.
-	 */
-	public HazardousMaterialType hazardousMaterialType = null;
-
-	/**
 	 * The package's height in millimeter. 0 or -1 if not available.
 	 */
 	public int packageHeight = -1;
@@ -263,6 +213,7 @@ public final class Product {
 
 	/**
 	 * Quantity of items in a package. 0 or -1 if not available.
+	 * @deprecated
 	 */
 	public int packageQuantity = -1;
 
@@ -410,7 +361,8 @@ public final class Product {
 	public VariationObject[] variations = null;
 
 	/**
-	 * Availability of the Amazon offer {@link Product.AvailabilityType}.
+	 * Availability of the Amazon offer {@link Product.AvailabilityType}. If Amazon offer exists but does not hold the buy box the value will be 2 (unknown).
+	 * To request the Amazon availability in such cases the offers parameter is required.
 	 */
 	public int availabilityAmazon = -1;
 
@@ -437,6 +389,16 @@ public final class Product {
 	public FBAFeesObject fbaFees = null;
 
 	/**
+	 * Contains subcategory rank histories. Each key represents the categoryId of the rank with the history in the corresponding value.
+	 */
+	public HashMap<Long, int[]> salesRanks = null;
+
+	/**
+	 * The category node id of the main sales rank. -1 if not available.
+	 */
+	public long salesRankReference = -1;
+
+	/**
 	 * Integer[][] - two dimensional price history array.<br>
 	 * First dimension: {@link Product.CsvType}<br>
 	 * Second dimension:<br>
@@ -447,11 +409,6 @@ public final class Product {
 	 * A price of '-1' means that there was no offer at the given timestamp (e.g. out of stock).
 	 */
 	public int[][] csv = null;
-
-	/**
-	 * Amazon internal product type categorization.
-	 */
-	public String type = null;
 
 	public enum CsvType {
 		/**

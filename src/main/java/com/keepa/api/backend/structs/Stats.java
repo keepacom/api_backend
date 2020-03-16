@@ -210,6 +210,42 @@ public class Stats {
 	public Boolean buyBoxIsMAP = null;
 
 	/**
+	 * The minimum order quantity of the buy box. -1 if not available, 0 if no limit exists.
+	 */
+	public Boolean buyBoxMinOrderQuantity = null;
+
+	/**
+	 * The maximum order quantity of the buy box. -1 if not available, 0 if no limit exists.
+	 */
+	public Boolean buyBoxMaxOrderQuantity = null;
+
+	/**
+	 * The availability message of the buy box. null if not available.
+	 * Example: “In Stock.”
+	 */
+	public String buyBoxAvailabilityMessage = null;
+
+	/**
+	 * The default shipping country of the buy box seller. null if not available. Example: “US”
+	 */
+	public String buyBoxShippingCountry = null;
+
+	/**
+	 * If the buy box is Prime exclusive. null if not available.
+	 */
+	public Boolean buyBoxIsPrimeExclusive = null;
+
+	/**
+	 * If the buy box is Prime eligible. null if not available.
+	 */
+	public Boolean buyBoxIsPrimeEligible = null;
+
+	/**
+	 * If the buy box is a Prime Pantry offer. null if not available.
+	 */
+	public Boolean buyBoxIsPrimePantry = null;
+
+	/**
 	 * Only set when the offers parameter was used. If the product is an add-on item (add-on Items ship with orders that include $25 or more of items shipped by Amazon).
 	 */
 	public Boolean isAddonItem = null;

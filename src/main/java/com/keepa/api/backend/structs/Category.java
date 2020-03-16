@@ -22,6 +22,11 @@ public final class Category {
 	public String name;
 
 	/**
+	 * The context free category name.
+	 */
+	public String contextFreeName;
+
+	/**
 	 * List of all sub categories. null or [] (empty array) if the category has no sub categories.
 	 */
 	public long[] children;
