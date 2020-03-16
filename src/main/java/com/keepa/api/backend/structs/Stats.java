@@ -212,12 +212,12 @@ public class Stats {
 	/**
 	 * The minimum order quantity of the buy box. -1 if not available, 0 if no limit exists.
 	 */
-	public Boolean buyBoxMinOrderQuantity = null;
+	public int buyBoxMinOrderQuantity = -1;
 
 	/**
 	 * The maximum order quantity of the buy box. -1 if not available, 0 if no limit exists.
 	 */
-	public Boolean buyBoxMaxOrderQuantity = null;
+	public int buyBoxMaxOrderQuantity = -1;
 
 	/**
 	 * The availability message of the buy box. null if not available.
