@@ -363,6 +363,30 @@ public class Request {
 		return r;
 	}
 
+
+	/**
+	 * Search for Amazon products using keywords with a maximum of 50 results per search term.
+	 *
+	 * @param domainId Amazon locale of the product {@link AmazonLocale}
+	 * @param term     The term you want to search for.
+	 * @param stats    If specified (= not null) the product object will have a stats field with quick access to current prices, min/max prices and the weighted mean values of the last x days, where x is the value of the stats parameter.
+	 * @param page     Valid values 0 - 9. Each search result page provides up to 10 results. To retrieve more results iterate the page parameter and keep all other parameters identical. Start with page 0 and stop when the response contains less than 10 results or you have reached page 9, which is the limit. When not using the page parameter the first 40 results will be returned.
+	 * @return A ready to send request.
+	 */
+	public static Request getProductSearchRequest(final AmazonLocale domainId, String term, Integer stats, int page) {
+		Request r = new Request();
+		r.path = "search";
+		r.parameter.put("domain", String.valueOf(domainId.ordinal()));
+		r.parameter.put("type", "product");
+		r.parameter.put("term", term);
+		r.parameter.put("page", String.valueOf(page));
+
+		if (stats != null && stats > 0)
+			r.parameter.put("stats", String.valueOf(stats));
+
+		return r;
+	}
+
 	/**
 	 * Search for Amazon products using keywords with a maximum of 50 results per search term.
 	 *
@@ -383,6 +407,35 @@ public class Request {
 		r.parameter.put("update", String.valueOf(update));
 		r.parameter.put("history", history ? "1" : "0");
 		r.parameter.put("asins-only", asinsOnly ? "1" : "0");
+
+		if (stats != null && stats > 0)
+			r.parameter.put("stats", String.valueOf(stats));
+
+		return r;
+	}
+
+	/**
+	 * Search for Amazon products using keywords with a maximum of 50 results per search term.
+	 *
+	 * @param domainId  Amazon locale of the product {@link AmazonLocale}
+	 * @param term      The term you want to search for.
+	 * @param history   Whether or not to include the product's history data (csv field). If you do not evaluate the csv field set to false to speed up the request and reduce traffic.
+	 * @param update    If the product's last refresh is older than <i>update</i>-hours force a refresh. Use this to speed up requests if up-to-date data is not required. Might cost an extra token if 0 (= live data). Default 1.
+	 * @param stats     If specified (= not null) the product object will have a stats field with quick access to current prices, min/max prices and the weighted mean values of the last x days, where x is the value of the stats parameter.
+	 * @param asinsOnly If true only the ASINs of the found products will be provided (instead of the product objects). If this parameter is used the token cost of the request is reduced to 5 tokens.
+	 * @param page      Valid values 0 - 9. Each search result page provides up to 10 results. To retrieve more results iterate the page parameter and keep all other parameters identical. Start with page 0 and stop when the response contains less than 10 results or you have reached page 9, which is the limit. When not using the page parameter the first 40 results will be returned.
+	 * @return A ready to send request.
+	 */
+	public static Request getProductSearchRequest(final AmazonLocale domainId, String term, Integer stats, int update, boolean history, boolean asinsOnly, int page) {
+		Request r = new Request();
+		r.path = "search";
+		r.parameter.put("domain", String.valueOf(domainId.ordinal()));
+		r.parameter.put("type", "product");
+		r.parameter.put("term", term);
+		r.parameter.put("update", String.valueOf(update));
+		r.parameter.put("history", history ? "1" : "0");
+		r.parameter.put("asins-only", asinsOnly ? "1" : "0");
+		r.parameter.put("page", String.valueOf(page));
 
 		if (stats != null && stats > 0)
 			r.parameter.put("stats", String.valueOf(stats));
@@ -547,6 +600,45 @@ public class Request {
 	}
 
 	/**
+	 * Retrieves the product object for the specified ASIN and domain.
+	 *
+	 * @param domainId       Amazon locale of the product {@link AmazonLocale}
+	 * @param asins          ASINs to request, must contain between 1 and 100 ASINs - or max 20 ASINs if the offers parameter is used.
+	 * @param statsStartDate Must ISO8601 coded date (with or without time in UTC). Example: 2015-12-31 or 2015-12-31T14:51Z. If specified (= not null) the product object will have a stats field with quick access to current prices, min/max prices and the weighted mean values in the interval specified statsStartDate to statsEndDate. .
+	 * @param statsEndDate   the end of the stats interval. See statsStartDate.
+	 * @param history        Whether or not to include the product's history data (csv field). If you do not evaluate the csv field set to false to speed up the request and reduce traffic.
+	 * @param buybox         If specified and true the product and statistics object will include all available buy box related data</b>
+	 * @param update         If the product's last refresh is older than <i>update</i>-hours force a refresh. Use this to speed up requests if up-to-date data is not required. Might cost an extra token if 0 (= live data). Default 1.
+	 * @param offers         If specified (= not null) determines the number of marketplace offers to retrieve. <b>Not available for Amazon China.</b>
+	 * @param rental         If true the rental price will be collected when available. <b>Can only be used in conjunction with the offers parameter.  Not available for Amazon China.</b>
+	 * @param rating         If true the product object will include our existing RATING and COUNT_REVIEWS history of the csv field, regardless if the offers parameter is used <b>Not available for Amazon China.</b>
+	 * @param fbafees        If true fbaFees will be retrieved. <b>Can only be used in conjunction with the offers parameter. Not available for Amazon China, India and Brazil.</b>
+	 * @return A ready to send request.
+	 */
+	public static Request getProductRequest(final AmazonLocale domainId, Integer offers, String statsStartDate, String statsEndDate, boolean buybox, int update, boolean history,
+	                                        boolean rental, boolean rating, boolean fbafees, final String... asins) {
+		Request r = new Request();
+		r.path = "product";
+		r.parameter.put("asin", arrayToCsv(asins));
+		r.parameter.put("domain", String.valueOf(domainId.ordinal()));
+		r.parameter.put("update", String.valueOf(update));
+		r.parameter.put("history", history ? "1" : "0");
+		r.parameter.put("rental", rental ? "1" : "0");
+		r.parameter.put("rating", rating ? "1" : "0");
+		r.parameter.put("fbafees", fbafees ? "1" : "0");
+		r.parameter.put("buybox", buybox ? "1" : "0");
+
+		if (statsStartDate != null && statsEndDate != null)
+			r.parameter.put("stats", statsStartDate + "," + statsEndDate);
+
+		if (offers != null && offers > 0)
+			r.parameter.put("offers", String.valueOf(offers));
+
+		return r;
+	}
+
+
+	/**
 	 * Retrieves the product object(s) for the specified product code and domain.
 	 *
 	 * @param domainId       Amazon locale of the product {@link AmazonLocale}
@@ -585,21 +677,19 @@ public class Request {
 	 * @param history        Whether or not to include the product's history data (csv field). If you do not evaluate the csv field set to false to speed up the request and reduce traffic.
 	 * @param update         If the product's last refresh is older than <i>update</i>-hours force a refresh. Use this to speed up requests if up-to-date data is not required. Might cost an extra token if 0 (= live data). Default 1.
 	 * @param offers         If specified (= not null) determines the number of marketplace offers to retrieve. <b>Not available for Amazon China.</b>
-	 * @param stock          If true stock will be collected for all retrieved live offers. <b>Can only be used in conjunction with the offers parameter.  Not available for Amazon China.</b>
 	 * @param rental         If true the rental price will be collected when available. <b>Can only be used in conjunction with the offers parameter.  Not available for Amazon China.</b>
 	 * @param rating         If true the product object will include our existing RATING and COUNT_REVIEWS history of the csv field, regardless if the offers parameter is used <b>Not available for Amazon China.</b>
 	 * @param fbafees        If true fbaFees will be retrieved. <b>Can only be used in conjunction with the offers parameter. Not available for Amazon China, India and Brazil.</b>
 	 * @return A ready to send request.
 	 */
 	public static Request getProductByCodeRequest(final AmazonLocale domainId, Integer offers, String statsStartDate, String statsEndDate, int update, boolean history,
-	                                              boolean stock, boolean rental, boolean rating, boolean fbafees, final String... codes) {
+	                                              boolean rental, boolean rating, boolean fbafees, final String... codes) {
 		Request r = new Request();
 		r.path = "product";
 		r.parameter.put("code", arrayToCsv(codes));
 		r.parameter.put("domain", String.valueOf(domainId.ordinal()));
 		r.parameter.put("update", String.valueOf(update));
 		r.parameter.put("history", history ? "1" : "0");
-		r.parameter.put("stock", stock ? "1" : "0");
 		r.parameter.put("rental", rental ? "1" : "0");
 		r.parameter.put("rating", rating ? "1" : "0");
 		r.parameter.put("fbafees", fbafees ? "1" : "0");
@@ -612,6 +702,45 @@ public class Request {
 
 		return r;
 	}
+
+	/**
+	 * Retrieves the product object(s) for the specified product code and domain.
+	 *
+	 * @param domainId       Amazon locale of the product {@link AmazonLocale}
+	 * @param codes          The product code of the product you want to request. We currently allow UPC, EAN and ISBN-13 codes. For batch requests a comma separated list of codes (up to 100). Multiple ASINs can have the same product code, so requesting a product code can return multiple products.
+	 * @param statsStartDate Must ISO8601 coded date (with or without time in UTC). Example: 2015-12-31 or 2015-12-31T14:51Z. If specified (= not null) the product object will have a stats field with quick access to current prices, min/max prices and the weighted mean values in the interval specified statsStartDate to statsEndDate. .
+	 * @param statsEndDate   the end of the stats interval. See statsStartDate.
+	 * @param history        Whether or not to include the product's history data (csv field). If you do not evaluate the csv field set to false to speed up the request and reduce traffic.
+	 * @param buybox         If specified and true the product and statistics object will include all available buy box related data</b>
+	 * @param update         If the product's last refresh is older than <i>update</i>-hours force a refresh. Use this to speed up requests if up-to-date data is not required. Might cost an extra token if 0 (= live data). Default 1.
+	 * @param offers         If specified (= not null) determines the number of marketplace offers to retrieve. <b>Not available for Amazon China.</b>
+	 * @param rental         If true the rental price will be collected when available. <b>Can only be used in conjunction with the offers parameter.  Not available for Amazon China.</b>
+	 * @param rating         If true the product object will include our existing RATING and COUNT_REVIEWS history of the csv field, regardless if the offers parameter is used <b>Not available for Amazon China.</b>
+	 * @param fbafees        If true fbaFees will be retrieved. <b>Can only be used in conjunction with the offers parameter. Not available for Amazon China, India and Brazil.</b>
+	 * @return A ready to send request.
+	 */
+	public static Request getProductByCodeRequest(final AmazonLocale domainId, Integer offers, String statsStartDate, String statsEndDate, boolean buybox, int update, boolean history,
+	                                              boolean rental, boolean rating, boolean fbafees, final String... codes) {
+		Request r = new Request();
+		r.path = "product";
+		r.parameter.put("code", arrayToCsv(codes));
+		r.parameter.put("domain", String.valueOf(domainId.ordinal()));
+		r.parameter.put("update", String.valueOf(update));
+		r.parameter.put("history", history ? "1" : "0");
+		r.parameter.put("rental", rental ? "1" : "0");
+		r.parameter.put("rating", rating ? "1" : "0");
+		r.parameter.put("fbafees", fbafees ? "1" : "0");
+		r.parameter.put("buybox", buybox ? "1" : "0");
+
+		if (statsStartDate != null && statsEndDate != null)
+			r.parameter.put("stats", statsStartDate + "," + statsEndDate);
+
+		if (offers != null && offers > 0)
+			r.parameter.put("offers", String.valueOf(offers));
+
+		return r;
+	}
+
 
 	@Override
 	public String toString() {

@@ -399,6 +399,11 @@ public final class Product {
 	public long salesRankReference = -1;
 
 	/**
+	 * The category node id history of the main sales rank (format: timestamp, categoryId, […]).  null if not available.
+	 */
+	public long[] salesRankReferenceHistory = null;
+
+	/**
 	 * Integer[][] - two dimensional price history array.<br>
 	 * First dimension: {@link Product.CsvType}<br>
 	 * Second dimension:<br>
