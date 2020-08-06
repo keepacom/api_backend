@@ -361,8 +361,7 @@ public final class Product {
 	public VariationObject[] variations = null;
 
 	/**
-	 * Availability of the Amazon offer {@link Product.AvailabilityType}. If Amazon offer exists but does not hold the buy box the value will be 2 (unknown).
-	 * To request the Amazon availability in such cases the offers parameter is required.
+	 * Availability of the Amazon offer {@link Product.AvailabilityType}.
 	 */
 	public int availabilityAmazon = -1;
 
@@ -402,6 +401,35 @@ public final class Product {
 	 * The category node id history of the main sales rank (format: timestamp, categoryId, […]).  null if not available.
 	 */
 	public long[] salesRankReferenceHistory = null;
+
+	/**
+	 * If the product is listed in the launchpad
+	 */
+	public boolean launchpad = false;
+
+	/**
+	 * Rental details
+	 */
+	public String rentalDetails = null;
+
+	/**
+	 * Rental prices
+	 */
+	public RentalObject rentalPrices = null;
+
+	/**
+	 * Rental seller id
+	 */
+	public String rentalSellerId = null;
+
+	/**
+	 * Amazon offer shipping delay. Integer array with 2 entries, indicating min and max shipping delay in hours.
+	 */
+	public int[] availabilityAmazonDelay = null;
+
+
+
+
 
 	/**
 	 * Integer[][] - two dimensional price history array.<br>
@@ -635,9 +663,9 @@ public final class Product {
 		NOW(0),
 
 		/**
-		 * Amazon offer is currently not in stock but will be in the future (i.e. back-ordered, pre-order)
+		 * Amazon offer is currently not in stock but will be in the future - pre-order
 		 */
-		FUTURE(1),
+		PREORDERABLE(1),
 
 		/**
 		 * Amazon offer availability is "unknown"
@@ -645,9 +673,14 @@ public final class Product {
 		UNKNOWN(2),
 
 		/**
-		 * Unrecognized Amazon availability status
+		 * Amazon offer is currently not in stock but will be in the future - back-order
 		 */
-		OTHER(3);
+		BACKORDERABLE(3),
+
+		/**
+		 * Amazon offer availability is delay. Check availabilityAmazonDelay field for details.
+		 */
+		DELAYED(4);
 
 		public int code;
 
@@ -660,7 +693,7 @@ public final class Product {
 			try {
 				return AvailabilityType.values[value];
 			} catch (ArrayIndexOutOfBoundsException e) {
-				throw new IllegalArgumentException("Unknown struct value: " + value);
+				throw new IllegalArgumentException("Unknown AvailabilityType value: " + value);
 			}
 		}
 	}
@@ -723,41 +756,11 @@ public final class Product {
 		public String name;
 	}
 
-	public enum HazardousMaterialType {
-		ORM_D_Class("ORM-D Class"),
-		ORM_D_Class_1("ORM-D Class 1"),
-		ORM_D_Class_2("ORM-D Class 2"),
-		ORM_D_Class_3("ORM-D Class 3"),
-		ORM_D_Class_4("ORM-D Class 4"),
-		ORM_D_Class_5("ORM-D Class 5"),
-		ORM_D_Class_6("ORM-D Class 6"),
-		ORM_D_Class_7("ORM-D Class 7"),
-		ORM_D_Class_8("ORM-D Class 8"),
-		ORM_D_Class_9("ORM-D Class 9"),
-		Butane("Butane"),
-		Fuel_cell("Fuel cell"),
-		Gasoline("Gasoline"),
-		Sealed_Lead_Acid_Battery("Sealed Lead Acid Battery");
-
-		public final String type;
-		public static final HazardousMaterialType[] values = HazardousMaterialType.values();
-
-		HazardousMaterialType(String a) {
-			type = a;
-		}
-
-		public static HazardousMaterialType fromValue(int value) throws IllegalArgumentException {
-			try {
-				return HazardousMaterialType.values[value];
-			} catch (ArrayIndexOutOfBoundsException e) {
-				throw new IllegalArgumentException("Unknown enum value: " + value);
-			}
-		}
-
-		@Override
-		public String toString() {
-			return type;
-		}
+	public static class RentalObject {
+		public int initialPrice = -1;
+		public int shortExtnPrice = -1;
+		public int longExtnPrice = -1;
+		public int fullPrice = -1;
 	}
 
 	public static class PromotionObject {

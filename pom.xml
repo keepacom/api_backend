@@ -14,12 +14,12 @@
 
     <groupId>com.keepa.api</groupId>
     <artifactId>backend</artifactId>
-    <version>1.61</version>
+    <version>1.70</version>
 
     <packaging>jar</packaging>
     <name>Keepa Java Framework</name>
     <description>A Java Framework which helps you to deploy your own application, based on the Keepa API.</description>
-    <url>https://keepa.com/#!api</url>
+    <url>https://keepa.com/</url>
 
     <licenses>
         <license>
