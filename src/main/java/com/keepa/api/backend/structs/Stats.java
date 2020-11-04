@@ -226,6 +226,11 @@ public class Stats {
 	public String buyBoxAvailabilityMessage = null;
 
 	/**
+	 * The seller id of the buy box offer, if existent. Otherwise "-2" or null
+	 */
+	public String buyBoxSellerId = null;
+
+	/**
 	 * The default shipping country of the buy box seller. null if not available. Example: “US”
 	 */
 	public String buyBoxShippingCountry = null;
@@ -270,7 +275,6 @@ public class Stats {
 	 */
 	public int offerCountFBM = -2;
 
-
 	/**
 	 * The count of sales rank drops (from high value to low value) within the last 30 days which are considered to indicate sales.
 	 */
@@ -285,6 +289,11 @@ public class Stats {
 	 * The count of sales rank drops (from high value to low value) within the last 180 days which are considered to indicate sales.
 	 */
 	public int salesRankDrops180 = -1;
+
+	/**
+	 * The count of sales rank drops (from high value to low value) within the last 365 days which are considered to indicate sales.
+	 */
+	public int salesRankDrops365 = -1;
 
 @Override
 	public String toString() {

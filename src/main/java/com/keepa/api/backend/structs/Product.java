@@ -422,13 +422,17 @@ public final class Product {
 	 */
 	public String rentalSellerId = null;
 
+
 	/**
 	 * Amazon offer shipping delay. Integer array with 2 entries, indicating min and max shipping delay in hours.
 	 */
 	public int[] availabilityAmazonDelay = null;
 
-
-
+	/**
+	 * Audience rating. The rating suggests the age for which the media is appropriate.
+	 * Example: PG-13 (Parents Strongly Cautioned)
+	 */
+	public String audienceRating = null;
 
 
 	/**
