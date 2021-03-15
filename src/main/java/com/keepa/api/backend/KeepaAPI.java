@@ -92,6 +92,18 @@ public final class KeepaAPI {
 	 * @return Promise for {@link Response}
 	 */
 	final public Promise<Response, Response, Void> sendRequest(Request r) {
+		return sendRequest(r, 30000, 120000);
+	}
+	/**
+	 * Issue a request to the Keepa Price Data API.
+	 * If your tokens are depleted, this method will fail.
+	 *
+	 * @param r the API Request {@link Request}
+	 * @param connectTimeout the timeout value, in milliseconds, to be used when opening a connection to the API
+	 * @param readTimeout the read timeout value, in milliseconds, for receiving an API response
+	 * @return Promise for {@link Response}
+	 */
+	final public Promise<Response, Response, Void> sendRequest(Request r, int connectTimeout, int readTimeout) {
 		Deferred<Response, Response, Void> d = new DeferredObject<>();
 
 		if(r == null){
@@ -117,8 +129,8 @@ public final class KeepaAPI {
 				con.setRequestProperty("User-Agent", this.userAgent);
 				con.setRequestProperty("Connection", "keep-alive");
 				con.setRequestProperty("Accept-Encoding", "gzip");
-				con.setConnectTimeout(40000);
-				con.setReadTimeout(120000);
+				con.setConnectTimeout(connectTimeout);
+				con.setReadTimeout(readTimeout);
 				if (r.postData != null) {
 					con.setRequestMethod("POST");
 					con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
@@ -188,7 +200,7 @@ public final class KeepaAPI {
 
 	/**
 	 * Issue a request to the Keepa Price Data API.
-	 * If your API contigent is depleted, this method will retry the request as soon as there are new tokens available. May take minutes.
+	 * If your API contingent is depleted, this method will retry the request as soon as there are new tokens available. May take minutes.
 	 * Will fail it the request failed too many times.
 	 *
 	 * @param r the API Request {@link Request}
@@ -207,9 +219,8 @@ public final class KeepaAPI {
 				int delay = 0;
 
 				while (!solved[0]) {
-					if (lastResponse[0] != null && lastResponse[0].status == ResponseStatus.NOT_ENOUGH_TOKEN && lastResponse[0].refillIn > 0) {
+					if (lastResponse[0] != null && lastResponse[0].status == ResponseStatus.NOT_ENOUGH_TOKEN && lastResponse[0].refillIn > 0)
 						delay = lastResponse[0].refillIn + 100;
-					}
 
 					if (retry > 0)
 						Thread.sleep(delay);

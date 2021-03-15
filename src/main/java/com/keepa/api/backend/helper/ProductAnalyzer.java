@@ -457,7 +457,7 @@ public class ProductAnalyzer {
 
 					int nextDate;
 					if (i + adjustedIndex == j) {
-						nextDate = now;
+						nextDate = Math.min(now, end);
 					} else {
 						nextDate = csv[i + adjustedIndex];
 						if (nextDate > end)
@@ -484,7 +484,7 @@ public class ProductAnalyzer {
 		}
 
 		if (count > 0)
-			count = 100 - (int) Math.floor((count * 100) / (end - start));
+			count = 100 - (int) Math.floor((count * 100) / (double) (end - start));
 		else if (count == 0) {
 			count = 100;
 		}

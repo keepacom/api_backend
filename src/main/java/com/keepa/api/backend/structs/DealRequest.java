@@ -139,11 +139,17 @@ public class DealRequest {
 	 * If true excludes all products with no reviews. If false the filter is inactive.
 	 */
 	public boolean hasReviews;
-//
+
 	/**
 	 *
 	 */
 	public String categorySearch;
+
+	public boolean isPrimeExclusive;
+	public boolean mustHaveAmazonOffer;
+	public boolean mustNotHaveAmazonOffer;
+	public Integer minRating;
+	public Byte[] warehouseConditions;
 
 
 	@Override

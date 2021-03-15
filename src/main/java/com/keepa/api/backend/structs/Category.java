@@ -40,7 +40,12 @@ public final class Category {
 	 * The highest (root category) sales rank we have observed of a product that is listed in this category. Note: Estimate, as the value is from the Keepa product database and not retrieved from Amazon.
 	 */
 	public int highestRank;
-	
+
+	/**
+	 * The lowest (root category) sales rank we have observed of a product that is listed in this category. Note: Estimate, as the value is from the Keepa product database and not retrieved from Amazon.
+	 */
+	public int lowestRank;
+
 	/**
 	 * Number of products that are listed in this category. Note: Estimate, as the value is from the Keepa product database and not retrieved from Amazon.
 	 */

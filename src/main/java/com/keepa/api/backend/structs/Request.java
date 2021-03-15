@@ -251,8 +251,6 @@ public class Request {
 
 	/**
 	 * Retrieves the seller object via the seller id. If a seller is not found no tokens will be consumed.
-	 * <p>
-	 * <b>Seller data is not available for Amazon China.</b>
 	 *
 	 * @param domainId Amazon locale of the product {@link AmazonLocale}
 	 * @param seller   The seller id of the merchant you want to request. For batch requests a comma separated list of sellerIds (up to 100). The seller id is part of the offer object and can also be found on Amazon on seller profile pages in the seller parameter of the URL.
@@ -269,8 +267,6 @@ public class Request {
 
 	/**
 	 * Retrieves the seller object via the seller id. If a seller is not found no tokens will be consumed.
-	 * <p>
-	 * <b>Seller data is not available for Amazon China.</b>
 	 *
 	 * @param domainId   Amazon locale of the product {@link AmazonLocale}
 	 * @param seller     The seller id of the merchant you want to request. For batch requests a comma separated list of sellerIds (up to 100).
@@ -298,8 +294,6 @@ public class Request {
 
 	/**
 	 * Retrieves the seller object via the seller id. If a seller is not found no tokens will be consumed.
-	 * <p>
-	 * <b>Seller data is not available for Amazon China.</b>
 	 *
 	 * @param domainId   Amazon locale of the product {@link AmazonLocale}
 	 * @param seller     The seller id of the merchant you want to request. For batch requests a comma separated list of sellerIds (up to 100).
@@ -449,7 +443,7 @@ public class Request {
 	 * @param domainId Amazon locale of the product {@link AmazonLocale}
 	 * @param asins    ASINs to request, must contain between 1 and 100 ASINs - or max 20 ASINs if the offers parameter is used.
 	 * @param stats    If specified (= not null) the product object will have a stats field with quick access to current prices, min/max prices and the weighted mean values of the last x days, where x is the value of the stats parameter.
-	 * @param offers   If specified (= not null) determines the number of marketplace offers to retrieve. <b>Not available for Amazon China.</b>
+	 * @param offers   If specified (= not null) determines the number of marketplace offers to retrieve. 
 	 * @return A ready to send request.
 	 */
 	public static Request getProductRequest(final AmazonLocale domainId, Integer stats, Integer offers, final String... asins) {
@@ -472,7 +466,7 @@ public class Request {
 	 * @param domainId Amazon locale of the product {@link AmazonLocale}
 	 * @param codes    The product code of the product you want to request. We currently allow UPC, EAN and ISBN-13 codes. For batch requests a comma separated list of codes (up to 100). Multiple ASINs can have the same product code, so requesting a product code can return multiple products.
 	 * @param stats    If specified (= not null) the product object will have a stats field with quick access to current prices, min/max prices and the weighted mean values of the last x days, where x is the value of the stats parameter.
-	 * @param offers   If specified (= not null) determines the number of marketplace offers to retrieve. <b>Not available for Amazon China.</b>
+	 * @param offers   If specified (= not null) determines the number of marketplace offers to retrieve. 
 	 * @return A ready to send request.
 	 */
 	public static Request getProductByCodeRequest(final AmazonLocale domainId, Integer stats, Integer offers, final String... codes) {
@@ -497,7 +491,7 @@ public class Request {
 	 * @param stats    If specified (= not null) the product object will have a stats field with quick access to current prices, min/max prices and the weighted mean values of the last x days, where x is the value of the stats parameter.
 	 * @param history  Whether or not to include the product's history data (csv field). If you do not evaluate the csv field set to false to speed up the request and reduce traffic.
 	 * @param update   If the product's last refresh is older than <i>update</i>-hours force a refresh. Use this to speed up requests if up-to-date data is not required. Might cost an extra token if 0 (= live data). Default 1.
-	 * @param offers   If specified (= not null) determines the number of marketplace offers to retrieve. <b>Not available for Amazon China.</b>
+	 * @param offers   If specified (= not null) determines the number of marketplace offers to retrieve. 
 	 * @return A ready to send request.
 	 */
 	public static Request getProductRequest(final AmazonLocale domainId, Integer stats, Integer offers, int update, boolean history, final String... asins) {
@@ -517,7 +511,7 @@ public class Request {
 	 * @param stats    If specified (= not null) the product object will have a stats field with quick access to current prices, min/max prices and the weighted mean values of the last x days, where x is the value of the stats parameter.
 	 * @param history  Whether or not to include the product's history data (csv field). If you do not evaluate the csv field set to false to speed up the request and reduce traffic.
 	 * @param update   If the product's last refresh is older than <i>update</i>-hours force a refresh. Use this to speed up requests if up-to-date data is not required. Might cost an extra token if 0 (= live data). Default 1.
-	 * @param offers   If specified (= not null) determines the number of marketplace offers to retrieve. <b>Not available for Amazon China.</b>
+	 * @param offers   If specified (= not null) determines the number of marketplace offers to retrieve. 
 	 * @return A ready to send request.
 	 */
 	public static Request getProductByCodeRequest(final AmazonLocale domainId, Integer stats, Integer offers, int update, boolean history, final String... codes) {
@@ -538,7 +532,7 @@ public class Request {
 	 * @param statsEndDate   the end of the stats interval. See statsStartDate.
 	 * @param history        Whether or not to include the product's history data (csv field). If you do not evaluate the csv field set to false to speed up the request and reduce traffic.
 	 * @param update         If the product's last refresh is older than <i>update</i>-hours force a refresh. Use this to speed up requests if up-to-date data is not required. Might cost an extra token if 0 (= live data). Default 1.
-	 * @param offers         If specified (= not null) determines the number of marketplace offers to retrieve. <b>Not available for Amazon China.</b>
+	 * @param offers         If specified (= not null) determines the number of marketplace offers to retrieve. 
 	 * @return A ready to send request.
 	 */
 	public static Request getProductRequest(final AmazonLocale domainId, Long statsStartDate, Long statsEndDate, Integer offers, int update, boolean history, final String... asins) {
@@ -559,7 +553,7 @@ public class Request {
 	 * @param statsEndDate   the end of the stats interval. See statsStartDate.
 	 * @param history        Whether or not to include the product's history data (csv field). If you do not evaluate the csv field set to false to speed up the request and reduce traffic.
 	 * @param update         If the product's last refresh is older than <i>update</i>-hours force a refresh. Use this to speed up requests if up-to-date data is not required. Might cost an extra token if 0 (= live data). Default 1.
-	 * @param offers         If specified (= not null) determines the number of marketplace offers to retrieve. <b>Not available for Amazon China.</b>
+	 * @param offers         If specified (= not null) determines the number of marketplace offers to retrieve. 
 	 * @return A ready to send request.
 	 */
 	public static Request getProductByCodeRequest(final AmazonLocale domainId, Long statsStartDate, Long statsEndDate, Integer offers, int update, boolean history, final String... codes) {
@@ -579,7 +573,7 @@ public class Request {
 	 * @param statsEndDate   the end of the stats interval. See statsStartDate.
 	 * @param history        Whether or not to include the product's history data (csv field). If you do not evaluate the csv field set to false to speed up the request and reduce traffic.
 	 * @param update         If the product's last refresh is older than <i>update</i>-hours force a refresh. Use this to speed up requests if up-to-date data is not required. Might cost an extra token if 0 (= live data). Default 1.
-	 * @param offers         If specified (= not null) determines the number of marketplace offers to retrieve. <b>Not available for Amazon China.</b>
+	 * @param offers         If specified (= not null) determines the number of marketplace offers to retrieve. 
 	 * @return A ready to send request.
 	 */
 	public static Request getProductRequest(final AmazonLocale domainId, Integer offers, String statsStartDate, String statsEndDate, int update, boolean history, final String... asins) {
@@ -609,14 +603,13 @@ public class Request {
 	 * @param history        Whether or not to include the product's history data (csv field). If you do not evaluate the csv field set to false to speed up the request and reduce traffic.
 	 * @param buybox         If specified and true the product and statistics object will include all available buy box related data</b>
 	 * @param update         If the product's last refresh is older than <i>update</i>-hours force a refresh. Use this to speed up requests if up-to-date data is not required. Might cost an extra token if 0 (= live data). Default 1.
-	 * @param offers         If specified (= not null) determines the number of marketplace offers to retrieve. <b>Not available for Amazon China.</b>
-	 * @param rental         If true the rental price will be collected when available. <b>Can only be used in conjunction with the offers parameter.  Not available for Amazon China.</b>
-	 * @param rating         If true the product object will include our existing RATING and COUNT_REVIEWS history of the csv field, regardless if the offers parameter is used <b>Not available for Amazon China.</b>
-	 * @param fbafees        If true fbaFees will be retrieved. <b>Can only be used in conjunction with the offers parameter. Not available for Amazon China, India and Brazil.</b>
+	 * @param offers         If specified (= not null) determines the number of marketplace offers to retrieve. 
+	 * @param rental         If true the rental price will be collected when available. <b>Can only be used in conjunction with the offers parameter.  </b>
+	 * @param rating         If true the product object will include our existing RATING and COUNT_REVIEWS history of the csv field, regardless if the offers parameter is used 
 	 * @return A ready to send request.
 	 */
 	public static Request getProductRequest(final AmazonLocale domainId, Integer offers, String statsStartDate, String statsEndDate, boolean buybox, int update, boolean history,
-	                                        boolean rental, boolean rating, boolean fbafees, final String... asins) {
+	                                        boolean rental, boolean rating, final String... asins) {
 		Request r = new Request();
 		r.path = "product";
 		r.parameter.put("asin", arrayToCsv(asins));
@@ -625,7 +618,6 @@ public class Request {
 		r.parameter.put("history", history ? "1" : "0");
 		r.parameter.put("rental", rental ? "1" : "0");
 		r.parameter.put("rating", rating ? "1" : "0");
-		r.parameter.put("fbafees", fbafees ? "1" : "0");
 		r.parameter.put("buybox", buybox ? "1" : "0");
 
 		if (statsStartDate != null && statsEndDate != null)
@@ -648,14 +640,15 @@ public class Request {
 	 * @param history        Whether or not to include the product's history data (csv field). If you do not evaluate the csv field set to false to speed up the request and reduce traffic.
 	 * @param buybox         If specified and true the product and statistics object will include all available buy box related data</b>
 	 * @param update         If the product's last refresh is older than <i>update</i>-hours force a refresh. Use this to speed up requests if up-to-date data is not required. Might cost an extra token if 0 (= live data). Default 1.
-	 * @param offers         If specified (= not null) determines the number of marketplace offers to retrieve. <b>Not available for Amazon China.</b>
-	 * @param rental         If true the rental price will be collected when available. <b>Can only be used in conjunction with the offers parameter.  Not available for Amazon China.</b>
-	 * @param rating         If true the product object will include our existing RATING and COUNT_REVIEWS history of the csv field, regardless if the offers parameter is used <b>Not available for Amazon China.</b>
-	 * @param fbafees        If true fbaFees will be retrieved. <b>Can only be used in conjunction with the offers parameter. Not available for Amazon China, India and Brazil.</b>
+	 * @param offers         If specified (= not null) determines the number of marketplace offers to retrieve. 
+	 * @param rental         If true the rental price will be collected when available. <b>Can only be used in conjunction with the offers parameter.  </b>
+	 * @param rating         If true the product object will include our existing RATING and COUNT_REVIEWS history of the csv field, regardless if the offers parameter is used 
+	 * @param onlyLiveOffers If specified and has the value 1 the product object will only include live marketplace offers (when used in combination with the offers parameter). If you do not need historical offers use this to have them removed from the response. This can improve processing time and considerably decrease the size of the response.</b>
+	 * @param days           Any positive integer value. If specified and has positive value X the product object will limit all historical data to the recent X days. This includes the csv, buyBoxSellerIdHistory, salesRanks, offers and offers.offerCSV fields. If you do not need old historical data use this to have it removed from the response. This can improve processing time and considerably decrease the size of the response.</b>
 	 * @return A ready to send request.
 	 */
 	public static Request getProductRequest(final AmazonLocale domainId, Integer offers, String statsStartDate, String statsEndDate, boolean buybox, int update, boolean history,
-	                                        boolean rental, boolean rating, boolean fbafees, boolean onlyLiveOffers, int days, final String... asins) {
+	                                        boolean rental, boolean rating, boolean onlyLiveOffers, int days, final String... asins) {
 		Request r = new Request();
 		r.path = "product";
 		r.parameter.put("asin", arrayToCsv(asins));
@@ -664,7 +657,6 @@ public class Request {
 		r.parameter.put("history", history ? "1" : "0");
 		r.parameter.put("rental", rental ? "1" : "0");
 		r.parameter.put("rating", rating ? "1" : "0");
-		r.parameter.put("fbafees", fbafees ? "1" : "0");
 		r.parameter.put("buybox", buybox ? "1" : "0");
 		r.parameter.put("only-live-offers", onlyLiveOffers ? "1" : "0");
 		r.parameter.put("days", String.valueOf(days));
@@ -688,7 +680,7 @@ public class Request {
 	 * @param statsEndDate   the end of the stats interval. See statsStartDate.
 	 * @param history        Whether or not to include the product's history data (csv field). If you do not evaluate the csv field set to false to speed up the request and reduce traffic.
 	 * @param update         If the product's last refresh is older than <i>update</i>-hours force a refresh. Use this to speed up requests if up-to-date data is not required. Might cost an extra token if 0 (= live data). Default 1.
-	 * @param offers         If specified (= not null) determines the number of marketplace offers to retrieve. <b>Not available for Amazon China.</b>
+	 * @param offers         If specified (= not null) determines the number of marketplace offers to retrieve. 
 	 * @return A ready to send request.
 	 */
 	public static Request getProductByCodeRequest(final AmazonLocale domainId, Integer offers, String statsStartDate, String statsEndDate, int update, boolean history, final String... codes) {
@@ -717,14 +709,13 @@ public class Request {
 	 * @param statsEndDate   the end of the stats interval. See statsStartDate.
 	 * @param history        Whether or not to include the product's history data (csv field). If you do not evaluate the csv field set to false to speed up the request and reduce traffic.
 	 * @param update         If the product's last refresh is older than <i>update</i>-hours force a refresh. Use this to speed up requests if up-to-date data is not required. Might cost an extra token if 0 (= live data). Default 1.
-	 * @param offers         If specified (= not null) determines the number of marketplace offers to retrieve. <b>Not available for Amazon China.</b>
-	 * @param rental         If true the rental price will be collected when available. <b>Can only be used in conjunction with the offers parameter.  Not available for Amazon China.</b>
-	 * @param rating         If true the product object will include our existing RATING and COUNT_REVIEWS history of the csv field, regardless if the offers parameter is used <b>Not available for Amazon China.</b>
-	 * @param fbafees        If true fbaFees will be retrieved. <b>Can only be used in conjunction with the offers parameter. Not available for Amazon China, India and Brazil.</b>
+	 * @param offers         If specified (= not null) determines the number of marketplace offers to retrieve. 
+	 * @param rental         If true the rental price will be collected when available. <b>Can only be used in conjunction with the offers parameter.  </b>
+	 * @param rating         If true the product object will include our existing RATING and COUNT_REVIEWS history of the csv field, regardless if the offers parameter is used 
 	 * @return A ready to send request.
 	 */
 	public static Request getProductByCodeRequest(final AmazonLocale domainId, Integer offers, String statsStartDate, String statsEndDate, int update, boolean history,
-	                                              boolean rental, boolean rating, boolean fbafees, final String... codes) {
+	                                              boolean rental, boolean rating, final String... codes) {
 		Request r = new Request();
 		r.path = "product";
 		r.parameter.put("code", arrayToCsv(codes));
@@ -733,7 +724,6 @@ public class Request {
 		r.parameter.put("history", history ? "1" : "0");
 		r.parameter.put("rental", rental ? "1" : "0");
 		r.parameter.put("rating", rating ? "1" : "0");
-		r.parameter.put("fbafees", fbafees ? "1" : "0");
 
 		if (statsStartDate != null && statsEndDate != null)
 			r.parameter.put("stats", statsStartDate + "," + statsEndDate);
@@ -754,14 +744,13 @@ public class Request {
 	 * @param history        Whether or not to include the product's history data (csv field). If you do not evaluate the csv field set to false to speed up the request and reduce traffic.
 	 * @param buybox         If specified and true the product and statistics object will include all available buy box related data</b>
 	 * @param update         If the product's last refresh is older than <i>update</i>-hours force a refresh. Use this to speed up requests if up-to-date data is not required. Might cost an extra token if 0 (= live data). Default 1.
-	 * @param offers         If specified (= not null) determines the number of marketplace offers to retrieve. <b>Not available for Amazon China.</b>
-	 * @param rental         If true the rental price will be collected when available. <b>Can only be used in conjunction with the offers parameter.  Not available for Amazon China.</b>
-	 * @param rating         If true the product object will include our existing RATING and COUNT_REVIEWS history of the csv field, regardless if the offers parameter is used <b>Not available for Amazon China.</b>
-	 * @param fbafees        If true fbaFees will be retrieved. <b>Can only be used in conjunction with the offers parameter. Not available for Amazon China, India and Brazil.</b>
+	 * @param offers         If specified (= not null) determines the number of marketplace offers to retrieve. 
+	 * @param rental         If true the rental price will be collected when available. <b>Can only be used in conjunction with the offers parameter.  </b>
+	 * @param rating         If true the product object will include our existing RATING and COUNT_REVIEWS history of the csv field, regardless if the offers parameter is used 
 	 * @return A ready to send request.
 	 */
 	public static Request getProductByCodeRequest(final AmazonLocale domainId, Integer offers, String statsStartDate, String statsEndDate, boolean buybox, int update, boolean history,
-	                                              boolean rental, boolean rating, boolean fbafees, final String... codes) {
+	                                              boolean rental, boolean rating, final String... codes) {
 		Request r = new Request();
 		r.path = "product";
 		r.parameter.put("code", arrayToCsv(codes));
@@ -770,7 +759,6 @@ public class Request {
 		r.parameter.put("history", history ? "1" : "0");
 		r.parameter.put("rental", rental ? "1" : "0");
 		r.parameter.put("rating", rating ? "1" : "0");
-		r.parameter.put("fbafees", fbafees ? "1" : "0");
 		r.parameter.put("buybox", buybox ? "1" : "0");
 
 		if (statsStartDate != null && statsEndDate != null)
