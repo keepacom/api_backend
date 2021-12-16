@@ -389,7 +389,7 @@ public class Request {
 	 * @param history   Whether or not to include the product's history data (csv field). If you do not evaluate the csv field set to false to speed up the request and reduce traffic.
 	 * @param update    If the product's last refresh is older than <i>update</i>-hours force a refresh. Use this to speed up requests if up-to-date data is not required. Might cost an extra token if 0 (= live data). Default 1.
 	 * @param stats     If specified (= not null) the product object will have a stats field with quick access to current prices, min/max prices and the weighted mean values of the last x days, where x is the value of the stats parameter.
-	 * @param asinsOnly If true only the ASINs of the found products will be provided (instead of the product objects). If this parameter is used the token cost of the request is reduced to 5 tokens.
+	 * @param asinsOnly If true only the ASINs of the found products will be provided (instead of the product objects).
 	 * @return A ready to send request.
 	 */
 	public static Request getProductSearchRequest(final AmazonLocale domainId, String term, Integer stats, int update, boolean history, boolean asinsOnly) {
@@ -416,7 +416,7 @@ public class Request {
 	 * @param history   Whether or not to include the product's history data (csv field). If you do not evaluate the csv field set to false to speed up the request and reduce traffic.
 	 * @param update    If the product's last refresh is older than <i>update</i>-hours force a refresh. Use this to speed up requests if up-to-date data is not required. Might cost an extra token if 0 (= live data). Default 1.
 	 * @param stats     If specified (= not null) the product object will have a stats field with quick access to current prices, min/max prices and the weighted mean values of the last x days, where x is the value of the stats parameter.
-	 * @param asinsOnly If true only the ASINs of the found products will be provided (instead of the product objects). If this parameter is used the token cost of the request is reduced to 5 tokens.
+	 * @param asinsOnly If true only the ASINs of the found products will be provided (instead of the product objects).
 	 * @param page      Valid values 0 - 9. Each search result page provides up to 10 results. To retrieve more results iterate the page parameter and keep all other parameters identical. Start with page 0 and stop when the response contains less than 10 results or you have reached page 9, which is the limit. When not using the page parameter the first 40 results will be returned.
 	 * @return A ready to send request.
 	 */

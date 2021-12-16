@@ -94,6 +94,7 @@ public final class KeepaAPI {
 	final public Promise<Response, Response, Void> sendRequest(Request r) {
 		return sendRequest(r, 30000, 120000);
 	}
+
 	/**
 	 * Issue a request to the Keepa Price Data API.
 	 * If your tokens are depleted, this method will fail.
