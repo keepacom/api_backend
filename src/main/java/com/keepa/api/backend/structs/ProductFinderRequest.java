@@ -1006,6 +1006,34 @@ public class ProductFinderRequest {
 	public String[] mpn;
 	public Integer outOfStockPercentage90_lte;
 	public Integer outOfStockPercentage90_gte;
+	public Integer salesRankDrops180_lte;
+	public Integer salesRankDrops180_gte;
+	public Integer salesRankDrops30_lte;
+	public Integer salesRankDrops30_gte;
+	public Integer salesRankDrops365_lte;
+	public Integer salesRankDrops365_gte;
+	public Integer salesRankDrops90_lte;
+	public Integer salesRankDrops90_gte;
+	public Long salesRankReference;
+	public Byte salesRankTopPct_lte;
+	public Byte salesRankTopPct_gte;
+	public Integer totalOfferCount_lte;
+	public Integer totalOfferCount_gte;
+	public Byte[] warehouseCondition;
+	public Boolean singleVariation;
+	public Boolean buyBoxIsUnqualified;
+	public Boolean buyBoxIsFBA;
+	public Integer itemDimension_lte;
+	public Integer itemDimension_gte;
+	public Integer itemHeight_lte;
+	public Integer itemHeight_gte;
+	public Integer itemLength_lte;
+	public Integer itemLength_gte;
+	public Integer itemWeight_lte;
+	public Integer itemWeight_gte;
+	public Integer itemWidth_lte;
+	public Integer itemWidth_gte;
+
 
 	public String[][] sort = null;
 

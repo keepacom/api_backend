@@ -14,7 +14,7 @@
 
     <groupId>com.keepa.api</groupId>
     <artifactId>backend</artifactId>
-    <version>1.73</version>
+    <version>1.74</version>
 
     <packaging>jar</packaging>
     <name>Keepa Java Framework</name>
@@ -71,6 +71,7 @@
                 <version>2.10.3</version>
                 <configuration>
                     <additionalparam>-Xdoclint:none</additionalparam>
+                    <detectJavaApiLink>false</detectJavaApiLink>
                 </configuration>
                 <executions>
                     <execution>
