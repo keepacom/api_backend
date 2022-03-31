@@ -2,6 +2,8 @@ package com.keepa.api.backend.structs;
 
 import com.keepa.api.backend.helper.KeepaTime;
 
+import java.util.LinkedHashMap;
+
 import static com.keepa.api.backend.helper.Utility.gson;
 
 /**
@@ -251,6 +253,11 @@ public class Stats {
 	public Boolean buyBoxIsPrimePantry = null;
 
 	/**
+	 * A map containing buy box statistics for the interval specified. Each key represents the sellerId of the buy box seller and each object a buy box statistics object.
+	 */
+	public LinkedHashMap<String, BuyBoxStatsObject> buyBoxStats = null;
+
+	/**
 	 * Only set when the offers parameter was used. If the product is an add-on item (add-on Items ship with orders that include $25 or more of items shipped by Amazon).
 	 */
 	public Boolean isAddonItem = null;
@@ -294,6 +301,19 @@ public class Stats {
 	 * The count of sales rank drops (from high value to low value) within the last 365 days which are considered to indicate sales.
 	 */
 	public int salesRankDrops365 = -1;
+
+	public static class BuyBoxStatsObject {
+		/** an approximation of the percentage the seller won the buy box **/
+		public float percentageWon;
+		/** avg. price of the Buy Box offer of this seller **/
+		public int avgPrice;
+		/** avg. "New" offer count during the time the seller held the Buy Box **/
+		public int avgNewOfferCount;
+		/** whether or not this offer is fulfilled by Amazon (but not sold by Amazon) **/
+		public boolean isFBA;
+		/** last time the seller won the buy box **/
+		public int lastSeen;
+	}
 
 @Override
 	public String toString() {

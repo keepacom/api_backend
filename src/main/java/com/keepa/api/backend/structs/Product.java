@@ -213,7 +213,6 @@ public final class Product {
 
 	/**
 	 * Quantity of items in a package. 0 or -1 if not available.
-	 * @deprecated
 	 */
 	public int packageQuantity = -1;
 
