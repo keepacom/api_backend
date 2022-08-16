@@ -122,6 +122,7 @@ public final class Product {
 
 	/**
 	 * The item’s author. null if not available.
+	 * @deprecated use the field contributors instead
 	 */
 	public String author = null;
 
@@ -176,6 +177,13 @@ public final class Product {
 	 * [ [ “Englisch”, “Originalsprache”, “DTS-HD 2.0” ], [ “Deutsch”, null, “DTS-HD 2.0” ] ]
 	 */
 	public String[][] languages = null;
+
+	/**
+	 * The contributors of the item. A contributor can be an author, actor, director, etc. Each contributor entry has a name and a role type.<br><br>
+	 * Example:<br>
+	 * [ [ “Vin Diesel”, “actor” ] ]
+	 */
+	public String[][] contributors = null;
 
 	/**
 	 * A list of the product features / bullet points. null if not available. <br>
