@@ -601,10 +601,10 @@ public class Request {
 	 * @param statsStartDate Must ISO8601 coded date (with or without time in UTC). Example: 2015-12-31 or 2015-12-31T14:51Z. If specified (= not null) the product object will have a stats field with quick access to current prices, min/max prices and the weighted mean values in the interval specified statsStartDate to statsEndDate. .
 	 * @param statsEndDate   the end of the stats interval. See statsStartDate.
 	 * @param history        Whether or not to include the product's history data (csv field). If you do not evaluate the csv field set to false to speed up the request and reduce traffic.
-	 * @param buybox         If specified and true the product and statistics object will include all available buy box related data</b>
+	 * @param buybox         If specified and true the product and statistics object will include all available buy box related data
 	 * @param update         If the product's last refresh is older than <i>update</i>-hours force a refresh. Use this to speed up requests if up-to-date data is not required. Might cost an extra token if 0 (= live data). Default 1.
 	 * @param offers         If specified (= not null) determines the number of marketplace offers to retrieve. 
-	 * @param rental         If true the rental price will be collected when available. <b>Can only be used in conjunction with the offers parameter.  </b>
+	 * @param rental         If true the rental price will be collected when available. <b>Can only be used in conjunction with the offers parameter.
 	 * @param rating         If true the product object will include our existing RATING and COUNT_REVIEWS history of the csv field, regardless if the offers parameter is used 
 	 * @return A ready to send request.
 	 */
@@ -638,13 +638,13 @@ public class Request {
 	 * @param statsStartDate Must ISO8601 coded date (with or without time in UTC). Example: 2015-12-31 or 2015-12-31T14:51Z. If specified (= not null) the product object will have a stats field with quick access to current prices, min/max prices and the weighted mean values in the interval specified statsStartDate to statsEndDate. .
 	 * @param statsEndDate   the end of the stats interval. See statsStartDate.
 	 * @param history        Whether or not to include the product's history data (csv field). If you do not evaluate the csv field set to false to speed up the request and reduce traffic.
-	 * @param buybox         If specified and true the product and statistics object will include all available buy box related data</b>
+	 * @param buybox         If specified and true the product and statistics object will include all available buy box related data
 	 * @param update         If the product's last refresh is older than <i>update</i>-hours force a refresh. Use this to speed up requests if up-to-date data is not required. Might cost an extra token if 0 (= live data). Default 1.
 	 * @param offers         If specified (= not null) determines the number of marketplace offers to retrieve. 
-	 * @param rental         If true the rental price will be collected when available. <b>Can only be used in conjunction with the offers parameter.  </b>
+	 * @param rental         If true the rental price will be collected when available. Can only be used in conjunction with the offers parameter.
 	 * @param rating         If true the product object will include our existing RATING and COUNT_REVIEWS history of the csv field, regardless if the offers parameter is used 
-	 * @param onlyLiveOffers If specified and has the value 1 the product object will only include live marketplace offers (when used in combination with the offers parameter). If you do not need historical offers use this to have them removed from the response. This can improve processing time and considerably decrease the size of the response.</b>
-	 * @param days           Any positive integer value. If specified and has positive value X the product object will limit all historical data to the recent X days. This includes the csv, buyBoxSellerIdHistory, salesRanks, offers and offers.offerCSV fields. If you do not need old historical data use this to have it removed from the response. This can improve processing time and considerably decrease the size of the response.</b>
+	 * @param onlyLiveOffers If specified and has the value 1 the product object will only include live marketplace offers (when used in combination with the offers parameter). If you do not need historical offers use this to have them removed from the response. This can improve processing time and considerably decrease the size of the response.
+	 * @param days           Any positive integer value. If specified and has positive value X the product object will limit all historical data to the recent X days. This includes the csv, buyBoxSellerIdHistory, salesRanks, offers and offers.offerCSV fields. If you do not need old historical data use this to have it removed from the response. This can improve processing time and considerably decrease the size of the response.
 	 * @return A ready to send request.
 	 */
 	public static Request getProductRequest(final AmazonLocale domainId, Integer offers, String statsStartDate, String statsEndDate, boolean buybox, int update, boolean history,
@@ -710,7 +710,7 @@ public class Request {
 	 * @param history        Whether or not to include the product's history data (csv field). If you do not evaluate the csv field set to false to speed up the request and reduce traffic.
 	 * @param update         If the product's last refresh is older than <i>update</i>-hours force a refresh. Use this to speed up requests if up-to-date data is not required. Might cost an extra token if 0 (= live data). Default 1.
 	 * @param offers         If specified (= not null) determines the number of marketplace offers to retrieve. 
-	 * @param rental         If true the rental price will be collected when available. <b>Can only be used in conjunction with the offers parameter.  </b>
+	 * @param rental         If true the rental price will be collected when available. Can only be used in conjunction with the offers parameter.
 	 * @param rating         If true the product object will include our existing RATING and COUNT_REVIEWS history of the csv field, regardless if the offers parameter is used 
 	 * @return A ready to send request.
 	 */
@@ -742,10 +742,10 @@ public class Request {
 	 * @param statsStartDate Must ISO8601 coded date (with or without time in UTC). Example: 2015-12-31 or 2015-12-31T14:51Z. If specified (= not null) the product object will have a stats field with quick access to current prices, min/max prices and the weighted mean values in the interval specified statsStartDate to statsEndDate. .
 	 * @param statsEndDate   the end of the stats interval. See statsStartDate.
 	 * @param history        Whether or not to include the product's history data (csv field). If you do not evaluate the csv field set to false to speed up the request and reduce traffic.
-	 * @param buybox         If specified and true the product and statistics object will include all available buy box related data</b>
+	 * @param buybox         If specified and true the product and statistics object will include all available buy box related data
 	 * @param update         If the product's last refresh is older than <i>update</i>-hours force a refresh. Use this to speed up requests if up-to-date data is not required. Might cost an extra token if 0 (= live data). Default 1.
 	 * @param offers         If specified (= not null) determines the number of marketplace offers to retrieve. 
-	 * @param rental         If true the rental price will be collected when available. <b>Can only be used in conjunction with the offers parameter.  </b>
+	 * @param rental         If true the rental price will be collected when available. Can only be used in conjunction with the offers parameter.
 	 * @param rating         If true the product object will include our existing RATING and COUNT_REVIEWS history of the csv field, regardless if the offers parameter is used 
 	 * @return A ready to send request.
 	 */

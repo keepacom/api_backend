@@ -71,7 +71,7 @@ public class TrackingRequest {
 	 * The update interval, in hours. Determines how often our system will trigger a product update. A setting of 1
 	 * hour will not trigger an update exactly every 60 minutes, but as close to that as it is efficient for our system.
 	 * Throughout a day it will be updated 24 times, but the updates are not perfectly distributed.<br>
-	 * Possible values: Any integer <b>between</b> 0 and 25. Default is 1.
+	 * Possible values: Any integer between 0 and 25. Default is 1.
 	 */
 	public int updateInterval = 1;
 

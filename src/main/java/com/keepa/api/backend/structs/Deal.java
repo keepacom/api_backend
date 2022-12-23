@@ -44,7 +44,7 @@ public class Deal {
 
 	/**
 	 * Contains the weighted averages in the respective date range and price type.<br>
-	 * <b>Note:</b> The day interval (index 0) is actually the average of the last 48 hours, not 24 hours. This is due to the way our deals work.
+	 * Note: The day interval (index 0) is actually the average of the last 48 hours, not 24 hours. This is due to the way our deals work.
 	 * <p>First dimension uses {@link Product.CsvType}, second domension {@link DealInterval}</p>
 	 */
 	public int[][] avg = null;
