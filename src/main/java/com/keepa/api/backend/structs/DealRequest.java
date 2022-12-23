@@ -150,6 +150,7 @@ public class DealRequest {
 	public boolean mustNotHaveAmazonOffer;
 	public Integer minRating;
 	public Byte[] warehouseConditions;
+	public Boolean singleVariation;
 
 
 	@Override

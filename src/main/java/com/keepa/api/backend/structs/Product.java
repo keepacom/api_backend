@@ -335,6 +335,20 @@ public final class Product {
 	public String[] buyBoxSellerIdHistory = null;
 
 	/**
+	 * Optional field. Only set if the offers or buybox parameter was used in the Product Request.
+	 * A history of the used buy box winners, containing the sellerIds 159, offer sub-condition and FBA status in the format:
+	 * Keepa time minutes, seller id, condition, isFBA, […].
+	 * If no seller qualified for the used buy box the sellerId "" (empty String) is used.
+	 *
+	 * condition can have the following values:
+	 * “2” - Used - Like New, “3” - Used - Very Good, “4” - Used - Good, “5” - Used - Acceptable
+	 * isFBA is either “1” - offer is FBA or “0” - offer is merchant fulfilled.
+	 * Example: [“2860926”, “ATVPDKIKX0DER”, “4”, “1”, …]
+	 * <p>Use {@link KeepaTime#keepaMinuteToUnixInMillis(String)} (long)} to get an uncompressed timestamp (Unix epoch time).</p>
+	 */
+	public String[] buyBoxUsedHistory = null;
+
+	/**
 	 * Only valid if the offers parameter was used in the Product Request.
 	 * Boolean indicating if the ASIN will be redirected to another one on Amazon
 	 * (example: the ASIN has the color black variation, which is not available any more
@@ -602,12 +616,12 @@ public final class Product {
 		REFURBISHED_SHIPPING(27, true, true, true, true),
 
 		/**
-		 * price history of the lowest new price on the respective eBay locale, including shipping costs.
+		 * Price history of the lowest new price on the respective eBay locale, including shipping costs.
 		 */
 		EBAY_NEW_SHIPPING(28, true, false, true, false),
 
 		/**
-		 * price history of the lowest used price on the respective eBay locale, including shipping costs.
+		 * Price history of the lowest used price on the respective eBay locale, including shipping costs.
 		 */
 		EBAY_USED_SHIPPING(29, true, false, true, false),
 
@@ -619,7 +633,18 @@ public final class Product {
 		/**
 		 * Rental price history. Requires use of the rental and offers parameter. Amazon Rental is only available for Amazon US.
 		 */
-		RENT(31, true, false, false, true);
+		RENT(31, true, false, false, true),
+
+
+		/**
+		 * The price history of the Used buy box (any sub-condition). If no offer qualified for the used buy box the price has the value -1. Including shipping costs.
+		 */
+		BUY_BOX_USED_SHIPPING(32, true, true, true, true),
+
+		/**
+		 * Price history of the lowest Prime exclusive New offer.
+		 */
+		PRIME_EXCL(33, true, true, false, true);
 
 		public final int index;
 

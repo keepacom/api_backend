@@ -198,16 +198,17 @@ public final class KeepaAPI {
 		return d.promise();
 	}
 
-
 	/**
 	 * Issue a request to the Keepa Price Data API.
 	 * If your API contingent is depleted, this method will retry the request as soon as there are new tokens available. May take minutes.
 	 * Will fail it the request failed too many times.
 	 *
 	 * @param r the API Request {@link Request}
+	 * @param connectTimeout the timeout value, in milliseconds, to be used when opening a connection to the API
+	 * @param readTimeout the read timeout value, in milliseconds, for receiving an API response
 	 * @return Promise for {@link Response}
 	 */
-	final public Promise<Response, Response, Void> sendRequestWithRetry(Request r) {
+	final public Promise<Response, Response, Void> sendRequestWithRetry(Request r, int connectTimeout, int readTimeout) {
 		Deferred<Response, Response, Void> deferred = new DeferredObject<>();
 		AtomicInteger expoDelay = new AtomicInteger(0);
 
@@ -226,7 +227,7 @@ public final class KeepaAPI {
 					if (retry > 0)
 						Thread.sleep(delay);
 
-					Promise<Response, Response, Void> p1 = sendRequest(r);
+					Promise<Response, Response, Void> p1 = sendRequest(r, connectTimeout, readTimeout);
 					p1
 							.done(result -> {
 								deferred.resolve(result);
@@ -257,5 +258,17 @@ public final class KeepaAPI {
 		});
 
 		return deferred.promise();
+	}
+
+	/**
+	 * Issue a request to the Keepa Price Data API.
+	 * If your API contingent is depleted, this method will retry the request as soon as there are new tokens available. May take minutes.
+	 * Will fail it the request failed too many times.
+	 *
+	 * @param r the API Request {@link Request}
+	 * @return Promise for {@link Response}
+	 */
+	final public Promise<Response, Response, Void> sendRequestWithRetry(Request r) {
+		return sendRequestWithRetry(r, 30000, 120000);
 	}
 }

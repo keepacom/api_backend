@@ -135,9 +135,18 @@ public class Offer {
 	public boolean isFBA;
 
 	/**
-	 * A Prime exclusive offer can only be ordered if the buyer has an active Prime subscription.
+	 * This offer has a discounted Prime exclusive price. A Prime exclusive offer can only be ordered if the buyer has an active Prime subscription.
 	 */
 	public boolean isPrimeExcl;
+
+
+	/**
+	 * Contains the Prime exclusive price history of this offer, if available. A Prime exclusive offer can only be ordered if the buyer has an active Prime subscription.
+	 * It has the format Keepa time minutes, price, [...].
+	 * <p>
+	 * Most recent Prime exclusive price: primeExclCSV[primeExclCSV.length - 1]
+	 */
+	public int[] primeExclCSV;
 
 	/**
 	 * Contains the available stock of this offer as well as, if available, the stock's history.

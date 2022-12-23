@@ -197,7 +197,7 @@ public class Stats {
 	public Boolean buyBoxIsFBA = null;
 
 	/**
-	 * Only set when the offers parameter was used. Whether or not the buy box offer is in used condition.
+	 * Only set when the offers parameter was used. Whether or not there is a used buy box offer.
 	 */
 	public Boolean buyBoxIsUsed = null;
 
@@ -258,6 +258,42 @@ public class Stats {
 	public LinkedHashMap<String, BuyBoxStatsObject> buyBoxStats = null;
 
 	/**
+	 * Only set when the offers parameter was used. Price of the used buy box, if existent. Otherwise "-1" or null
+	 */
+	public Integer  buyBoxUsedPrice      = null;
+
+	/**
+	 * Only set when the offers parameter was used. Shipping cost of the used buy box, if existent. Otherwise "-1" or null
+    */
+	public Integer  buyBoxUsedShipping   = null;
+
+	/**
+	 * Only set when the offers parameter was used. Seller id of the used boy box, if existent. Otherwise null.
+	 */
+	public String   buyBoxUsedSellerId   = null;
+
+	/**
+	 * Only set when the offers parameter was used. Whether or not the used buy box is fulfilled by Amazon.
+	 */
+	public Boolean  buyBoxUsedIsFBA      = null;
+
+	/**
+	 * Only set when the offers parameter was used. The used sub type condition of the used buy box offer<br>
+	 * <br>The {@link Offer.OfferCondition} condition of the offered product. Integer value:
+	 * <br>2 - Used - Like New
+	 * <br>3 - Used - Very Good
+	 * <br>4 - Used - Good
+	 * <br>5 - Used - Acceptable
+	 * <br>Note: Open Box conditions will be coded as Used conditions.
+	 */
+	public Byte buyBoxUsedCondition  = null;
+
+	/**
+	 * A map containing used buy box statistics for the interval specified. Each key represents the sellerId of the used buy box seller and each object a buy box statistics object.
+	 */
+	public LinkedHashMap<String, BuyBoxStatsObject> buyBoxUsedStats = null;
+
+	/**
 	 * Only set when the offers parameter was used. If the product is an add-on item (add-on Items ship with orders that include $25 or more of items shipped by Amazon).
 	 */
 	public Boolean isAddonItem = null;
@@ -309,7 +345,7 @@ public class Stats {
 		public int avgPrice;
 		/** avg. "New" offer count during the time the seller held the Buy Box **/
 		public int avgNewOfferCount;
-		/** whether or not this offer is fulfilled by Amazon (but not sold by Amazon) **/
+		/** whether or not this offer is fulfilled by Amazon **/
 		public boolean isFBA;
 		/** last time the seller won the buy box **/
 		public int lastSeen;

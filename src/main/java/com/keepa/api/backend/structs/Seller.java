@@ -17,7 +17,7 @@ public class Seller {
 	 * States the time we have started tracking this seller, in Keepa Time minutes.
 	 * <p>Use {@link KeepaTime#keepaMinuteToUnixInMillis(int)} (long)} to get an uncompressed timestamp (Unix epoch time).</p>
 	 */
-	public int trackedSince; // keepa minutes
+	public int trackedSince;
 
 	/**
 	 * The domainId of the products Amazon locale
@@ -49,9 +49,9 @@ public class Seller {
 
 	/**
 	 * States the time of our last update of this seller, in Keepa Time minutes.
-	 * <br>Example: 2711319
+	 * <p>Use {@link KeepaTime#keepaMinuteToUnixInMillis(int)} (long)} to get an uncompressed timestamp (Unix epoch time).</p>
 	 */
-	public int lastUpdate; // keepa minutes
+	public int lastUpdate;
 
 	/**
 	 * Indicating whether or not our system identified that this seller attempts to scam users.
@@ -69,7 +69,6 @@ public class Seller {
 	 * seller listings. This can especially be the case with sellers with only a few listings consisting of slow-selling products.
 	 */
 	public boolean hasFBA;
-
 
 	/**
 	 * Contains the number of storefront ASINs if available and the last update of that metric.<br>
@@ -120,6 +119,96 @@ public class Seller {
 	 *  Statistics about the primary brands of this seller. Based on our often incomplete and outdated product offers data.
 	 */
 	public MerchantBrandStatistics[] sellerBrandStatistics = null;
+
+
+	/**
+	 * The business address. Each entry of the array contains one address line.
+	 * The last entry contains the 2 letter country code. null if not available.
+	 * Example: [123 Main Street, New York, NY, 10001, US]
+	 */
+	public String[] address;
+
+	/**
+	 * Contains up to 5 of the most recent customer feedbacks.
+	 * Each feedback object in the array contains the following fields
+	 */
+	public FeedbackObject[] recentFeedback;
+
+	/**
+	 * States the time of our last rating data update of this seller, in Keepa Time minutes.
+	 * <p>Use {@link KeepaTime#keepaMinuteToUnixInMillis(int)} (long)} to get an uncompressed timestamp (Unix epoch time).</p>
+	 */
+	public int lastRatingUpdate;
+
+	/**
+	 * Contains the neutral percentage ratings for the last 30 days, 90 days, 365 days and lifetime, in that order.
+	 * A neutral rating is a 3 star rating.
+	 * Example: [1, 1, 1, 2]
+	 */
+	public int[] neutralRating = null;
+
+	/**
+	 * Contains the negative percentage ratings for the last 30 days, 90 days, 365 days and lifetime, in that order.
+	 * A negative rating is a 1 or 2 star rating.
+	 * Example: [3, 1, 1, 3]
+	 */
+	public int[] negativeRating = null;
+
+	/**
+	 * Contains the positive percentage ratings for the last 30 days, 90 days, 365 days and lifetime, in that order.
+	 * A positive rating is a 4 or 5 star rating.
+	 * Example: [96, 98, 98, 95]
+	 */
+	public int[] positiveRating = null;
+
+	/**
+	 * Contains the rating counts for the last 30 days, 90 days, 365 days and lifetime, in that order.
+	 * Example: [3, 10, 98, 321]
+	 */
+	public int[] ratingCount = null;
+
+	/**
+	 * The customer services address. Each entry of the array contains one address line.
+	 * The last entry contains the 2 letter country code. null if not available.
+	 * Example: [123 Main Street, New York, NY, 10001, US]
+	 */
+	public String[] customerServicesAddress;
+
+	/**
+	 * The Trade Register Number. null if not available.
+	 * Example: HRB 123 456
+	 */
+	public String tradeNumber;
+
+	/**
+	 * The VAT number. null if not available.
+	 * Example: DE123456789
+	 */
+	public String vatID;
+
+	/**
+	 * The phone number. null if not available.
+	 * Example: 800 1234 567
+	 */
+	public String phoneNumber;
+
+	/**
+	 * The business type. null if not available.
+	 * Example: Unternehmen in Privatbesitz
+	 */
+	public String businessType;
+
+	/**
+	 * The share capital. null if not available.
+	 * Example: 25000
+	 */
+	public String shareCapital;
+
+	/**
+	 * The name of the business representative. null if not available.
+	 * Example: Max Mustermann
+	 */
+	public String representative;
 
 	public int currentRating;
 	public int currentRatingCount;
@@ -194,6 +283,28 @@ public class Seller {
 		 * how many of these products have an Amazon offer
 		 */
 		public int productCountWithAmazonOffer;
+	}
+
+	public static class FeedbackObject {
+		/**
+		 * the feedback star rating - value range from 10 (1 star) to 50 (5 stars)
+		 */
+		public int rating;
+
+		/**
+		 * timestamp of the feedback, in Keepa Time minutes
+		 */
+		public int date;
+
+		/**
+		 * the feedback text
+		 */
+		public String feedback = null;
+
+		/**
+		 * whether or not the feedback is striked
+		 */
+		public boolean isStriked;
 	}
 
 	@Override
