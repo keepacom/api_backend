@@ -1062,6 +1062,7 @@ public String[] size;
 public String[] studio;
 public String title;
 public String title_flag;
+
 public Integer totalOfferCount_lte;
 public Integer totalOfferCount_gte;
 public Integer trackingSince_lte;

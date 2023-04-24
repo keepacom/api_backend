@@ -263,6 +263,12 @@ public final class Product {
 	public boolean isEligibleForTradeIn = false;
 
 	/**
+	 * The referral fee percent, null if not available.<br>
+	 * Example: 12
+	 */
+	public Integer referralFeePercent = null;
+
+	/**
 	 * Whether or not the product is eligible for super saver shipping by Amazon (not FBA).
 	 */
 	public boolean isEligibleForSuperSaverShipping = false;
