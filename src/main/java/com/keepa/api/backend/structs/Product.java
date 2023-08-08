@@ -269,6 +269,18 @@ public final class Product {
 	public Integer referralFeePercent = null;
 
 	/**
+	 * States the last time we have updated the monthlySold field, in Keepa Time minutes. Undefined if the monthlySold has no value.
+	 * Use {@link KeepaTime#keepaMinuteToUnixInMillis(int)} (long)} to get an uncompressed timestamp (Unix epoch time).
+	 */
+	public int lastSoldUpdate = 0;
+
+	/**
+	 * How often this product was bought in the past month. This field represents the bought past month metric found on Amazon search result pages. It is not an estimate. Undefined if it has no value. Most ASINs do not have this value set. The value is variation specific.
+	 * Example: 1000 - the ASIN was bought at least 1000 times in the past month.
+	 */
+	public int monthlySold = 0;
+
+	/**
 	 * Whether or not the product is eligible for super saver shipping by Amazon (not FBA).
 	 */
 	public boolean isEligibleForSuperSaverShipping = false;

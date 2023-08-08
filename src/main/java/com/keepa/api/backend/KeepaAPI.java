@@ -194,7 +194,6 @@ public final class KeepaAPI {
 			else
 				d.reject(response);
 		});
-
 		return d.promise();
 	}
 
