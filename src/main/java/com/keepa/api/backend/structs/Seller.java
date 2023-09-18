@@ -181,6 +181,12 @@ public class Seller {
 	public String tradeNumber;
 
 	/**
+	 * The business name. null if not available.
+	 * Example: Keepa GmbH
+	 */
+	public String businessName;
+
+	/**
 	 * The VAT number. null if not available.
 	 * Example: DE123456789
 	 */
@@ -209,6 +215,12 @@ public class Seller {
 	 * Example: Max Mustermann
 	 */
 	public String representative;
+
+	/**
+	 * The email address of the business. null if not available.
+	 * Example: info@keepa.com
+	 */
+	public String email;
 
 	public int currentRating;
 	public int currentRatingCount;

@@ -1067,6 +1067,12 @@ public Integer totalOfferCount_lte;
 public Integer totalOfferCount_gte;
 public Integer trackingSince_lte;
 public Integer trackingSince_gte;
+public Integer monthlySold_lte;
+public Integer monthlySold_gte;
+public Boolean buyBoxIsPreorder;
+public Boolean buyBoxIsBackorder;
+public Boolean buyBoxIsPrimeExclusive;
+
 public String[] type;
 public Byte[] warehouseCondition;
 public Boolean singleVariation;
