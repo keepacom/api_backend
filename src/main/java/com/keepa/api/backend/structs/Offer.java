@@ -156,6 +156,10 @@ public class Offer {
 	 */
 	public int[] stockCSV;
 
+	/**
+	 * Minimum order quantity. 0 if unknown.
+	 */
+	public int minOrderQty;
 
 	public enum OfferCondition {
 		UNKNOWN(0),
