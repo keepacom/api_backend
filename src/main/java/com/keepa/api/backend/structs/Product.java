@@ -42,7 +42,7 @@ public final class Product {
 
 	/**
 	 * Comma separated list of image names of the product. Full Amazon image path:<br>
-	 * https://images-na.ssl-images-amazon.com/images/I/_image name_
+	 * https://m.media-amazon.com/images/I/_image name_
 	 */
 	public String imagesCSV = null;
 
@@ -263,10 +263,15 @@ public final class Product {
 	public boolean isEligibleForTradeIn = false;
 
 	/**
-	 * The referral fee percent, null if not available.<br>
-	 * Example: 12
+	 * @deprecated use the field referralFeePercentage instead
 	 */
 	public Integer referralFeePercent = null;
+
+	/**
+	 * The referral fee percent is determined by either the current price or, in the absence of a current offer, the previous one. If neither of these prices is available for reference, the fee percent is calculated based on a standard sales price of 100.00. *null* if not available.
+	 * Example: 12
+	 */
+	public Double referralFeePercentage = null;
 
 	/**
 	 * States the last time we have updated the monthlySold field, in Keepa Time minutes. Undefined if the monthlySold has no value.
@@ -303,6 +308,13 @@ public final class Product {
 	 * Use {@link KeepaTime#keepaMinuteToUnixInMillis(int)} (long)} to get an uncompressed timestamp (Unix epoch time).
 	 */
 	public int lastEbayUpdate = 0;
+
+	/**
+	 * The most recent update of the stock data for this product’s offers, in Keepa Time minutes.<br>
+	 * Has the value 0 unless the stock parameter was used and stock data was collected at least once.
+	 * Use {@link KeepaTime#keepaMinuteToUnixInMillis(int)} (long)} to get an uncompressed timestamp (Unix epoch time).
+	 */
+	public int lastStockUpdate = 0;
 
 	/**
 	 * States the last time we have updated the product rating and review count, in Keepa Time minutes.<br>
@@ -378,6 +390,22 @@ public final class Product {
 	 * Only valid if the offers parameter was used in the Product Request. Boolean indicating if the product's Buy Box is available for subscribe and save.
 	 */
 	public boolean isSNS = false;
+
+	/**
+	 * Suggested Lower Price for the Buy Box, if the buy box is suppressed.
+	 */
+	public Integer suggestedLowerPrice = null;
+
+
+	/**
+	 * Competitive Price Threshold (CPT) for the Buy Box, if the buy box is suppressed.
+	 */
+	public Integer competitivePriceThreshold = null;
+
+	/**
+	 * The hazardous material type of this product, if applicable.
+	 */
+	public HazardousMaterial[] hazardousMaterials = null;
 
 	/**
 	 * Only valid if the offers parameter was used in the Product Request. Boolean indicating if the system was able to retrieve fresh offer information.
@@ -809,6 +837,12 @@ public final class Product {
 		public long catId;
 		public String name;
 	}
+
+	public class HazardousMaterial {
+		public String aspect;
+		public String value;
+	}
+
 
 	public static class RentalObject {
 		public int initialPrice = -1;

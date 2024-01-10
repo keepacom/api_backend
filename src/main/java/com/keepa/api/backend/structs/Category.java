@@ -50,6 +50,11 @@ public final class Category {
 	 * Number of products that are listed in this category. Note: Estimate, as the value is from the Keepa product database and not retrieved from Amazon.
 	 */
 	public int productCount;
+
+	/**
+	 * Determines if this category functions as a standard browse node, rather than serving promotional purposes (for example, 'Specialty Stores').
+	 */
+	public boolean isBrowseNode;
 	
 
 	@Override

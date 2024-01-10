@@ -299,83 +299,65 @@ public class ProductAnalyzer {
 	 * @return the weighted mean or -1 if insufficient history csv length (less than a day). If the csv includes shipping costs it will be the wieghted mean of the landing price (price + shipping).
 	 */
 	public static int calcWeightedMean(int[] csv, int now, double days, CsvType type) {
-		int avg = -1;
+		return getWeightedMeanInInterval(csv, now, now - (int) (days * 24 * 60), now, type);
+	}
 
-		if (csv == null || csv.length == 0)
-			return avg;
+	public static int getWeightedMeanInInterval(int[] v, int now, int start, int end, CsvType type) {
+		long avg = -1;
+		if (start >= end || v == null || v.length == 0) return -1;
 
-		int size = csv.length;
-		int loopIncrement = (type.isWithShipping ? 3 : 2);
+		int size = v.length;
+		int loopIncrement = type.isWithShipping ? 3 : 2;
 
-		int duration = (csv[size - loopIncrement] - csv[0]) / 60;
-		double count = 0;
+		int lastTime = getLastTime(v, type);
+		int firstTime = v[0];
 
-		if (size < 4 || duration < 24 * 7)
-			return avg;
+		if (lastTime == -1 || firstTime == -1 || firstTime > end) return -1;
 
-		if (duration < 24 * days)
-			days = Math.floor(duration / 24.0);
+		long count = 0;
+
+		if (firstTime > start) start = firstTime;
+		if (end > now) end = now;
 
 		int adjustedIndex = type.isWithShipping ? 2 : 1;
+		for (int i = 1; i < size; i += loopIncrement) {
+			int date = v[i - 1];
+			if (date >= end) break;
 
-		for (int i = 1, j = size; i < j; i = i + loopIncrement) {
-			int c = csv[i];
-			if (c != -1) {
-				if (type.isWithShipping) {
-					int s = csv[i + 1];
-					c += s < 0 ? 0 : s;
-				}
+			int c = v[i];
+			if (c < 0) continue;
 
-				if (now - csv[i - 1] < days * 24 * 60) {
-					if (i == 1) {
-						continue;
-					}
+			if (type.isWithShipping) {
+				int s = v[i + 1];
+				c += Math.max(s, 0);
+			}
 
-					if (avg == -1) {
-						if (csv[i - loopIncrement] == -1) {
-							avg = 0;
-						} else {
-							double tmpCount = (days * 24 * 60 - (now - csv[i - 1])) / (24 * 60.0);
-							count = tmpCount;
-							int price = csv[i - loopIncrement];
-							if (type.isWithShipping) {
-								int s = csv[i - 2];
-								price += s < 0 ? 0 : s;
-							}
+			if (date >= start) {
+				if (i == 1 && i + adjustedIndex == size)
+					return c;
 
-							avg = (int) Math.floor(price * tmpCount);
-						}
-					}
+				int nextDate = (i + adjustedIndex == size) ? now : v[i + adjustedIndex];
+				if (nextDate > end) nextDate = end;
 
-					if (i + adjustedIndex == j) {
-						if (csv[i - loopIncrement] == -1) {
-							continue;
-						}
-						double tmpCount = ((now - csv[j - loopIncrement]) / (24.0 * 60.0));
-						count += tmpCount;
-						avg += c * tmpCount;
-					} else {
-						double tmpCount = ((csv[i + adjustedIndex] - csv[i - 1]) / (24.0 * 60.0));
-						count += tmpCount;
-						avg += c * tmpCount;
-					}
-				} else {
-					if (i == j - adjustedIndex && csv[i] != -1) {
-						count = 1;
-						avg = c;
-					}
+				long tmpCount = nextDate - date;
+				count += tmpCount;
+				avg += c * tmpCount;
+			} else {
+				if (i == size - adjustedIndex || v[i + adjustedIndex] >= end)
+					return c;
+
+				int nextDate = v[i + adjustedIndex];
+				if (nextDate >= start) {
+					count = nextDate - start;
+					avg = c * count;
 				}
 			}
 		}
 
-		if (avg != -1) {
-			if (count != 0)
-				avg = (int) Math.floor(avg / count);
-			else
-				avg = -1;
-		}
+		if (avg > -1)
+			avg = count != 0 ? (int) Math.floor(avg / (double) count) : -1;
 
-		return avg;
+		return (int) avg;
 	}
 
 	/**

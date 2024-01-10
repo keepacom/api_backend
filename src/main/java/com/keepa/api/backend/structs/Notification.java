@@ -19,7 +19,7 @@ public class Notification {
 
 	/**
 	 * The main image name of the product. Full Amazon image path:<br>
-	 * https://images-na.ssl-images-amazon.com/images/I/_image name_
+	 * https://m.media-amazon.com/images/I/_image name_
 	 */
 	public String image;
 

@@ -161,7 +161,24 @@ public class Offer {
 	 */
 	public int minOrderQty;
 
-	public enum OfferCondition {
+
+	/**
+	 * Contains one-time coupon details of this offer. Undefined if none is available.
+	 * Positive integer for an absolute discount or negative for a percentage discount.
+	 * Example:
+	 * 500 - Coupon with a $5 discount.
+	 * -15 - Coupon with a 15% discount.
+	 */
+	public int coupon;
+
+	/**
+	 * Contains the coupon history of this offer, if available.
+	 * It has the format Keepa time minutes, coupon, [...].
+	 */
+	public int[] couponHistory;
+
+
+public enum OfferCondition {
 		UNKNOWN(0),
 		NEW(1),
 		USED_NEW(2), USED_VERY_GOOD(3), USED_GOOD(4), USED_ACCEPTABLE(5),
