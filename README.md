@@ -79,7 +79,7 @@ Which makes sure that the newest version from our servers is pulled during build
 ---------------------------
 
 ```java
-KeepaAPI api = new KeepaAPI("YOUR_API_KEY");
+KeepaAPI api = new KeepaAPI("YOUR_API_KEY"); // the KeepaAPI object is reuseable
 Request r = Request.getProductRequest(AmazonLocale.US, 90, null, "B001GZ6QEC");
 
 api.sendRequest(r)
