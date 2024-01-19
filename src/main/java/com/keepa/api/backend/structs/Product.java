@@ -854,10 +854,8 @@ public final class Product {
 	public static class PromotionObject {
 		/**  The type of promotion **/
 		public PromotionType type = null;
-		public String eligibilityRequirementDescription = null;
-		public String benefitDescription = null;
-		/** unique Id of this promotion. **/
-		public String promotionId = null;
+		public int amount = -1;
+		public int discountPercent = -1;
 	}
 
 	public static class VariationObject {
