@@ -1077,6 +1077,38 @@ public String[] type;
 public Byte[] warehouseCondition;
 public Boolean singleVariation;
 
+public Integer outOfStockPercentage90_lte; // Amazon
+public Integer outOfStockPercentage90_gte;
+public Integer variationCount_lte;
+public Integer variationCount_gte;
+public Integer imageCount_lte;
+public Integer imageCount_gte;
+public Integer buyBoxStatsAmazon30_lte;
+public Integer buyBoxStatsAmazon30_gte;
+public Integer buyBoxStatsAmazon90_lte;
+public Integer buyBoxStatsAmazon90_gte;
+public Integer buyBoxStatsAmazon180_lte;
+public Integer buyBoxStatsAmazon180_gte;
+public Integer buyBoxStatsAmazon365_lte;
+public Integer buyBoxStatsAmazon365_gte;
+public Integer buyBoxStatsTopSeller30_lte;
+public Integer buyBoxStatsTopSeller30_gte;
+public Integer buyBoxStatsTopSeller90_lte;
+public Integer buyBoxStatsTopSeller90_gte;
+public Integer buyBoxStatsTopSeller180_lte;
+public Integer buyBoxStatsTopSeller180_gte;
+public Integer buyBoxStatsTopSeller365_lte;
+public Integer buyBoxStatsTopSeller365_gte;
+public Integer buyBoxStatsSellerCount30_lte;
+public Integer buyBoxStatsSellerCount30_gte;
+public Integer buyBoxStatsSellerCount90_lte;
+public Integer buyBoxStatsSellerCount90_gte;
+public Integer buyBoxStatsSellerCount180_lte;
+public Integer buyBoxStatsSellerCount180_gte;
+public Integer buyBoxStatsSellerCount365_lte;
+public Integer buyBoxStatsSellerCount365_gte;
+public Boolean isHazMat;
+
 
 	public String[][] sort = null;
 

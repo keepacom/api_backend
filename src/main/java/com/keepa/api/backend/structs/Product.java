@@ -21,12 +21,21 @@ public final class Product {
 	public byte domainId = 0;
 
 	/**
-	 * The ASIN of the parent product (if asin has variations, otherwise null)
+	 * The ASIN of the parent product (if the product has variations, otherwise null)
 	 */
 	public String parentAsin = null;
 
 	/**
-	 * Comma separated list of variation ASINs of the product (if asin is parentAsin, otherwise null)
+	 * The history of the parentAsin field. This array follows the format: [Keepa time in minutes, previous parent ASIN, ...].<br>
+	 * The included timestamp indicates when the previously associated parent ASIN ceased to be valid.<br>
+	 * For the current parent ASIN, use the parentAsin field.<br><br>
+	 * To convert a Keepa minute timestamp into an uncompressed, Unix epoch time timestamp, use the {@link KeepaTime#keepaMinuteToUnixInMillis(int)} method.<br>
+	 * null if the parentAsin field never changed.
+	 */
+	public String[] parentAsinHistory = null;
+
+	/**
+	 * Comma separated list of variation ASINs of the product (if the product is a parent ASIN, otherwise null)
 	 */
 	public String variationCSV = null;
 
@@ -286,6 +295,11 @@ public final class Product {
 	public int monthlySold = 0;
 
 	/**
+	 * Contains historical values of the monthlySold field. Undefined if it has no value.
+	 */
+	public int[] monthlySoldHistory = null;
+
+	/**
 	 * Whether or not the product is eligible for super saver shipping by Amazon (not FBA).
 	 */
 	public boolean isEligibleForSuperSaverShipping = false;
@@ -416,6 +430,11 @@ public final class Product {
 	 * One or two “Frequently Bought Together” ASINs. null if not available. Field is updated when the offers parameter was used.
 	 */
 	public String[] frequentlyBoughtTogether = null;
+
+	/**
+	 * True if this product is an Amazon Merch on Demand product
+	 */
+	public Boolean isMerchOnDemand = null;
 
 	/**
 	 * Contains current promotions for this product. Only Amazon US promotions by Amazon (not 3rd party) are collected. In rare cases data can be incomplete.

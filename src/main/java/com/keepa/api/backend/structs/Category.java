@@ -27,6 +27,11 @@ public final class Category {
 	public String contextFreeName;
 
 	/**
+	 * The websiteDisplayGroup - available for most root categories.
+	 */
+	public String websiteDisplayGroup;
+
+	/**
 	 * List of all sub categories. null or [] (empty array) if the category has no sub categories.
 	 */
 	public long[] children;
