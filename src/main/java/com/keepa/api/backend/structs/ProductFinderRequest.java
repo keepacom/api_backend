@@ -1108,6 +1108,7 @@ public Integer buyBoxStatsSellerCount180_gte;
 public Integer buyBoxStatsSellerCount365_lte;
 public Integer buyBoxStatsSellerCount365_gte;
 public Boolean isHazMat;
+public Boolean isHeatSensitive;
 
 
 	public String[][] sort = null;

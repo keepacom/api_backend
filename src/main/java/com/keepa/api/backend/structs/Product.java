@@ -417,6 +417,19 @@ public final class Product {
 	public Integer competitivePriceThreshold = null;
 
 	/**
+	 * If buyBoxEligibleOfferCounts is available, it represents an array of integers, each entry indicating the total number of offers eligible for the Buy Box across specified offer conditions and fulfillment channels. This array contains eight elements, indexed as follows:<br>
+	 * 0: New FBA<br>
+	 * 1: New FBM<br>
+	 * 2: Used FBA<br>
+	 * 3: Used FBM<br>
+	 * 4: Collectible FBA<br>
+	 * 5: Collectible FBM<br>
+	 * 6: Refurbished FBA<br>
+	 * 7: Refurbished FBM<br>
+	 */
+	public int[] buyBoxEligibleOfferCounts = null;
+
+	/**
 	 * The hazardous material type of this product, if applicable.
 	 */
 	public HazardousMaterial[] hazardousMaterials = null;
@@ -435,6 +448,11 @@ public final class Product {
 	 * True if this product is an Amazon Merch on Demand product
 	 */
 	public Boolean isMerchOnDemand = null;
+
+	/**
+	 * Indicates if the item is heat sensitive (e.g. meltable).
+	 */
+	public Boolean isHeatSensitive = null;
 
 	/**
 	 * Contains current promotions for this product. Only Amazon US promotions by Amazon (not 3rd party) are collected. In rare cases data can be incomplete.

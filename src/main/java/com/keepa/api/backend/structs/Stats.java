@@ -51,6 +51,13 @@ public class Stats {
 	public int[] avg180 = null;
 
 	/**
+	 * Contains the weighted mean for the last 365 days.<br>
+	 * <p>Uses {@link Product.CsvType} indexing.</p>
+	 * If no offer was available in the given interval or there is insufficient data it has the value -1.
+	 */
+	public int[] avg365 = null;
+
+	/**
 	 * Contains the prices registered at the start of the interval specified in the product request's stats parameter.<br>
 	 * <p>Uses {@link Product.CsvType} indexing.</p>
 	 * If no offer was available in the given interval or there is insufficient data it has the value -1.
@@ -96,6 +103,35 @@ public class Stats {
 	public int[][] maxInInterval = null;
 
 	/**
+	 * Whether the current price is the all-time lowest price. <br>
+	 * Uses {@link Product.CsvType} indexing
+	 */
+	public boolean[] isLowest = null;
+
+	/**
+	 * Whether the current price is the lowest price in the last 90 days. <br>
+	 * Uses {@link Product.CsvType} indexing
+	 */
+	public boolean[] isLowest90 = null;
+
+	/**
+	 * Number of times in the last 30 days Amazon went out of stock.
+	 */
+	public Integer outOfStockCountAmazon30 = null;
+
+	/**
+	 * Number of times in the last 90 days Amazon went out of stock.
+	 */
+	public Integer outOfStockCountAmazon90 = null;
+
+	/**
+	 * Contains the difference in percent between the current monthlySold value and the average value of the last 90 days.
+	 * The value 0 means it did not change or could not be calculated.
+	 */
+	public Short deltaPercent90_monthlySold = null;
+
+	/**
+	 *
 	 * Contains the out of stock percentage in the interval specified in the product request's stats parameter.<br>
 	 * <p>Uses {@link Product.CsvType} indexing.</p>
 	 * It has the value -1 if there is insufficient data or the CsvType is not a price.<br>
