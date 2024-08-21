@@ -91,7 +91,7 @@ public final class KeepaAPI {
 	 * @param r the API Request {@link Request}
 	 * @return Promise for {@link Response}
 	 */
-	final public Promise<Response, Response, Void> sendRequest(Request r) {
+	public Promise<Response, Response, Void> sendRequest(Request r) {
 		return sendRequest(r, 30000, 120000);
 	}
 
@@ -104,7 +104,7 @@ public final class KeepaAPI {
 	 * @param readTimeout the read timeout value, in milliseconds, for receiving an API response
 	 * @return Promise for {@link Response}
 	 */
-	final public Promise<Response, Response, Void> sendRequest(Request r, int connectTimeout, int readTimeout) {
+	public Promise<Response, Response, Void> sendRequest(Request r, int connectTimeout, int readTimeout) {
 		Deferred<Response, Response, Void> d = new DeferredObject<>();
 
 		if(r == null){
@@ -151,16 +151,19 @@ public final class KeepaAPI {
 						response = gson.fromJson(reader, Response.class);
 						response.status = ResponseStatus.OK;
 					} catch (Exception e) {
-						response = Response.REQUEST_FAILED;
-						e.printStackTrace();
+						response = new Response();
+						response.status = ResponseStatus.FAIL;
+						response.exception = e;
 					}
 				} else {
 					try (InputStream is = con.getErrorStream();
 					     GZIPInputStream gis = new GZIPInputStream(is)) {
 						JsonReader reader = new JsonReader(new InputStreamReader(gis, "UTF-8"));
 						response = gson.fromJson(reader, Response.class);
-					} catch (Exception ignored) {
+					} catch (Exception e) {
 						response = new Response();
+						response.status = ResponseStatus.FAIL;
+						response.exception = e;
 					}
 
 					switch (responseCode) {
@@ -180,12 +183,15 @@ public final class KeepaAPI {
 							response.status = ResponseStatus.INTERNAL_SERVER_ERROR;
 							break;
 						default:
-							response = Response.REQUEST_FAILED;
+							if (response.status != ResponseStatus.FAIL)
+								response.status = ResponseStatus.FAIL;
 							break;
 					}
 				}
 			} catch (IOException e) {
-				response = Response.REQUEST_FAILED;
+				response = new Response();
+				response.status = ResponseStatus.FAIL;
+				response.exception = e;
 			}
 
 			response.requestTime = (System.nanoTime() - responseTime) / 1000000;
@@ -207,7 +213,7 @@ public final class KeepaAPI {
 	 * @param readTimeout the read timeout value, in milliseconds, for receiving an API response
 	 * @return Promise for {@link Response}
 	 */
-	final public Promise<Response, Response, Void> sendRequestWithRetry(Request r, int connectTimeout, int readTimeout) {
+	public Promise<Response, Response, Void> sendRequestWithRetry(Request r, int connectTimeout, int readTimeout) {
 		Deferred<Response, Response, Void> deferred = new DeferredObject<>();
 		AtomicInteger expoDelay = new AtomicInteger(0);
 
@@ -267,7 +273,7 @@ public final class KeepaAPI {
 	 * @param r the API Request {@link Request}
 	 * @return Promise for {@link Response}
 	 */
-	final public Promise<Response, Response, Void> sendRequestWithRetry(Request r) {
+	public Promise<Response, Response, Void> sendRequestWithRetry(Request r) {
 		return sendRequestWithRetry(r, 30000, 120000);
 	}
 }

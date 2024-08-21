@@ -138,7 +138,12 @@ public class Response {
 		NOT_ENOUGH_TOKEN.status =  KeepaAPI.ResponseStatus.NOT_ENOUGH_TOKEN;
 	}
 
-	@Override
+	/**
+	 * If the reqeust failed due to an Java exception (e.g. network error), this contains the exception object.
+	 */
+	public Exception exception;
+
+@Override
 	public String toString() {
 		if(status == KeepaAPI.ResponseStatus.OK)
 			return gson.toJson(this);
