@@ -455,6 +455,14 @@ public final class Product {
 	public Boolean isHeatSensitive = null;
 
 	/**
+	 * Indicates the return rate of this product.<br>
+	 * - `null` if the return rate is unavailable or average.<br>
+	 * - `1` for a low return rate.<br>
+	 * - `2` for a high return rate.
+	 */
+	public Byte returnRate = null;
+
+	/**
 	 * Contains current promotions for this product. Only Amazon US promotions by Amazon (not 3rd party) are collected. In rare cases data can be incomplete.
 	 */
 	public PromotionObject[] promotions = null;
