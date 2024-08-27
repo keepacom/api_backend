@@ -277,6 +277,18 @@ public final class Product {
 	public Integer referralFeePercent = null;
 
 	/**
+	 * The variable closing fee. Fees are integers of the respective Amazon locale’s smallest currency unit (e.g. euro cents or yen). null if not available.
+	 * Example: 81
+	 */
+	public Integer variableClosingFee = null;
+
+	/**
+	 * The product listing URL slug.
+	 * Example: Ring-Video-Doorbell-Satin-Nickel-2020-Release
+	 */
+	public String urlSlug = null;
+
+	/**
 	 * The referral fee percent is determined by either the current price or, in the absence of a current offer, the previous one. If neither of these prices is available for reference, the fee percent is calculated based on a standard sales price of 100.00. *null* if not available.
 	 * Example: 12
 	 */
@@ -340,6 +352,11 @@ public final class Product {
 	 * Keepa product type {@link Product.ProductType}. Must always be evaluated first.
 	 */
 	public byte productType = 0;
+
+	/**
+	 * The item’s type. null if not available.
+	 */
+	public String type = null;
 
 	/**
 	 * Whether or not the product has reviews.
