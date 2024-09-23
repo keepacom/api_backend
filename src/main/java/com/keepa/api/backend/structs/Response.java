@@ -141,7 +141,7 @@ public class Response {
 	/**
 	 * If the reqeust failed due to an Java exception (e.g. network error), this contains the exception object.
 	 */
-	public Exception exception;
+	public transient Exception exception;
 
 @Override
 	public String toString() {
