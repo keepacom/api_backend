@@ -11,9 +11,9 @@ import java.net.URLEncoder;
  * Static helper methods and reused objects.
  */
 public class Utility {
-public static final Gson gson = new GsonBuilder().excludeFieldsWithModifiers(Modifier.TRANSIENT).excludeFieldsWithModifiers(Modifier.PRIVATE, Modifier.PROTECTED).create();
+public static final Gson gson = new GsonBuilder().excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.PRIVATE, Modifier.PROTECTED).create();
 
-public static final Gson gsonPretty = new GsonBuilder().excludeFieldsWithModifiers(Modifier.TRANSIENT).excludeFieldsWithModifiers(Modifier.PRIVATE, Modifier.PROTECTED).setPrettyPrinting().create();
+public static final Gson gsonPretty = new GsonBuilder().excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.PRIVATE, Modifier.PROTECTED).setPrettyPrinting().create();
 
 public static String arrayToCsv(String array[]) {
 	StringBuilder buff = new StringBuilder();

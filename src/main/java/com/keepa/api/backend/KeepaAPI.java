@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -136,9 +137,9 @@ public final class KeepaAPI {
 					con.setRequestMethod("POST");
 					con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
 					con.setDoOutput(true);
-					OutputStream os = con.getOutputStream();
-					os.write(r.postData.getBytes("UTF-8"));
-					os.close();
+					try (OutputStream os = con.getOutputStream()) {
+						os.write(r.postData.getBytes(StandardCharsets.UTF_8));
+					}
 				} else
 					con.setRequestMethod("GET");
 
@@ -258,6 +259,7 @@ public final class KeepaAPI {
 					}
 				}
 			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
 				deferred.reject(null);
 			}
 		});
@@ -276,4 +278,5 @@ public final class KeepaAPI {
 	public Promise<Response, Response, Void> sendRequestWithRetry(Request r) {
 		return sendRequestWithRetry(r, 30000, 120000);
 	}
+
 }

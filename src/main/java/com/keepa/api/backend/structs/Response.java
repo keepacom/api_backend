@@ -128,16 +128,6 @@ public class Response {
 	 */
 	public String additional = null;
 
-	static public Response REQUEST_FAILED = new Response();
-	static public Response REQUEST_REJECTED = new Response();
-	static public Response NOT_ENOUGH_TOKEN = new Response();
-
-	static {
-		REQUEST_FAILED.status = KeepaAPI.ResponseStatus.FAIL;
-		REQUEST_REJECTED.status = KeepaAPI.ResponseStatus.REQUEST_REJECTED;
-		NOT_ENOUGH_TOKEN.status =  KeepaAPI.ResponseStatus.NOT_ENOUGH_TOKEN;
-	}
-
 	/**
 	 * If the reqeust failed due to an Java exception (e.g. network error), this contains the exception object.
 	 */
@@ -150,4 +140,7 @@ public class Response {
 		else
 			return gsonPretty.toJson(this);
 	}
+
 }
+
+

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0     http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -14,9 +14,9 @@
 
     <groupId>com.keepa.api</groupId>
     <artifactId>backend</artifactId>
-    <version>1.90</version>
-
+    <version>1.91</version>
     <packaging>jar</packaging>
+
     <name>Keepa Java Framework</name>
     <description>A Java Framework which helps you to deploy your own application, based on the Keepa API.</description>
     <url>https://keepa.com/</url>
@@ -28,7 +28,6 @@
         </license>
     </licenses>
 
-
     <developers>
         <developer>
             <name>Keepa.com</name>
@@ -37,19 +36,6 @@
             <organizationUrl>https://keepa.com</organizationUrl>
         </developer>
     </developers>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.4.1</version>
-                <configuration>
-                    <doclint>none</doclint>
-                </configuration>
-            </plugin>
-        </plugins>
-    </reporting>
 
     <build>
         <plugins>
@@ -66,6 +52,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
