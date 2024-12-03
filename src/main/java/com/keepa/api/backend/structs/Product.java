@@ -289,6 +289,18 @@ public final class Product {
 	public String urlSlug = null;
 
 	/**
+	 * The ingredient list of the product. undefined if not available.
+	 * Example: Purified Carbonated Water, Natural Flavors
+	 */
+	public String ingredients = null;
+
+	/**
+	 * True if this product is an Amazon Haul product. undefined otherwise.
+	 * Example: true
+	 */
+	public Boolean isHaul;
+
+	/**
 	 * The referral fee percent is determined by either the current price or, in the absence of a current offer, the previous one. If neither of these prices is available for reference, the fee percent is calculated based on a standard sales price of 100.00. *null* if not available.
 	 * Example: 12
 	 */
@@ -562,6 +574,11 @@ public final class Product {
 	 * Example: PG-13 (Parents Strongly Cautioned)
 	 */
 	public String audienceRating = null;
+
+	/**
+	 * Unit Count information
+	 */
+	public UnitCountObject unitCount = null;
 
 
 	/**
@@ -920,6 +937,12 @@ public final class Product {
 		public int discountPercent = -1;
 	}
 
+	public static class UnitCountObject {
+		public Double unitValue;
+		public String unitType;
+		public Double eachUnitCount;
+	}
+
 	public static class VariationObject {
 		/** Variation ASIN **/
 		public String asin = null;
@@ -945,16 +968,8 @@ public final class Product {
 	}
 
 	public enum PromotionType {
-		BuyAmountXGetAmountOffX("BuyAmountXGetAmountOffX"),
-		BuyAmountXGetPercentOffX("BuyAmountXGetPercentOffX"),
-		BuyAmountXGetSimpleShippingFreeX("BuyAmountXGetSimpleShippingFreeX"),
-		BuyQuantityXGetAmountOffX("BuyQuantityXGetAmountOffX"),
-		BuyQuantityXGetPercentOffX("BuyQuantityXGetPercentOffX"),
-		BuyQuantityXGetQuantityFreeX("BuyQuantityXGetQuantityFreeX"),
-		ForEachQuantityXGetAmountOffX("ForEachQuantityXGetAmountOffX"),
-		DiscountCheapestNofM("DiscountCheapestNofM"),
-		BuyQuantityXGetQuantityFreeGiftCard("BuyQuantityXGetQuantityFreeGiftCard"),
-		BuyQuantityXGetSimpleShippingFreeX("BuyQuantityXGetSimpleShippingFreeX");
+		SNS("SNS"),
+		PrimeExclusive("PrimeExclusive");
 
 		public final String type;
 
