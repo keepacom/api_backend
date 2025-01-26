@@ -233,9 +233,19 @@ public class Stats {
 	public Boolean buyBoxIsFBA = null;
 
 	/**
+	 * The last time the Buy Box price was updated. Use {@link KeepaTime#keepaMinuteToUnixInMillis(int)} (long)} to get an uncompressed timestamp (Unix epoch time).
+	 */
+	public Integer lastBuyBoxUpdate = null;
+
+	/**
 	 * Only set when the offers parameter was used. Whether or not there is a used buy box offer.
 	 */
 	public Boolean buyBoxIsUsed = null;
+
+	/**
+	 * Whether the buy box offer is back-ordered
+	 */
+	public Boolean buyBoxIsBackorder = null;
 
 	/**
 	 * Only set when the offers parameter was used. If Amazon is the seller in the buy box.
@@ -277,6 +287,11 @@ public class Stats {
 	 * If the buy box is Prime exclusive. null if not available.
 	 */
 	public Boolean buyBoxIsPrimeExclusive = null;
+
+	/**
+	 * If the buy box is free shipping eligible. null if not available.
+	 */
+	public Boolean buyBoxIsFreeShippingEligible = null;
 
 	/**
 	 * If the buy box is Prime eligible. null if not available.

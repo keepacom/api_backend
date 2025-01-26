@@ -670,6 +670,52 @@ public class Request {
 		return r;
 	}
 
+	/**
+	 * Retrieves the product object for the specified ASIN and domain.
+	 *
+	 * @param domainId       Amazon locale of the product {@link AmazonLocale}
+	 * @param asins          ASINs to request, must contain between 1 and 100 ASINs - or max 20 ASINs if the offers parameter is used.
+	 * @param statsStartDate Must ISO8601 coded date (with or without time in UTC). Example: 2015-12-31 or 2015-12-31T14:51Z. If specified (= not null) the product object will have a stats field with quick access to current prices, min/max prices and the weighted mean values in the interval specified statsStartDate to statsEndDate. .
+	 * @param statsEndDate   the end of the stats interval. See statsStartDate.
+	 * @param history        Whether or not to include the product's history data (csv field). If you do not evaluate the csv field set to false to speed up the request and reduce traffic.
+	 * @param buybox         If specified and true the product and statistics object will include all available buy box related data
+	 * @param update         If the product's last refresh is older than <i>update</i>-hours force a refresh. Use this to speed up requests if up-to-date data is not required. Might cost an extra token if 0 (= live data). Default 1.
+	 * @param offers         If specified (= not null) determines the number of marketplace offers to retrieve.
+	 * @param rental         If true the rental price will be collected when available. Can only be used in conjunction with the offers parameter.
+	 * @param rating         If true the product object will include our existing RATING and COUNT_REVIEWS history of the csv field, regardless if the offers parameter is used
+	 * @param videos         If true the product object will include video metadata
+	 * @param aplus          If true the product object will include A+ content
+	 * @param stock          If true the product object will include stock data
+	 * @param onlyLiveOffers If specified and has the value 1 the product object will only include live marketplace offers (when used in combination with the offers parameter). If you do not need historical offers use this to have them removed from the response. This can improve processing time and considerably decrease the size of the response.
+	 * @param days           Any positive integer value. If specified and has positive value X the product object will limit all historical data to the recent X days. This includes the csv, buyBoxSellerIdHistory, salesRanks, offers and offers.offerCSV fields. If you do not need old historical data use this to have it removed from the response. This can improve processing time and considerably decrease the size of the response.
+	 * @return A ready to send request.
+	 */
+	public static Request getProductRequest(final AmazonLocale domainId, Integer offers, String statsStartDate, String statsEndDate, boolean buybox, int update, boolean history,
+	                                        boolean rental, boolean rating, boolean videos, boolean aplus, boolean stock, boolean onlyLiveOffers, int days, final String... asins) {
+		Request r = new Request();
+		r.path = "product";
+		r.parameter.put("asin", arrayToCsv(asins));
+		r.parameter.put("domain", String.valueOf(domainId.ordinal()));
+		r.parameter.put("update", String.valueOf(update));
+		r.parameter.put("history", history ? "1" : "0");
+		r.parameter.put("rental", rental ? "1" : "0");
+		r.parameter.put("rating", rating ? "1" : "0");
+		r.parameter.put("buybox", buybox ? "1" : "0");
+		r.parameter.put("videos", videos ? "1" : "0");
+		r.parameter.put("aplus", aplus ? "1" : "0");
+		r.parameter.put("stock", stock ? "1" : "0");
+		r.parameter.put("only-live-offers", onlyLiveOffers ? "1" : "0");
+		r.parameter.put("days", String.valueOf(days));
+
+		if (statsStartDate != null && statsEndDate != null)
+			r.parameter.put("stats", statsStartDate + "," + statsEndDate);
+
+		if (offers != null && offers > 0)
+			r.parameter.put("offers", String.valueOf(offers));
+
+		return r;
+	}
+
 
 	/**
 	 * Retrieves the product object(s) for the specified product code and domain.

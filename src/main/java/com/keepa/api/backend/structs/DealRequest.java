@@ -152,6 +152,26 @@ public class DealRequest {
 	public Byte[] warehouseConditions;
 	public Boolean singleVariation;
 
+	public String[] material;
+	public String[] type;
+	public String[] manufacturer;
+	public String[] brand;
+	public String[] productGroup;
+	public String[] model;
+	public String[] color;
+	public String[] size;
+	public String[] unitType;
+	public String[] scent;
+	public String[] itemForm;
+	public String[] pattern;
+	public String[] style;
+	public String[] itemTypeKeyword;
+	public String[] targetAudienceKeyword;
+	public String[] edition;
+	public String[] format;
+	public String[] author;
+	public String[] binding;
+	public String[] languages;
 
 	@Override
 	public String toString() {
