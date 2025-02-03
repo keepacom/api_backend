@@ -25,6 +25,21 @@ public class DealRequest {
 	public int[] priceTypes;
 
 	/**
+	 * Include only products for which the specified price type is at its lowest value (since tracking began).
+	 */
+	public boolean isLowest;
+
+	/**
+	 * Include only products for which the specified price type is at its lowest value in the past 90 days.
+	 */
+	public boolean isLowest90;
+
+	/**
+	 * Include only products if the selected price type is the lowest of all New offers (applicable to Amazon and Marketplace New).
+	 */
+	public boolean isLowestOffer;
+
+	/**
 	 * Our deals are devided in different sets, determined by the time interval in which the product changed. The shorter the interval, the more recent the change; which is good for big price drops but bad for slow incremental drops that accumulate over a longer period.
 	 * For most deals the shorter intervals can be considered as subsets of the longer intervals. To find more deals use the longer intervals.<br>
 	 * <p>Possible values:
