@@ -82,21 +82,11 @@ public class DealRequest {
 	public int[] currentRange;
 
 	/**
-	 * Only include products for which the specified price type is at its lowest value (since we started tracking it). If true, "isRisers" must be false.
-	 */
-	public boolean isLowest;
-
-	/**
 	 * Select deals by a keywords based product title search. The search is case-insensitive and supports multiple keywords which, if specified and separated by a space, must all match.<br>
 	 * Examples:
 	 * "samsung galaxy" matches all products which have the character sequences "samsung" AND "galaxy" within their title
 	 */
 	public String titleSearch;
-
-	/**
-	 * Only include products if the selected price type is the lowest of all New offers (applicable to Amazon and Marketplace New). Not applicable if "isRisers" is true.
-	 */
-	public boolean isLowestOffer;
 
 	/**
 	 * Only include products which were out of stock within the last 24 hours and can now be ordered.
