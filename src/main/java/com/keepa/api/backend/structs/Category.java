@@ -60,6 +60,77 @@ public final class Category {
 	 * Determines if this category functions as a standard browse node, rather than serving promotional purposes (for example, 'Specialty Stores').
 	 */
 	public boolean isBrowseNode;
+
+	/**
+	 * Average current buy box price of all products in this category.
+	 * Value is in the currency's smallest unit (e.g., cents for USD/EUR). May be null.
+	 */
+	public Integer avgBuyBox;
+
+	/**
+	 * Average 90 day buy box price of all products in this category.
+	 * Value is in the currency's smallest unit (e.g., cents for USD/EUR). May be null.
+	 */
+	public Integer avgBuyBox90;
+
+	/**
+	 * Average 365 day buy box price of all products in this category.
+	 * Value is in the currency's smallest unit (e.g., cents for USD/EUR). May be null.
+	 */
+	public Integer avgBuyBox365;
+
+	/**
+	 * Average 30 day buy box deviation (standard deviation) of all products in this category.
+	 * Value is in the currency's smallest unit (e.g., cents for USD/EUR). May be null.
+	 */
+	public Integer avgBuyBoxDeviation;
+
+	/**
+	 * Average number of reviews of all products in this category. May be null.
+	 */
+	public Integer avgReviewCount;
+
+	/**
+	 * Average rating of all products in this category.
+	 * Value is multiplied by 10 (e.g., 45 means 4.5 stars). May be null.
+	 */
+	public Integer avgRating;
+
+	/**
+	 * Percentage of products fulfilled by Amazon (FBA) in this category. May be null.
+	 * Represents the distribution of FBA vs. third-party sellers.
+	 */
+	public Float isFBAPercent;
+
+	/**
+	 * Percentage of products sold directly by Amazon in this category. May be null.
+	 */
+	public Float soldByAmazonPercent;
+
+	/**
+	 * Percentage of products that have an active coupon in this category. May be null.
+	 */
+	public Float hasCouponPercent;
+
+	/**
+	 * Average number of new offers of all products in this category. May be null.
+	 */
+	public Float avgOfferCountNew;
+
+	/**
+	 * Average number of used offers of all products in this category. May be null.
+	 */
+	public Float avgOfferCountUsed;
+
+	/**
+	 * Number of distinct sellers with at least one active offer in this category. May be null.
+	 */
+	public Integer sellerCount;
+
+	/**
+	 * Number of distinct brands present in this category. May be null.
+	 */
+	public Integer brandCount;
 	
 
 	@Override

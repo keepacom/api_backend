@@ -36,6 +36,7 @@ public final class Product {
 
     /**
      * Comma separated list of variation ASINs of the product (if the product is a parent ASIN, otherwise null)
+     * @deprecated use the field variations instead
      */
     public String variationCSV = null;
 
@@ -50,10 +51,49 @@ public final class Product {
     public String[] eanList = null;
 
     /**
+     * A list of GTIN assigned to this product. The first index is the primary GTIN. null if not available.
+     */
+    public String[] gtinList = null;
+
+    /**
      * Comma separated list of image names of the product. Full Amazon image path:<br>
      * https://m.media-amazon.com/images/I/_image name_
+     * @deprecated use the field images instead
      */
     public String imagesCSV = null;
+
+    /**
+     * Provides metadata for images associated with the product.
+     * <p>
+     * This field is an array of {@link Image} objects, each of which may contain metadata for up to two resolutions
+     * (large and medium) of the same image, if available. These images are typically used in the product image carousel
+     * on platforms such as Amazon. This field is {@code null} if no image data is available.
+     * <p>
+     * Each {@code Image} object includes:
+     * <ul>
+     *     <li>{@code l} (String): Filename of the large image.</li>
+     *     <li>{@code lH} (Short): Height of the large image, in pixels.</li>
+     *     <li>{@code lW} (Short): Width of the large image, in pixels.</li>
+     *     <li>{@code m} (String): Filename of the medium image.</li>
+     *     <li>{@code mH} (Short): Height of the medium image, in pixels.</li>
+     *     <li>{@code mW} (Short): Width of the medium image, in pixels.</li>
+     * </ul>
+     * <p>
+     * Example:
+     * <pre>{@code
+     * "images": [{
+     *     "l": "81bRlmLRyPL.jpg",
+     *     "lH": 1500,
+     *     "lW": 1500,
+     *     "m": "g1dlEmb2mq3.jpg",
+     *     "mH": 500,
+     *     "mW": 500
+     * }]
+     * }</pre>
+     * <p>
+     * Full Amazon image path format: {@code https://m.media-amazon.com/images/I/<image filename>}
+     */
+    public Image[] images = null;
 
     /**
      * Array of category node ids
@@ -687,6 +727,23 @@ public final class Product {
     public String[] specificUsesForProduct = null;
 
     /**
+     * A categorization name of products that behave similarly,<br>influencing how sales rank is calculated and displayed,<br>especially for product variations.
+     * <p>Example: {"apparel", "kitchen"}</p>
+     */
+    public String[] websiteDisplayGroupName = null;
+
+    /**
+     * A categorization of products that behave similarly,<br>influencing how sales rank is calculated and displayed,<br>especially for product variations.
+     * <p>Example: {"apparel_display_on_website", "kitchen_display_on_website"}</p>
+     */
+    public String[] websiteDisplayGroup = null;
+
+    /**
+     * For books only: An array listing other available formats or bindings of a book, excluding the current format.
+     */
+    public Format[] formats = null;
+
+    /**
      * The highest business discount percentage, if available.
      * <p>Example: 14</p>
      */
@@ -1116,6 +1173,7 @@ public final class Product {
         public PromotionType type = null;
         public int amount = -1;
         public int discountPercent = -1;
+        public Integer snsBulkDiscountPercent = null;
     }
 
     public static class UnitCountObject {
@@ -1145,6 +1203,51 @@ public final class Product {
     public static class APlus {
         public APlusModule[] module;
         public boolean fromManufacturer;
+    }
+
+    public static class Image {
+
+        /**
+         * The filename of the large image.
+         */
+        public String l;
+
+        /**
+         * The height of the large image in pixels.
+         */
+        public Short lH;
+
+        /**
+         * The width of the large image in pixels.
+         */
+        public Short lW;
+
+        /**
+         * The filename of the medium image.
+         */
+        public String m;
+
+        /**
+         * The height of the medium image in pixels.
+         */
+        public Short mH;
+
+        /**
+         * The width of the medium image in pixels.
+         */
+        public Short mW;
+    }
+
+    public static class Format {
+        /**
+         * The ASIN of the format.
+         */
+        public String asin = null;
+
+        /**
+         * The type of format, which can be one of the following: Kindle, Paperback, Hardcover, Audiobook, or Spiral-bound.
+         */
+        public String format = null;
     }
 
     public static class APlusModule {

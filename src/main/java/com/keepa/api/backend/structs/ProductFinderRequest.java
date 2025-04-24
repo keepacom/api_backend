@@ -1161,7 +1161,7 @@ public class ProductFinderRequest {
     public String[] publisher;
     public Integer releaseDate_lte;
     public Integer releaseDate_gte;
-    public Long rootCategory;
+    public String[] rootCategory;
     public Integer salesRankDrops180_lte;
     public Integer salesRankDrops180_gte;
     public Integer salesRankDrops30_lte;
@@ -1274,6 +1274,11 @@ public class ProductFinderRequest {
     public Integer variationReviewCount_gte;
     public Integer variationRatingCount_lte;
     public Integer variationRatingCount_gte;
+
+    public String[] websiteDisplayGroupName;
+    public String[] websiteDisplayGroup;
+    public Integer availabilityAmazonMinDelayInDays_lte;
+    public Integer availabilityAmazonMinDelayInDays_gte;
 
     public String[][] sort = null;
 
