@@ -584,10 +584,6 @@ public final class Product {
      */
     public long[] salesRankReferenceHistory = null;
 
-    /**
-     * If the product is listed in the launchpad
-     */
-    public boolean launchpad = false;
 
     /**
      * Rental details
@@ -730,13 +726,13 @@ public final class Product {
      * A categorization name of products that behave similarly,<br>influencing how sales rank is calculated and displayed,<br>especially for product variations.
      * <p>Example: {"apparel", "kitchen"}</p>
      */
-    public String[] websiteDisplayGroupName = null;
+    public String websiteDisplayGroupName = null;
 
     /**
      * A categorization of products that behave similarly,<br>influencing how sales rank is calculated and displayed,<br>especially for product variations.
      * <p>Example: {"apparel_display_on_website", "kitchen_display_on_website"}</p>
      */
-    public String[] websiteDisplayGroup = null;
+    public String websiteDisplayGroup = null;
 
     /**
      * For books only: An array listing other available formats or bindings of a book, excluding the current format.
