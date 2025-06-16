@@ -120,6 +120,25 @@ public class Seller {
 	 */
 	public MerchantBrandStatistics[] sellerBrandStatistics = null;
 
+	/**
+	 * Average number of sellers competing for the Buy Box of this seller's products (this seller included).
+	 */
+	public float avgBuyBoxCompetitors;
+
+	/**
+	 * Average New Buy Box ownership percentage
+	 */
+	public int buyBoxNewOwnershipRate;
+
+	/**
+	 * Average Used Buy Box ownership percentage
+	 */
+	public int buyBoxUsedOwnershipRate;
+
+	/**
+	 * The top five sellers most commonly offering the same products as this seller.
+	 */
+	public Competitors[] competitors;
 
 	/**
 	 * The business address. Each entry of the array contains one address line.
@@ -222,6 +241,7 @@ public class Seller {
 	 */
 	public String email;
 
+
 	public int currentRating;
 	public int currentRatingCount;
 	public int ratingsLast30Days;
@@ -272,6 +292,18 @@ public class Seller {
 		 * how many of these products have an Amazon offer
 		 */
 		public int productCountWithAmazonOffer;
+	}
+
+	public static class Competitors {
+		/**
+		 * The sellerId of the competitor, in lowercase.
+		 */
+		public String sellerId;
+
+		/**
+		 * The percentage of listings this competitor shares with the seller.
+		 */
+		public int percent;
 	}
 
 	public static class MerchantCategoryStatistics {

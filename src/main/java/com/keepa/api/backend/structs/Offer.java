@@ -177,6 +177,17 @@ public class Offer {
      */
     public int[] couponHistory;
 
+    /**
+     * An array that lists identical offers we detected for the same seller, condition, and shipping type that were excluded from the main offers list because they were not the cheapest.
+     */
+    public OfferDuplicate[] offerDuplicates;
+
+
+    public class OfferDuplicate {
+       public int price;
+       public String conditionComment;
+       public int shipping;
+    }
 
     public enum OfferCondition {
         UNKNOWN(0),
