@@ -55,6 +55,13 @@ public final class Product {
      */
     public String[] gtinList = null;
 
+
+
+    /**
+     * A list of historical or out of stock variations. Requires the historical-variations parameter.
+     */
+    public String[] historicalVariations = null;
+
     /**
      * Comma separated list of image names of the product. Full Amazon image path:<br>
      * https://m.media-amazon.com/images/I/_image name_
