@@ -19,6 +19,11 @@ public class Deal {
 	public String asin = null;
 
 	/**
+	 * The parent ASIN of the product
+	 */
+	public String parentAsin = null;
+
+	/**
 	 * Title of the product. Caution: may contain HTML markup in rare cases.
 	 */
 	public String title = null;

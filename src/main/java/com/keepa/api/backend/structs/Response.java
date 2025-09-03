@@ -54,9 +54,14 @@ public class Response {
 	public int tokensConsumed = 0;
 
 	/**
-	 * Status of the request.
+	 * Status of the response.
 	 */
 	public KeepaAPI.ResponseStatus status = KeepaAPI.ResponseStatus.PENDING;
+
+    /**
+     * HTTP Status code of the response.
+     */
+	public int statusCode = 0;
 
 	/**
 	 * Results of the product request

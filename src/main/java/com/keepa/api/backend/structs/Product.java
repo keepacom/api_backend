@@ -55,7 +55,10 @@ public final class Product {
      */
     public String[] gtinList = null;
 
-
+    /**
+     * A list of virtual bundle ASINs. Only available for virtual product bundles.
+     */
+    public String[] bundleItems = null;
 
     /**
      * A list of historical or out of stock variations. Requires the historical-variations parameter.
@@ -801,10 +804,20 @@ public final class Product {
 
     /**
      * Material of the product, specifying the primary substances used in its construction.
-     * <p>Example: "Soy Wax, Cotton"</p>
+     * <p>Example: [ “Steel”, “Wood” ]</p>
+     */
+    public String[] materials = null;
+
+    /**
+     * @deprecated use the field materials instead
      */
     public String material = null;
 
+    /**
+     * The special features of the product.
+     * <p>Example: [ “Fast Charging”, “Lightweight” ]</p>
+     */
+    public String[] specialFeatures = null;
 
     /**
      * Integer[][] - two dimensional price history array.<br>
@@ -1257,6 +1270,8 @@ public final class Product {
         public String[] text;
         public String[] image;
         public String[] video;
+        public String[] imageAltText;
+        public String[] asin;
     }
 
     public static class VariationObject {
@@ -1268,6 +1283,11 @@ public final class Product {
          * This variation ASIN's dimension attributes
          **/
         public VariationAttributeObject[] attributes = null;
+
+        /**
+         * This variation ASIN's swatch image
+         **/
+        public String image = null;
     }
 
     public static class VariationAttributeObject {

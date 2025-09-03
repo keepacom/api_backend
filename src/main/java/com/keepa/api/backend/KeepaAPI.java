@@ -35,7 +35,7 @@ public final class KeepaAPI {
 	final private int maxDelay = 60000;
 
 	public enum ResponseStatus {
-		PENDING, OK, FAIL, NOT_ENOUGH_TOKEN, REQUEST_REJECTED, PAYMENT_REQUIRED, METHOD_NOT_ALLOWED, INTERNAL_SERVER_ERROR
+		PENDING, OK, FAIL, NOT_ENOUGH_TOKEN, REQUEST_REJECTED, NOT_FOUND, PAYMENT_REQUIRED, METHOD_NOT_ALLOWED, INTERNAL_SERVER_ERROR
 	}
 
 	/**
@@ -167,12 +167,17 @@ public final class KeepaAPI {
 						response.exception = e;
 					}
 
+                    response.statusCode = responseCode;
+
 					switch (responseCode) {
 						case 400:
 							response.status = ResponseStatus.REQUEST_REJECTED;
 							break;
 						case 402:
 							response.status = ResponseStatus.PAYMENT_REQUIRED;
+							break;
+						case 404:
+							response.status = ResponseStatus.NOT_FOUND;
 							break;
 						case 405:
 							response.status = ResponseStatus.METHOD_NOT_ALLOWED;
