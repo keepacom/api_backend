@@ -309,9 +309,9 @@ public class Stats {
 	public LinkedHashMap<String, BuyBoxStatsObject> buyBoxStats = null;
 
 	/**
-	 * The "Was" Price (strikethrough, typical price). null if unavailable.
+	 * The buy box saving basis price (strikethrough, typical price). null if unavailable.
 	 */
-	public Integer  buyBoxWasPrice      = null;
+	public Integer  buyBoxSavingBasis      = null;
 
 	/**
 	 * Only set when the offers parameter was used. Price of the used buy box, if existent. Otherwise "-1" or null
