@@ -145,38 +145,200 @@ public class DealRequest {
 	 */
 	public boolean hasReviews;
 
-	/**
-	 *
-	 */
-	public String categorySearch;
+    /**
+     * Include only products flagged as Prime Exclusive.
+     * <p>Example: {@code true}</p>
+     */
+    public boolean isPrimeExclusive;
 
-	public boolean isPrimeExclusive;
-	public boolean mustHaveAmazonOffer;
-	public boolean mustNotHaveAmazonOffer;
-	public Integer minRating;
-	public Byte[] warehouseConditions;
-	public Boolean singleVariation;
+    /**
+     * Include only products that currently have an offer sold and fulfilled by Amazon.
+     * <p>Example: {@code true}</p>
+     */
+    public boolean mustHaveAmazonOffer;
 
-	public String[] material;
-	public String[] type;
-	public String[] manufacturer;
-	public String[] brand;
-	public String[] productGroup;
-	public String[] model;
-	public String[] color;
-	public String[] size;
-	public String[] unitType;
-	public String[] scent;
-	public String[] itemForm;
-	public String[] pattern;
-	public String[] style;
-	public String[] itemTypeKeyword;
-	public String[] targetAudienceKeyword;
-	public String[] edition;
-	public String[] format;
-	public String[] author;
-	public String[] binding;
-	public String[] languages;
+    /**
+     * Include only products that currently have no offer sold and fulfilled by Amazon.
+     * <p>Example: {@code true}</p>
+     */
+    public boolean mustNotHaveAmazonOffer;
+
+    /**
+     * Minimum product rating to include.
+     * <ul>
+     *   <li>Integer from 0 to 50 (e.g., 45 = 4.5 stars)</li>
+     *   <li>Use -1 to disable the filter</li>
+     * </ul>
+     * <p>Example: {@code 20} // ≥ 2.0 stars</p>
+     */
+    public Integer minRating;
+
+    /**
+     * Include only Amazon Warehouse deals that match these condition codes.
+     * <p>Use integer-coded conditions such as:
+     * 1 = New, 2 = Used - Like New, 3 = Used - Very Good, 24 = Used - Good, 5 = Used - Acceptable.</p>
+     * <p>Example: {@code [1, 2]}</p>
+     * <p>Note: API expects integers; choose a numeric type that fits your model.</p>
+     */
+    public Byte[] warehouseConditions;
+
+    /**
+     * If multiple variations match, return only a single (random) variation.
+     * <p>Example: {@code true}</p>
+     */
+    public Boolean singleVariation;
+
+    /**
+     * Include only products made of the specified materials (e.g., "cotton").
+     * <p>Example: {@code ["cotton", "polyester"]}</p>
+     */
+    public String[] material;
+
+    /**
+     * Include only products matching the specified type (e.g., "shirt", "dress").
+     * <p>Example: {@code ["shirt"]}</p>
+     */
+    public String[] type;
+
+    /**
+     * Include only products from the specified manufacturer.
+     * <p>Example: {@code ["Sony"]}</p>
+     */
+    public String[] manufacturer;
+
+    /**
+     * Include only products from the specified brand.
+     * <p>Example: {@code ["Apple", "Samsung"]}</p>
+     */
+    public String[] brand;
+
+    /**
+     * Include only products in the specified Amazon product group (e.g., "home", "book").
+     * <p>Example: {@code ["book"]}</p>
+     */
+    public String[] productGroup;
+
+    /**
+     * Include only products matching the specified model identifier.
+     * <p>Example: {@code ["A2179"]}</p>
+     */
+    public String[] model;
+
+    /**
+     * Include only products matching the specified color attribute.
+     * <p>Example: {@code ["black", "navy"]}</p>
+     */
+    public String[] color;
+
+    /**
+     * Include only products matching the specified size (e.g., "small", "one size").
+     * <p>Example: {@code ["M", "L"]}</p>
+     */
+    public String[] size;
+
+    /**
+     * Include only products with the specified unit type (e.g., "count", "ounce").
+     * <p>Example: {@code ["count"]}</p>
+     */
+    public String[] unitType;
+
+    /**
+     * Include only products with the specified scent (e.g., "lavender", "citrus").
+     * <p>Example: {@code ["lavender"]}</p>
+     */
+    public String[] scent;
+
+    /**
+     * Include only products matching the specified item form (e.g., "liquid", "sheet").
+     * <p>Example: {@code ["liquid"]}</p>
+     */
+    public String[] itemForm;
+
+    /**
+     * Include only products matching the specified pattern (e.g., "striped", "solid").
+     * <p>Example: {@code ["striped"]}</p>
+     */
+    public String[] pattern;
+
+    /**
+     * Include only products matching the specified style attribute (e.g., "modern", "vintage").
+     * <p>Example: {@code ["modern"]}</p>
+     */
+    public String[] style;
+
+    /**
+     * Include only products matching the specified item type keyword (custom search term).
+     * <p>Example: {@code ["books", "prints"]}</p>
+     */
+    public String[] itemTypeKeyword;
+
+    /**
+     * Include only products targeting the specified audience (e.g., "kids", "professional").
+     * <p>Example: {@code ["kids"]}</p>
+     */
+    public String[] targetAudienceKeyword;
+
+    /**
+     * Include only products matching the specified edition (e.g., "first edition", "standard edition").
+     * <p>Example: {@code ["first edition"]}</p>
+     */
+    public String[] edition;
+
+    /**
+     * Include only products in the specified format (e.g., "kindle ebook", "import", "dvd").
+     * <p>Example: {@code ["paperback"]}</p>
+     */
+    public String[] format;
+
+    /**
+     * Include only products by the specified author (applicable to books, music, etc.).
+     * <p>Example: {@code ["Neil Gaiman"]}</p>
+     */
+    public String[] author;
+
+    /**
+     * Include only products with the specified binding type (e.g., "paperback").
+     * <p>Example: {@code ["hardcover"]}</p>
+     */
+    public String[] binding;
+
+    /**
+     * Include only products available in the specified languages (use language names).
+     * <p>Example: {@code ["English", "German"]}</p>
+     */
+    public String[] languages;
+
+    /**
+     * Include only products sold under the specified Brand Store name on Amazon.
+     * <p>Example: {@code ["Amazon Basics"]}</p>
+     */
+    public String[] brandStoreName;
+
+    /**
+     * Include only products sold under the specified URL-friendly Brand Store identifier.
+     * <p>Example: {@code ["amazonbasics"]}</p>
+     */
+    public String[] brandStoreUrlName;
+
+    /**
+     * Include only products in the specified website display group.
+     * <p>Example: {@code ["fashion_display_on_website"]}</p>
+     */
+    public String[] websiteDisplayGroup;
+
+    /**
+     * Include only products in the specified website display group name (user-friendly label).
+     * <p>Example: {@code ["Fashion"]}</p>
+     */
+    public String[] websiteDisplayGroupName;
+
+    /**
+     * Include only products belonging to the specified sales rank display group
+     * (e.g., "fashion_display_on_website").
+     * <p>Example: {@code ["fashion_display_on_website"]}</p>
+     */
+    public String[] salesRankDisplayGroup;
+
 
 	@Override
 	public String toString() {

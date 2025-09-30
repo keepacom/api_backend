@@ -1,5 +1,7 @@
 package com.keepa.api.backend.structs;
 
+import java.util.HashMap;
+
 import static com.keepa.api.backend.helper.Utility.gsonPretty;
 
 /**
@@ -1279,6 +1281,102 @@ public class ProductFinderRequest {
     public String[] websiteDisplayGroup;
     public Integer availabilityAmazonMinDelayInDays_lte;
     public Integer availabilityAmazonMinDelayInDays_gte;
+
+    public Integer[] blackList;
+    public Boolean isDeal;
+    public Boolean launchpad;
+
+    public String[] historicalSellerIds;
+    public String[] buyBoxShippingCountry;
+    public String[] sellerIdsFBA;
+    public String[] sellerIdsFBM;
+    public String[] buyBoxStatsTopSellerId30;
+    public String[] buyBoxStatsTopSellerId90;
+    public String[] buyBoxStatsTopSellerId180;
+    public String[] buyBoxStatsTopSellerId365;
+    public Short buyBoxEligibleOfferCountsNewFBA_lte;
+    public Short buyBoxEligibleOfferCountsNewFBA_gte;
+    public Short buyBoxEligibleOfferCountsNewFBM_lte;
+    public Short buyBoxEligibleOfferCountsNewFBM_gte;
+    public Short buyBoxEligibleOfferCountsUsedFBA_lte;
+    public Short buyBoxEligibleOfferCountsUsedFBA_gte;
+    public Short buyBoxEligibleOfferCountsUsedFBM_lte;
+    public Short buyBoxEligibleOfferCountsUsedFBM_gte;
+
+    public Integer srAvg000_gte = null;
+    public Integer srAvg001_gte = null;
+    public Integer srAvg002_gte = null;
+    public Integer srAvg003_gte = null;
+    public Integer srAvg004_gte = null;
+    public Integer srAvg005_gte = null;
+    public Integer srAvg006_gte = null;
+    public Integer srAvg007_gte = null;
+    public Integer srAvg008_gte = null;
+    public Integer srAvg009_gte = null;
+    public Integer srAvg010_gte = null;
+    public Integer srAvg011_gte = null;
+    public Integer srAvg100_gte = null;
+    public Integer srAvg101_gte = null;
+    public Integer srAvg102_gte = null;
+    public Integer srAvg103_gte = null;
+    public Integer srAvg104_gte = null;
+    public Integer srAvg105_gte = null;
+    public Integer srAvg106_gte = null;
+    public Integer srAvg107_gte = null;
+    public Integer srAvg108_gte = null;
+    public Integer srAvg109_gte = null;
+    public Integer srAvg110_gte = null;
+    public Integer srAvg111_gte = null;
+    public Integer srAvg200_gte = null;
+    public Integer srAvg201_gte = null;
+    public Integer srAvg202_gte = null;
+    public Integer srAvg203_gte = null;
+    public Integer srAvg204_gte = null;
+    public Integer srAvg205_gte = null;
+    public Integer srAvg206_gte = null;
+    public Integer srAvg207_gte = null;
+    public Integer srAvg208_gte = null;
+    public Integer srAvg209_gte = null;
+    public Integer srAvg210_gte = null;
+    public Integer srAvg211_gte = null;
+    public Integer srAvg000_lte = null;
+    public Integer srAvg001_lte = null;
+    public Integer srAvg002_lte = null;
+    public Integer srAvg003_lte = null;
+    public Integer srAvg004_lte = null;
+    public Integer srAvg005_lte = null;
+    public Integer srAvg006_lte = null;
+    public Integer srAvg007_lte = null;
+    public Integer srAvg008_lte = null;
+    public Integer srAvg009_lte = null;
+    public Integer srAvg010_lte = null;
+    public Integer srAvg011_lte = null;
+    public Integer srAvg100_lte = null;
+    public Integer srAvg101_lte = null;
+    public Integer srAvg102_lte = null;
+    public Integer srAvg103_lte = null;
+    public Integer srAvg104_lte = null;
+    public Integer srAvg105_lte = null;
+    public Integer srAvg106_lte = null;
+    public Integer srAvg107_lte = null;
+    public Integer srAvg108_lte = null;
+    public Integer srAvg109_lte = null;
+    public Integer srAvg110_lte = null;
+    public Integer srAvg111_lte = null;
+    public Integer srAvg200_lte = null;
+    public Integer srAvg201_lte = null;
+    public Integer srAvg202_lte = null;
+    public Integer srAvg203_lte = null;
+    public Integer srAvg204_lte = null;
+    public Integer srAvg205_lte = null;
+    public Integer srAvg206_lte = null;
+    public Integer srAvg207_lte = null;
+    public Integer srAvg208_lte = null;
+    public Integer srAvg209_lte = null;
+    public Integer srAvg210_lte = null;
+    public Integer srAvg211_lte = null;
+
+    public HashMap<String, Integer> minMatch;
 
     public String[][] sort = null;
 
