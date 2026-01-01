@@ -392,6 +392,7 @@ public class ProductFinderRequest {
     public Boolean backInStock_WAREHOUSE;
     public String[] binding;
     public String[] brand;
+    public String[] dealType;
     public Boolean buyBoxIsAmazon;
     public Boolean buyBoxIsFBA;
     public Boolean buyBoxIsUnqualified;
@@ -402,6 +403,7 @@ public class ProductFinderRequest {
     public long[] categories_include;
     public long[] categories_exclude;
     public String[] color;
+    public String historicalParentASIN;
     public Integer couponOneTimeAbsolute_lte;
     public Integer couponOneTimeAbsolute_gte;
     public Integer couponOneTimePercent_lte;
@@ -1192,6 +1194,7 @@ public class ProductFinderRequest {
     public Boolean buyBoxIsPreorder;
     public Boolean buyBoxIsBackorder;
     public Boolean buyBoxIsPrimeExclusive;
+    public Boolean buyBoxIsPrimeEligible;
     public String[] type;
     public Byte[] warehouseCondition;
     public Boolean singleVariation;

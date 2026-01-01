@@ -570,6 +570,15 @@ public final class Product {
     public int[] coupon = null;
 
     /**
+     * Contains historical values for the coupon field, if available. null if not available. We started tracking coupon history on June 15th 2024.
+     * Format: [ keepaTime, one-time coupon, subscribe and save coupon, keepaTime, … ]
+     * <p>Example:<br>
+     * [2711319, 200, -15, …]
+     * </p>
+     */
+    public int[] couponHistory = null;
+
+    /**
      * Whether or not the current new price is MAP restricted. Can be used to differentiate out of stock vs. MAP restricted prices (as in both cases the current price is -1).
      */
     public boolean newPriceIsMAP = false;

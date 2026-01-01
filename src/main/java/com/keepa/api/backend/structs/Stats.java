@@ -313,6 +313,16 @@ public class Stats {
 	 */
 	public Integer  buyBoxSavingBasis      = null;
 
+    /**
+     * The buy box new strikethrough price’s reference type (either LIST_PRICE or WAS_PRICE) if it exists. null if unavailable.
+     */
+	public String  buyBoxSavingBasisType      = null;
+
+    /**
+     * The buy box new price’s stated percentage discount, if it exists. null if unavailable.
+     */
+	public Integer  buyBoxSavingPercentage      = null;
+
 	/**
 	 * Only set when the offers parameter was used. Price of the used buy box, if existent. Otherwise "-1" or null
 	 */
