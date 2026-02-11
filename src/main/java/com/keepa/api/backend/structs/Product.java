@@ -425,6 +425,17 @@ public final class Product {
      * Whether or not the product has reviews.
      */
     public boolean hasReviews = false;
+	
+	/**
+	 * Contains <b>variation specific</b> review and rating counts histories
+	 * as well as a last update timestamp.
+	 * <b>null</b> if not available.
+	 * It is not possible to force an update to the reviews object data.
+	 * For non-variation specific ratings and review data access the csv field.
+	 * Accessible only if the <i>rating</i> parameter was used in the Product Request.
+	 * The ratingCount history has not been updated since April 9th 2025 as that data point was removed by Amazon.
+	 */
+	public ReviewObject reviews = null;
 
     /**
      * Optional field. Only set if the <i>stats</i> parameter was used in the Product Request. Contains statistic values.
