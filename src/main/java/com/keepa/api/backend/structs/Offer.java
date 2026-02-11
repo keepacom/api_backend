@@ -98,11 +98,6 @@ public class Offer {
     public boolean isShippable;
 
     /**
-     * Indicating whether the offer is an Add-on item.
-     */
-    public boolean isAddonItem;
-
-    /**
      * Indicating whether the offer is a pre-order.
      */
     public boolean isPreorder;
@@ -111,11 +106,6 @@ public class Offer {
      * Indicating whether the offer is a Warehouse Deal.
      */
     public boolean isWarehouseDeal;
-
-    /**
-     * Indicating whether our system identified that the offering merchant attempts to scam users.
-     */
-    public boolean isScam;
 
     /**
      * Indicating whether the offer ships from China.

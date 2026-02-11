@@ -281,47 +281,16 @@ public class Request {
 	 * @return A ready to send request.
 	 */
 	public static Request getSellerRequest(final AmazonLocale domainId, String seller, boolean storefront) {
-		Request r = new Request();
-		r.path = "seller";
-		r.parameter.put("domain", String.valueOf(domainId.ordinal()));
-		r.parameter.put("seller", seller);
+        Request r = new Request();
+        r.path = "seller";
+        r.parameter.put("domain", String.valueOf(domainId.ordinal()));
+        r.parameter.put("seller", seller);
 
-		if (storefront)
-			r.parameter.put("storefront", "1");
+        if (storefront)
+            r.parameter.put("storefront", "1");
 
-		return r;
-	}
-
-	/**
-	 * Retrieves the seller object via the seller id. If a seller is not found no tokens will be consumed.
-	 *
-	 * @param domainId   Amazon locale of the product {@link AmazonLocale}
-	 * @param seller     The seller id of the merchant you want to request. For batch requests a comma separated list of sellerIds (up to 100).
-	 *                   The seller id is part of the offer object and can also be found on Amazon on seller profile pages in the seller parameter of the URL.
-	 *                   Example: A2L77EE7U53NWQ (Amazon.com Warehouse Deals)
-	 * @param storefront Valid values: 0 (false) and 1 (true). If specified the seller object will contain additional information about what items the seller is listing on Amazon.
-	 *                   This includes a list of ASINs as well as the total amount of items the seller has listed.
-	 *                   The following seller object fields will be set if data is available: asinList, asinListLastSeen.
-	 *                   If no data is available no additional tokens will be consumed. The ASIN list can contain up to 100,000 items.
-	 *                   As using the storefront parameter does not trigger any new collection it does not increase the processing time
-	 *                   of the request, though the response may be much bigger in size.
-	 * @param update     Positive integer value. If the last live data collection from the Amazon storefront page is older than update hours force a new collection. Use this parameter in conjunction with the
-	 *                   storefront parameter. Token cost will only be applied if a new collection is triggered.
-	 * @return A ready to send request.
-	 */
-	public static Request getSellerRequest(final AmazonLocale domainId, String seller, boolean storefront, int update) {
-		Request r = new Request();
-		r.path = "seller";
-		r.parameter.put("domain", String.valueOf(domainId.ordinal()));
-		r.parameter.put("seller", seller);
-		if (update >= 0)
-			r.parameter.put("update", String.valueOf(update));
-
-		if (storefront || update >= 0)
-			r.parameter.put("storefront", "1");
-
-		return r;
-	}
+        return r;
+    }
 
 	/**
 	 * Retrieve a Seller ID list of the most rated Amazon marketplace sellers.
@@ -499,7 +468,7 @@ public class Request {
 			return getProductRequest(domainId, offers, null, null, update, history, asins);
 		} else {
 			long now = System.currentTimeMillis();
-			return getProductRequest(domainId, offers, String.valueOf((now - (stats * 24 * 60 * 60 * 1000L))), String.valueOf(now), update, history, asins);
+			return getProductRequest(domainId, offers, java.lang.String.valueOf((now - (stats * 24 * 60 * 60 * 1000L))), java.lang.String.valueOf(now), update, history, asins);
 		}
 	}
 
@@ -519,7 +488,7 @@ public class Request {
 			return getProductByCodeRequest(domainId, offers, null, null, update, history, codes);
 		} else {
 			long now = System.currentTimeMillis();
-			return getProductByCodeRequest(domainId, offers, String.valueOf((now - (stats * 24 * 60 * 60 * 1000L))), String.valueOf(now), update, history, codes);
+			return getProductByCodeRequest(domainId, offers, java.lang.String.valueOf((now - (stats * 24 * 60 * 60 * 1000L))), java.lang.String.valueOf(now), update, history, codes);
 		}
 	}
 
@@ -539,7 +508,7 @@ public class Request {
 		if (statsStartDate == null) {
 			return getProductRequest(domainId, offers, null, null, update, history, asins);
 		} else {
-			return getProductRequest(domainId, offers, String.valueOf(statsStartDate), String.valueOf(statsEndDate),  update, history, asins);
+			return getProductRequest(domainId, offers, java.lang.String.valueOf(statsStartDate), java.lang.String.valueOf(statsEndDate),  update, history, asins);
 		}
 	}
 
@@ -560,7 +529,7 @@ public class Request {
 		if (statsStartDate == null) {
 			return getProductByCodeRequest(domainId, offers, null, null, update, history, codes);
 		} else {
-			return getProductByCodeRequest(domainId, offers, String.valueOf(statsStartDate), String.valueOf(statsEndDate),  update, history, codes);
+			return getProductByCodeRequest(domainId, offers, java.lang.String.valueOf(statsStartDate), java.lang.String.valueOf(statsEndDate),  update, history, codes);
 		}
 	}
 
@@ -604,19 +573,17 @@ public class Request {
 	 * @param buybox         If specified and true the product and statistics object will include all available buy box related data
 	 * @param update         If the product's last refresh is older than <i>update</i>-hours force a refresh. Use this to speed up requests if up-to-date data is not required. Might cost an extra token if 0 (= live data). Default 1.
 	 * @param offers         If specified (= not null) determines the number of marketplace offers to retrieve. 
-	 * @param rental         If true the rental price will be collected when available. <b>Can only be used in conjunction with the offers parameter.
-	 * @param rating         If true the product object will include our existing RATING and COUNT_REVIEWS history of the csv field, regardless if the offers parameter is used 
+	 * @param rating         If true the product object will include our existing RATING and COUNT_REVIEWS history of the csv field, regardless if the offers parameter is used
 	 * @return A ready to send request.
 	 */
 	public static Request getProductRequest(final AmazonLocale domainId, Integer offers, String statsStartDate, String statsEndDate, boolean buybox, int update, boolean history,
-	                                        boolean rental, boolean rating, final String... asins) {
+	                                        boolean placeholder, boolean rating, final String... asins) {
 		Request r = new Request();
 		r.path = "product";
 		r.parameter.put("asin", arrayToCsv(asins));
 		r.parameter.put("domain", String.valueOf(domainId.ordinal()));
 		r.parameter.put("update", String.valueOf(update));
 		r.parameter.put("history", history ? "1" : "0");
-		r.parameter.put("rental", rental ? "1" : "0");
 		r.parameter.put("rating", rating ? "1" : "0");
 		r.parameter.put("buybox", buybox ? "1" : "0");
 
@@ -641,21 +608,19 @@ public class Request {
 	 * @param buybox         If specified and true the product and statistics object will include all available buy box related data
 	 * @param update         If the product's last refresh is older than <i>update</i>-hours force a refresh. Use this to speed up requests if up-to-date data is not required. Might cost an extra token if 0 (= live data). Default 1.
 	 * @param offers         If specified (= not null) determines the number of marketplace offers to retrieve. 
-	 * @param rental         If true the rental price will be collected when available. Can only be used in conjunction with the offers parameter.
-	 * @param rating         If true the product object will include our existing RATING and COUNT_REVIEWS history of the csv field, regardless if the offers parameter is used 
+	 * @param rating         If true the product object will include our existing RATING and COUNT_REVIEWS history of the csv field, regardless if the offers parameter is used
 	 * @param onlyLiveOffers If specified and has the value 1 the product object will only include live marketplace offers (when used in combination with the offers parameter). If you do not need historical offers use this to have them removed from the response. This can improve processing time and considerably decrease the size of the response.
 	 * @param days           Any positive integer value. If specified and has positive value X the product object will limit all historical data to the recent X days. This includes the csv, buyBoxSellerIdHistory, salesRanks, offers and offers.offerCSV fields. If you do not need old historical data use this to have it removed from the response. This can improve processing time and considerably decrease the size of the response.
 	 * @return A ready to send request.
 	 */
 	public static Request getProductRequest(final AmazonLocale domainId, Integer offers, String statsStartDate, String statsEndDate, boolean buybox, int update, boolean history,
-	                                        boolean rental, boolean rating, boolean onlyLiveOffers, int days, final String... asins) {
+	                                        boolean placeholder, boolean rating, boolean onlyLiveOffers, int days, final String... asins) {
 		Request r = new Request();
 		r.path = "product";
 		r.parameter.put("asin", arrayToCsv(asins));
 		r.parameter.put("domain", String.valueOf(domainId.ordinal()));
 		r.parameter.put("update", String.valueOf(update));
 		r.parameter.put("history", history ? "1" : "0");
-		r.parameter.put("rental", rental ? "1" : "0");
 		r.parameter.put("rating", rating ? "1" : "0");
 		r.parameter.put("buybox", buybox ? "1" : "0");
 		r.parameter.put("only-live-offers", onlyLiveOffers ? "1" : "0");
@@ -681,7 +646,6 @@ public class Request {
 	 * @param buybox         If specified and true the product and statistics object will include all available buy box related data
 	 * @param update         If the product's last refresh is older than <i>update</i>-hours force a refresh. Use this to speed up requests if up-to-date data is not required. Might cost an extra token if 0 (= live data). Default 1.
 	 * @param offers         If specified (= not null) determines the number of marketplace offers to retrieve.
-	 * @param rental         If true the rental price will be collected when available. Can only be used in conjunction with the offers parameter.
 	 * @param rating         If true the product object will include our existing RATING and COUNT_REVIEWS history of the csv field, regardless if the offers parameter is used
 	 * @param videos         If true the product object will include video metadata
 	 * @param aplus          If true the product object will include A+ content
@@ -691,14 +655,13 @@ public class Request {
 	 * @return A ready to send request.
 	 */
 	public static Request getProductRequest(final AmazonLocale domainId, Integer offers, String statsStartDate, String statsEndDate, boolean buybox, int update, boolean history,
-	                                        boolean rental, boolean rating, boolean videos, boolean aplus, boolean stock, boolean onlyLiveOffers, int days, final String... asins) {
+	                                        boolean placeholder, boolean rating, boolean videos, boolean aplus, boolean stock, boolean onlyLiveOffers, int days, final String... asins) {
 		Request r = new Request();
 		r.path = "product";
 		r.parameter.put("asin", arrayToCsv(asins));
 		r.parameter.put("domain", String.valueOf(domainId.ordinal()));
 		r.parameter.put("update", String.valueOf(update));
 		r.parameter.put("history", history ? "1" : "0");
-		r.parameter.put("rental", rental ? "1" : "0");
 		r.parameter.put("rating", rating ? "1" : "0");
 		r.parameter.put("buybox", buybox ? "1" : "0");
 		r.parameter.put("videos", videos ? "1" : "0");
@@ -756,19 +719,17 @@ public class Request {
 	 * @param history        Whether or not to include the product's history data (csv field). If you do not evaluate the csv field set to false to speed up the request and reduce traffic.
 	 * @param update         If the product's last refresh is older than <i>update</i>-hours force a refresh. Use this to speed up requests if up-to-date data is not required. Might cost an extra token if 0 (= live data). Default 1.
 	 * @param offers         If specified (= not null) determines the number of marketplace offers to retrieve. 
-	 * @param rental         If true the rental price will be collected when available. Can only be used in conjunction with the offers parameter.
-	 * @param rating         If true the product object will include our existing RATING and COUNT_REVIEWS history of the csv field, regardless if the offers parameter is used 
+	 * @param rating         If true the product object will include our existing RATING and COUNT_REVIEWS history of the csv field, regardless if the offers parameter is used
 	 * @return A ready to send request.
 	 */
 	public static Request getProductByCodeRequest(final AmazonLocale domainId, Integer offers, String statsStartDate, String statsEndDate, int update, boolean history,
-	                                              boolean rental, boolean rating, final String... codes) {
+	                                              boolean placeholder, boolean rating, final String... codes) {
 		Request r = new Request();
 		r.path = "product";
 		r.parameter.put("code", arrayToCsv(codes));
 		r.parameter.put("domain", String.valueOf(domainId.ordinal()));
 		r.parameter.put("update", String.valueOf(update));
 		r.parameter.put("history", history ? "1" : "0");
-		r.parameter.put("rental", rental ? "1" : "0");
 		r.parameter.put("rating", rating ? "1" : "0");
 
 		if (statsStartDate != null && statsEndDate != null)
@@ -791,19 +752,17 @@ public class Request {
 	 * @param buybox         If specified and true the product and statistics object will include all available buy box related data
 	 * @param update         If the product's last refresh is older than <i>update</i>-hours force a refresh. Use this to speed up requests if up-to-date data is not required. Might cost an extra token if 0 (= live data). Default 1.
 	 * @param offers         If specified (= not null) determines the number of marketplace offers to retrieve. 
-	 * @param rental         If true the rental price will be collected when available. Can only be used in conjunction with the offers parameter.
-	 * @param rating         If true the product object will include our existing RATING and COUNT_REVIEWS history of the csv field, regardless if the offers parameter is used 
+	 * @param rating         If true the product object will include our existing RATING and COUNT_REVIEWS history of the csv field, regardless if the offers parameter is used
 	 * @return A ready to send request.
 	 */
 	public static Request getProductByCodeRequest(final AmazonLocale domainId, Integer offers, String statsStartDate, String statsEndDate, boolean buybox, int update, boolean history,
-	                                              boolean rental, boolean rating, final String... codes) {
+	                                              boolean placeholder, boolean rating, final String... codes) {
 		Request r = new Request();
 		r.path = "product";
 		r.parameter.put("code", arrayToCsv(codes));
 		r.parameter.put("domain", String.valueOf(domainId.ordinal()));
 		r.parameter.put("update", String.valueOf(update));
 		r.parameter.put("history", history ? "1" : "0");
-		r.parameter.put("rental", rental ? "1" : "0");
 		r.parameter.put("rating", rating ? "1" : "0");
 		r.parameter.put("buybox", buybox ? "1" : "0");
 

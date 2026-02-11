@@ -54,11 +54,6 @@ public class Seller {
 	public int lastUpdate;
 
 	/**
-	 * Indicating whether or not our system identified that this seller attempts to scam users.
-	 */
-	public boolean isScammer;
-
-	/**
 	 * Indicating whether or not this seller ships from China.
 	 */
 	public boolean shipsFromChina;
@@ -71,7 +66,7 @@ public class Seller {
 	public boolean hasFBA;
 
 	/**
-	 * Contains the number of storefront ASINs if available and the last update of that metric.<br>
+	 * Contains the number of storefront ASINs, based on our database, if available and the last update of that metric.<br>
 	 * Is null if not available (no storefront was ever retrieved). This field is available in the <br>
 	 * default Request Seller Information (storefront parameter is not required).<br>
 	 * <p>Use {@link KeepaTime#keepaMinuteToUnixInMillis(int)} (long)} to get an uncompressed timestamp (Unix epoch time).</p><br>
