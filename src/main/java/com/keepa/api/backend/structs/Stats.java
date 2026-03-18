@@ -334,7 +334,7 @@ public class Stats {
 	public Integer  buyBoxUsedShipping   = null;
 
 	/**
-	 * Only set when the offers parameter was used. Seller id of the used boy box, if existent. Otherwise null.
+	 * Only set when the offers parameter was used. Seller id of the used buy box, if existent. Otherwise null.
 	 */
 	public String   buyBoxUsedSellerId   = null;
 
