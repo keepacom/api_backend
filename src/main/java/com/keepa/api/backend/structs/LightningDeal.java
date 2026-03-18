@@ -8,7 +8,7 @@ public class LightningDeal {
 	public byte domainId;
 
 	/**
-	 * States the time of our last data collection of this lighting deal, in Keepa Time minutes.<br>
+	 * States the time of our last data collection of this lightning deal, in Keepa Time minutes.<br>
 	 * Use {@link KeepaTime#keepaMinuteToUnixInMillis(int)} (long)} to get an uncompressed timestamp (Unix epoch time).
 	 */
 	public int lastUpdate;
@@ -24,12 +24,12 @@ public class LightningDeal {
 	public String title;
 
 	/**
-	 * The seller id of the merchant offering this deal.
+	 * The name of the seller offering this deal.
 	 */
 	public String sellerName;
 
 	/**
-	 * The name of seller offering this deal.
+	 * The seller id of the merchant offering this deal.
 	 */
 	public String sellerId;
 
@@ -84,19 +84,19 @@ public class LightningDeal {
 	public DealState dealState;
 
 	/**
-	 * The start time of this lighting deal, in Keepa Time minutes. Note that due to the delay in our data collection the deal price might not be available immediately once the deal has started on Amazon.<br>
+	 * The start time of this lightning deal, in Keepa Time minutes. Note that due to the delay in our data collection the deal price might not be available immediately once the deal has started on Amazon.<br>
 	 * Use {@link KeepaTime#keepaMinuteToUnixInMillis(int)} (long)} to get an uncompressed timestamp (Unix epoch time).
 	 */
 	public int startTime;
 
 	/**
-	 * The end time of this lighting deal, in Keepa Time minutes.<br>
+	 * The end time of this lightning deal, in Keepa Time minutes.<br>
 	 * Use {@link KeepaTime#keepaMinuteToUnixInMillis(int)} (long)} to get an uncompressed timestamp (Unix epoch time).
 	 */
 	public int endTime;
 
 	/**
-	 * The percentage claimed of the lighting deal. Since lightning deals have limited stock, this number may change fast on Amazon, but due to the delay of our data collection the provided value may be outdated.
+	 * The percentage claimed of the lightning deal. Since lightning deals have limited stock, this number may change fast on Amazon, but due to the delay of our data collection the provided value may be outdated.
 	 */
 	public int percentClaimed;
 

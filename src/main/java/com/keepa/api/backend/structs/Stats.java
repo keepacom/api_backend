@@ -193,7 +193,7 @@ public class Stats {
 	public int stockAmazon = -2;
 
 	/**
-	 * Only set when the offers parameter was used. The stock of buy box offer. Max. reported stock is 10. If the boy box is empty/unqualified: -2.
+	 * Only set when the offers parameter was used. The stock of buy box offer. Max. reported stock is 10. If the buy box is empty/unqualified: -2.
 	 */
 	public int stockBuyBox = -2;
 
