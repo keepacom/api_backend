@@ -88,7 +88,7 @@ public class ProductAnalyzer {
 	 *
 	 * @param csv  value/price history csv
 	 * @param type the type of the csv data. If the csv includes shipping costs the extreme point will be the landing price (price + shipping).
-	 * @return the last value/price change delta. If the csv includes shipping costs it will be the delta of the the landing prices (price + shipping).
+	 * @return the last value/price change delta. If the csv includes shipping costs it will be the delta of the landing prices (price + shipping).
 	 */
 	private static int getDeltaLast(int[] csv, CsvType type) {
 		if (type.isWithShipping) {
@@ -296,7 +296,7 @@ public class ProductAnalyzer {
 	 * @param now  current keepa time minutes
 	 * @param days number of days the weighted mean will be calculated for (e.g. 90 days, 60 days, 30 days)
 	 * @param type the type of the csv data.
-	 * @return the weighted mean or -1 if insufficient history csv length (less than a day). If the csv includes shipping costs it will be the wieghted mean of the landing price (price + shipping).
+	 * @return the weighted mean or -1 if insufficient history csv length (less than a day). If the csv includes shipping costs it will be the weighted mean of the landing price (price + shipping).
 	 */
 	public static int calcWeightedMean(int[] csv, int now, double days, CsvType type) {
 		return getWeightedMeanInInterval(csv, now, now - (int) (days * 24 * 60), now, type);

@@ -212,7 +212,7 @@ public final class KeepaAPI {
 	/**
 	 * Issue a request to the Keepa Price Data API.
 	 * If your API contingent is depleted, this method will retry the request as soon as there are new tokens available. May take minutes.
-	 * Will fail it the request failed too many times.
+	 * Will fail if the request failed too many times.
 	 *
 	 * @param r the API Request {@link Request}
 	 * @param connectTimeout the timeout value, in milliseconds, to be used when opening a connection to the API
@@ -275,7 +275,7 @@ public final class KeepaAPI {
 	/**
 	 * Issue a request to the Keepa Price Data API.
 	 * If your API contingent is depleted, this method will retry the request as soon as there are new tokens available. May take minutes.
-	 * Will fail it the request failed too many times.
+	 * Will fail if the request failed too many times.
 	 *
 	 * @param r the API Request {@link Request}
 	 * @return Promise for {@link Response}
