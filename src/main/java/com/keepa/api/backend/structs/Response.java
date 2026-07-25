@@ -18,13 +18,13 @@ public class Response {
 
 	/**
 	 * States how many ASINs may be requested before the assigned API contingent is depleted.
-	 * If the contigent is depleted, HTTP status code 503 will be delivered with the message:
+	 * If the contingent is depleted, HTTP status code 503 will be delivered with the message:
 	 * "You are submitting requests too quickly and your requests are being throttled."
 	 */
 	public int tokensLeft = 0;
 
 	/**
-	 * Milliseconds till new tokens are generated. Use this if your contigent is depleted to wait before you try a new request. Tokens are generated every 5 minutes.
+	 * Milliseconds till new tokens are generated. Use this if your contingent is depleted to wait before you try a new request. Tokens are generated every 5 minutes.
 	 */
 	public int refillIn = 0;
 
@@ -134,7 +134,7 @@ public class Response {
 	public String additional = null;
 
 	/**
-	 * If the reqeust failed due to an Java exception (e.g. network error), this contains the exception object.
+	 * If the request failed due to an Java exception (e.g. network error), this contains the exception object.
 	 */
 	public transient Exception exception;
 
