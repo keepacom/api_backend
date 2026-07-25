@@ -197,13 +197,13 @@ public class Request {
 	 * Retrieve an ASIN list of the most popular products based on sales of a specific product group.
 	 *
 	 * @param domainId Amazon locale of the product {@link AmazonLocale}
-	 * @param productGroup The productGroup you want to request the best sellers list for
+	 * @param websiteDisplayGroupName The websiteDisplayGroupName you want to request the best sellers list for
 	 * @return A ready to send request.
 	 */
-	public static Request getBestSellersRequest(final AmazonLocale domainId, String productGroup) {
+	public static Request getBestSellersRequest(final AmazonLocale domainId, String websiteDisplayGroupName) {
 		Request r = new Request();
 		r.path = "bestsellers";
-		r.parameter.put("category", productGroup);
+		r.parameter.put("category", websiteDisplayGroupName);
 		r.parameter.put("domain", String.valueOf(domainId.ordinal()));
 		return r;
 	}

@@ -1122,8 +1122,6 @@ public class ProductFinderRequest {
     public String[] manufacturer;
     public String[] model;
     public Boolean newPriceIsMAP;
-    public Integer nextUpdate_lte;
-    public Integer nextUpdate_gte;
     public Integer numberOfItems_lte;
     public Integer numberOfItems_gte;
     public Integer numberOfPages_lte;
@@ -1158,7 +1156,6 @@ public class ProductFinderRequest {
     public Integer packageWidth_gte;
     public String[] partNumber;
     public String[] platform;
-    public String[] productGroup;
     public Byte[] productType;
     public Integer publicationDate_lte;
     public Integer publicationDate_gte;

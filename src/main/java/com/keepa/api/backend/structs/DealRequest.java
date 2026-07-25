@@ -213,12 +213,6 @@ public class DealRequest {
     public String[] brand;
 
     /**
-     * Include only products in the specified Amazon product group (e.g., "home", "book").
-     * <p>Example: {@code ["book"]}</p>
-     */
-    public String[] productGroup;
-
-    /**
      * Include only products matching the specified model identifier.
      * <p>Example: {@code ["A2179"]}</p>
      */

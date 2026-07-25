@@ -22,11 +22,6 @@ public final class Category {
 	public String name;
 
 	/**
-	 * The context free category name.
-	 */
-	public String contextFreeName;
-
-	/**
 	 * The websiteDisplayGroup - available for most root categories.
 	 */
 	public String websiteDisplayGroup;

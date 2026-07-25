@@ -173,7 +173,7 @@ public class Offer {
     public OfferDuplicate[] offerDuplicates;
 
 
-    public class OfferDuplicate {
+    public static class OfferDuplicate {
        public int price;
        public String conditionComment;
        public int shipping;

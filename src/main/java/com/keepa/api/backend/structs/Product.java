@@ -35,12 +35,6 @@ public final class Product {
     public String[] parentAsinHistory = null;
 
     /**
-     * Comma separated list of variation ASINs of the product (if the product is a parent ASIN, otherwise null)
-     * @deprecated use the field variations instead
-     */
-    public String variationCSV = null;
-
-    /**
      * A list of UPC assigned to this product. The first index is the primary UPC. null if not available.
      */
     public String[] upcList = null;
@@ -121,9 +115,19 @@ public final class Product {
     public String manufacturer = null;
 
     /**
-     * Title of the product. Caution: may contain HTML markup in rare cases.
+     * Title of the product. Amazon limits titles to 75 characters, including spaces, in all categories except media.
+     * Descriptive content that does not fit into the title is published separately in the itemHighlights field -
+     * read both fields if you need the full descriptive text.<br>
+     * Caution: may contain HTML markup in rare cases.
      */
     public String title = null;
+
+    /**
+     * Amazon's "Item Highlights": up to 125 characters of descriptive content in addition to the title - typically
+     * materials or recommended use cases that help customers compare options. Amazon treats this content as searchable
+     * and displays it together with the title in search results and on the product detail page. null if not available.
+     */
+    public String itemHighlights = null;
 
     /**
      * States the time we have started tracking this product, in Keepa Time minutes.<br>
@@ -143,11 +147,6 @@ public final class Product {
      * An item's brand. null if not available.
      */
     public String brand = null;
-
-    /**
-     * The item's productGroup. null if not available.
-     */
-    public String productGroup = null;
 
     /**
      * The item's partNumber. null if not available.
@@ -1184,12 +1183,12 @@ public final class Product {
         Brand
     }
 
-    public class CategoryTreeEntry {
+    public static class CategoryTreeEntry {
         public long catId;
         public String name;
     }
 
-    public class HazardousMaterial {
+    public static class HazardousMaterial {
         public String aspect;
         public String value;
     }
